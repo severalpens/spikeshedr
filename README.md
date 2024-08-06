@@ -9,6 +9,7 @@ npm i
 npm run dev
 git commit -am "added authenticator"
 git push
+npx ampx sandbox
 
 
 
