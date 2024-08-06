@@ -3,9 +3,10 @@ import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-
+import TodoCreateForm from '../ui-components/TodoCreateForm'
 
 const client = generateClient<Schema>();
+
 
 function App() {
   const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
@@ -16,9 +17,9 @@ function App() {
     });
   }, []);
 
-  function createTodo() {
-    client.models.Todo.create({ content: window.prompt("Todo content") });
-  }
+  // function createTodo() {
+  //   client.models.Todo.create({ content: window.prompt("Todo content") });
+  // }
   
   function deleteTodo(id: string) {
     client.models.Todo.delete({ id })
@@ -30,7 +31,7 @@ function App() {
       {({ signOut, user }) => (
     <main>
           <h1>{user?.signInDetails?.loginId}'s todos</h1>
-                <button onClick={createTodo}>+ new</button>
+          <TodoCreateForm />
       <ul>
         {todos.map((todo) => (
           <li onClick={() => deleteTodo(todo.id)}
