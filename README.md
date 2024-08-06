@@ -4,11 +4,15 @@ Severalpens app in the BikeShedr AWS Account
 ## Phase 1 - Create new repo, auth, user login
 - Clone the Amplify template and create an amplify app as per https://docs.amplify.aws/react/start/quickstart/
 - Add auth and user login as per [quickstart](https://docs.amplify.aws/react/start/quickstart/)
-- deploy and verify
+- https://docs.amplify.aws/react/build-ui/formbuilder/
+- Deploy and verify
+
+## Phase 2 - Add Tailwind.css 
+- Install tailwind.css: https://tailwindcss.com/docs/guides/vite
+- Deploy and verify
 
 ## Phase 2 - Add Tailwind.css and React-Router
-- Install tailwind.css: https://tailwindcss.com/docs/guides/vite
-- Install React-router. 
+- https://reactrouter.com/en/main/start/tutorial
 - Update routing files as per severalpens repo.
 - Deploy and verify
 
@@ -21,6 +25,6 @@ Severalpens app in the BikeShedr AWS Account
 - Update schema
 - Add form
 - Add user login
-- Deploy
+- Deploy and verify
 
 
