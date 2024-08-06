@@ -2,9 +2,10 @@
 Severalpens app in the BikeShedr AWS Account
 
 ## Phase 1 - Create new repo, auth, user login
-- Clone the Amplify template and create an amplify app as per https://docs.amplify.aws/react/start/quickstart/
-- Add auth and user login as per [quickstart](https://docs.amplify.aws/react/start/quickstart/)
-- https://docs.amplify.aws/react/build-ui/formbuilder/
+- Clone the Amplify template and create an amplify app as per https://docs.amplify.aws/react/start/quickstart/#6-implement-login-ui
+    - Add auth and user login: https://docs.amplify.aws/react/start/quickstart/#6-implement-login-ui
+    - Add per-user authorization: https://docs.amplify.aws/react/start/quickstart/#9-implement-per-user-authorization
+    - Add forms: https://docs.amplify.aws/react/build-ui/formbuilder/
 - Deploy and verify
 
 ## Phase 2 - Add Tailwind.css 
@@ -21,10 +22,8 @@ Severalpens app in the BikeShedr AWS Account
 - Check it runs correctly
 - Deploy and verify
 
-## Phase 4 - Update schema, add form, add user login
+## Phase 4 - Update schema
 - Update schema
-- Add form
-- Add user login
 - Deploy and verify
 
 
