@@ -1,25 +1,30 @@
-## AWS Amplify React+Vite Starter Template
+# Spikeshedr
+Severalpens app in the BikeShedr AWS Account
 
-This repository provides a starter template for creating applications using React+Vite and AWS Amplify, emphasizing easy setup for authentication, API, and database capabilities.
+## Phase 1 - Create new repo, auth, user login
+- Clone the Amplify template and create an amplify app as per https://docs.amplify.aws/react/start/quickstart/
+- Add auth and user login as per [quickstart](https://docs.amplify.aws/react/start/quickstart/)
+- https://docs.amplify.aws/react/build-ui/formbuilder/
+- Deploy and verify
 
-## Overview
+## Phase 2 - Add Tailwind.css 
+- Install tailwind.css: https://tailwindcss.com/docs/guides/vite
+- Deploy and verify
 
-This template equips you with a foundational React application integrated with AWS Amplify, streamlined for scalability and performance. It is ideal for developers looking to jumpstart their project with pre-configured AWS services like Cognito, AppSync, and DynamoDB.
+## Phase 2 - Add Tailwind.css and React-Router
+- https://reactrouter.com/en/main/start/tutorial
+- Update routing files as per severalpens repo.
+- Deploy and verify
 
-## Features
+## Phase 3 - Add Home and Navbar components
+- Copy Home and Navbar components from severalpens repo. 
+- Check it runs correctly
+- Deploy and verify
 
-- **Authentication**: Setup with Amazon Cognito for secure user authentication.
-- **API**: Ready-to-use GraphQL endpoint with AWS AppSync.
-- **Database**: Real-time database powered by Amazon DynamoDB.
+## Phase 4 - Update schema, add form, add user login
+- Update schema
+- Add form
+- Add user login
+- Deploy and verify
 
-## Deploying to AWS
 
-For detailed instructions on deploying your application, refer to the [deployment section](https://docs.amplify.aws/react/start/quickstart/#deploy-a-fullstack-app-to-aws) of our documentation.
-
-## Security
-
-See [CONTRIBUTING](CONTRIBUTING.md#security-issue-notifications) for more information.
-
-## License
-
-This library is licensed under the MIT-0 License. See the LICENSE file.
