@@ -3,26 +3,26 @@ import type { Schema } from "../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import TodoCreateForm from '../ui-components/TodoCreateForm'
+import SwimTimeCreateForm from '../ui-components/SwimTimeCreateForm'
 
 const client = generateClient<Schema>();
 
 
 function App() {
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  const [swimTimes, setSwimTimes] = useState<Array<Schema["SwimTime"]["type"]>>([]);
 
   useEffect(() => {
-    client.models.Todo.observeQuery().subscribe({
-      next: (data) => setTodos([...data.items]),
+    client.models.SwimTime.observeQuery().subscribe({
+      next: (data) => setSwimTimes([...data.items]),
     });
   }, []);
 
-  // function createTodo() {
-  //   client.models.Todo.create({ content: window.prompt("Todo content") });
+  // function createSwimTime() {
+  //   client.models.SwimTime.create({ content: window.prompt("SwimTime content") });
   // }
   
-  function deleteTodo(id: string) {
-    client.models.Todo.delete({ id })
+  function deleteSwimTime(id: string) {
+    client.models.SwimTime.delete({ id })
   }
 
   return (
@@ -30,16 +30,16 @@ function App() {
     <Authenticator>
       {({ signOut, user }) => (
     <main>
-          <h1>{user?.signInDetails?.loginId}'s todos</h1>
-          <TodoCreateForm />
+          <h1>{user?.signInDetails?.loginId}'s swimTimes</h1>
+          <SwimTimeCreateForm />
       <ul>
-        {todos.map((todo) => (
-          <li onClick={() => deleteTodo(todo.id)}
-           key={todo.id}>{todo.content}</li>
+        {swimTimes.map((swimTime) => (
+          <li onClick={() => deleteSwimTime(swimTime.id)}
+           key={swimTime.id}>{swimTime.SwimDate}</li>
         ))}
       </ul>
       <div>
-        🥳 App successfully hosted. Try creating a new todo.
+        🥳 App successfully hosted. Try creating a new swimTime.
         <br />
         <a href="https://docs.amplify.aws/react/start/quickstart/#make-frontend-updates">
           Review next step of this tutorial.

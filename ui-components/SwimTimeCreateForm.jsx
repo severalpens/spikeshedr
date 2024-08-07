@@ -4,9 +4,9 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createTodo } from "./graphql/mutations";
+import { createSwimTime } from "./graphql/mutations";
 const client = generateClient();
-export default function TodoCreateForm(props) {
+export default function SwimTimeCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -18,16 +18,24 @@ export default function TodoCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    content: "",
+    SwimDate: "",
+    SwimMins: "",
+    SwimSecs: "",
   };
-  const [content, setContent] = React.useState(initialValues.content);
+  const [SwimDate, setSwimDate] = React.useState(initialValues.SwimDate);
+  const [SwimMins, setSwimMins] = React.useState(initialValues.SwimMins);
+  const [SwimSecs, setSwimSecs] = React.useState(initialValues.SwimSecs);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setContent(initialValues.content);
+    setSwimDate(initialValues.SwimDate);
+    setSwimMins(initialValues.SwimMins);
+    setSwimSecs(initialValues.SwimSecs);
     setErrors({});
   };
   const validations = {
-    content: [],
+    SwimDate: [],
+    SwimMins: [],
+    SwimSecs: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -55,7 +63,9 @@ export default function TodoCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          content,
+          SwimDate,
+          SwimMins,
+          SwimSecs,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -86,7 +96,7 @@ export default function TodoCreateForm(props) {
             }
           });
           await client.graphql({
-            query: createTodo.replaceAll("__typename", ""),
+            query: createSwimTime.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,
@@ -106,32 +116,95 @@ export default function TodoCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "TodoCreateForm")}
+      {...getOverrideProps(overrides, "SwimTimeCreateForm")}
       {...rest}
     >
       <TextField
-        label="Content"
+        label="Swim date"
         isRequired={false}
         isReadOnly={false}
-        value={content}
+        type="date"
+        value={SwimDate}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              content: value,
+              SwimDate: value,
+              SwimMins,
+              SwimSecs,
             };
             const result = onChange(modelFields);
-            value = result?.content ?? value;
+            value = result?.SwimDate ?? value;
           }
-          if (errors.content?.hasError) {
-            runValidationTasks("content", value);
+          if (errors.SwimDate?.hasError) {
+            runValidationTasks("SwimDate", value);
           }
-          setContent(value);
+          setSwimDate(value);
         }}
-        onBlur={() => runValidationTasks("content", content)}
-        errorMessage={errors.content?.errorMessage}
-        hasError={errors.content?.hasError}
-        {...getOverrideProps(overrides, "content")}
+        onBlur={() => runValidationTasks("SwimDate", SwimDate)}
+        errorMessage={errors.SwimDate?.errorMessage}
+        hasError={errors.SwimDate?.hasError}
+        {...getOverrideProps(overrides, "SwimDate")}
+      ></TextField>
+      <TextField
+        label="Swim mins"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={SwimMins}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              SwimDate,
+              SwimMins: value,
+              SwimSecs,
+            };
+            const result = onChange(modelFields);
+            value = result?.SwimMins ?? value;
+          }
+          if (errors.SwimMins?.hasError) {
+            runValidationTasks("SwimMins", value);
+          }
+          setSwimMins(value);
+        }}
+        onBlur={() => runValidationTasks("SwimMins", SwimMins)}
+        errorMessage={errors.SwimMins?.errorMessage}
+        hasError={errors.SwimMins?.hasError}
+        {...getOverrideProps(overrides, "SwimMins")}
+      ></TextField>
+      <TextField
+        label="Swim secs"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={SwimSecs}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              SwimDate,
+              SwimMins,
+              SwimSecs: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.SwimSecs ?? value;
+          }
+          if (errors.SwimSecs?.hasError) {
+            runValidationTasks("SwimSecs", value);
+          }
+          setSwimSecs(value);
+        }}
+        onBlur={() => runValidationTasks("SwimSecs", SwimSecs)}
+        errorMessage={errors.SwimSecs?.errorMessage}
+        hasError={errors.SwimSecs?.hasError}
+        {...getOverrideProps(overrides, "SwimSecs")}
       ></TextField>
       <Flex
         justifyContent="space-between"

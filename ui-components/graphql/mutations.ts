@@ -2,13 +2,15 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const createTodo = /* GraphQL */ `
-  mutation CreateTodo(
-    $condition: ModelTodoConditionInput
-    $input: CreateTodoInput!
+export const createSwimTime = /* GraphQL */ `
+  mutation CreateSwimTime(
+    $condition: ModelSwimTimeConditionInput
+    $input: CreateSwimTimeInput!
   ) {
-    createTodo(condition: $condition, input: $input) {
-      content
+    createSwimTime(condition: $condition, input: $input) {
+      SwimDate
+      SwimMins
+      SwimSecs
       createdAt
       id
       owner
@@ -17,13 +19,15 @@ export const createTodo = /* GraphQL */ `
     }
   }
 `;
-export const deleteTodo = /* GraphQL */ `
-  mutation DeleteTodo(
-    $condition: ModelTodoConditionInput
-    $input: DeleteTodoInput!
+export const deleteSwimTime = /* GraphQL */ `
+  mutation DeleteSwimTime(
+    $condition: ModelSwimTimeConditionInput
+    $input: DeleteSwimTimeInput!
   ) {
-    deleteTodo(condition: $condition, input: $input) {
-      content
+    deleteSwimTime(condition: $condition, input: $input) {
+      SwimDate
+      SwimMins
+      SwimSecs
       createdAt
       id
       owner
@@ -32,13 +36,15 @@ export const deleteTodo = /* GraphQL */ `
     }
   }
 `;
-export const updateTodo = /* GraphQL */ `
-  mutation UpdateTodo(
-    $condition: ModelTodoConditionInput
-    $input: UpdateTodoInput!
+export const updateSwimTime = /* GraphQL */ `
+  mutation UpdateSwimTime(
+    $condition: ModelSwimTimeConditionInput
+    $input: UpdateSwimTimeInput!
   ) {
-    updateTodo(condition: $condition, input: $input) {
-      content
+    updateSwimTime(condition: $condition, input: $input) {
+      SwimDate
+      SwimMins
+      SwimSecs
       createdAt
       id
       owner
