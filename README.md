@@ -6,7 +6,6 @@ Severalpens app in the BikeShedr AWS Account
     - Add auth and user login: https://docs.amplify.aws/react/start/quickstart/#6-implement-login-ui
     - Add per-user authorization: https://docs.amplify.aws/react/start/quickstart/#9-implement-per-user-authorization
     - Add forms: https://docs.amplify.aws/react/build-ui/formbuilder/
-- Deploy and verify
         - npx ampx sandbox
         - npx ampx generate forms
 - Deploy and verify
