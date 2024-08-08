@@ -18,10 +18,10 @@ export default function SwimTimeCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    SwimDate: "",
-    SwimDistance: "",
-    SwimMins: "",
-    SwimSecs: "",
+    SwimDate: new Date().toISOString().split('T')[0],
+    SwimDistance: 400,
+    SwimMins: 7,
+    SwimSecs: 5,
   };
   const [SwimDate, setSwimDate] = React.useState(initialValues.SwimDate);
   const [SwimDistance, setSwimDistance] = React.useState(
