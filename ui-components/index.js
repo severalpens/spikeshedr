@@ -1,2 +1,2 @@
-export { default as TodoCreateForm } from "./TodoCreateForm";
-export { default as TodoUpdateForm } from "./TodoUpdateForm";
+export { default as SwimTimeCreateForm } from "./SwimTimeCreateForm";
+export { default as SwimTimeUpdateForm } from "./SwimTimeUpdateForm";

@@ -4,13 +4,13 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { getTodo } from "./graphql/queries";
-import { updateTodo } from "./graphql/mutations";
+import { getSwimTime } from "./graphql/queries";
+import { updateSwimTime } from "./graphql/mutations";
 const client = generateClient();
-export default function TodoUpdateForm(props) {
+export default function SwimTimeUpdateForm(props) {
   const {
     id: idProp,
-    todo: todoModelProp,
+    swimTime: swimTimeModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -20,35 +20,43 @@ export default function TodoUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    content: "",
+    SwimDate: "",
+    SwimMins: "",
+    SwimSecs: "",
   };
-  const [content, setContent] = React.useState(initialValues.content);
+  const [SwimDate, setSwimDate] = React.useState(initialValues.SwimDate);
+  const [SwimMins, setSwimMins] = React.useState(initialValues.SwimMins);
+  const [SwimSecs, setSwimSecs] = React.useState(initialValues.SwimSecs);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = todoRecord
-      ? { ...initialValues, ...todoRecord }
+    const cleanValues = swimTimeRecord
+      ? { ...initialValues, ...swimTimeRecord }
       : initialValues;
-    setContent(cleanValues.content);
+    setSwimDate(cleanValues.SwimDate);
+    setSwimMins(cleanValues.SwimMins);
+    setSwimSecs(cleanValues.SwimSecs);
     setErrors({});
   };
-  const [todoRecord, setTodoRecord] = React.useState(todoModelProp);
+  const [swimTimeRecord, setSwimTimeRecord] = React.useState(swimTimeModelProp);
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
         ? (
             await client.graphql({
-              query: getTodo.replaceAll("__typename", ""),
+              query: getSwimTime.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
-          )?.data?.getTodo
-        : todoModelProp;
-      setTodoRecord(record);
+          )?.data?.getSwimTime
+        : swimTimeModelProp;
+      setSwimTimeRecord(record);
     };
     queryData();
-  }, [idProp, todoModelProp]);
-  React.useEffect(resetStateValues, [todoRecord]);
+  }, [idProp, swimTimeModelProp]);
+  React.useEffect(resetStateValues, [swimTimeRecord]);
   const validations = {
-    content: [],
+    SwimDate: [],
+    SwimMins: [],
+    SwimSecs: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -76,7 +84,9 @@ export default function TodoUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          content: content ?? null,
+          SwimDate: SwimDate ?? null,
+          SwimMins: SwimMins ?? null,
+          SwimSecs: SwimSecs ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -107,10 +117,10 @@ export default function TodoUpdateForm(props) {
             }
           });
           await client.graphql({
-            query: updateTodo.replaceAll("__typename", ""),
+            query: updateSwimTime.replaceAll("__typename", ""),
             variables: {
               input: {
-                id: todoRecord.id,
+                id: swimTimeRecord.id,
                 ...modelFields,
               },
             },
@@ -125,32 +135,95 @@ export default function TodoUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "TodoUpdateForm")}
+      {...getOverrideProps(overrides, "SwimTimeUpdateForm")}
       {...rest}
     >
       <TextField
-        label="Content"
+        label="Swim date"
         isRequired={false}
         isReadOnly={false}
-        value={content}
+        type="date"
+        value={SwimDate}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              content: value,
+              SwimDate: value,
+              SwimMins,
+              SwimSecs,
             };
             const result = onChange(modelFields);
-            value = result?.content ?? value;
+            value = result?.SwimDate ?? value;
           }
-          if (errors.content?.hasError) {
-            runValidationTasks("content", value);
+          if (errors.SwimDate?.hasError) {
+            runValidationTasks("SwimDate", value);
           }
-          setContent(value);
+          setSwimDate(value);
         }}
-        onBlur={() => runValidationTasks("content", content)}
-        errorMessage={errors.content?.errorMessage}
-        hasError={errors.content?.hasError}
-        {...getOverrideProps(overrides, "content")}
+        onBlur={() => runValidationTasks("SwimDate", SwimDate)}
+        errorMessage={errors.SwimDate?.errorMessage}
+        hasError={errors.SwimDate?.hasError}
+        {...getOverrideProps(overrides, "SwimDate")}
+      ></TextField>
+      <TextField
+        label="Swim mins"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={SwimMins}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              SwimDate,
+              SwimMins: value,
+              SwimSecs,
+            };
+            const result = onChange(modelFields);
+            value = result?.SwimMins ?? value;
+          }
+          if (errors.SwimMins?.hasError) {
+            runValidationTasks("SwimMins", value);
+          }
+          setSwimMins(value);
+        }}
+        onBlur={() => runValidationTasks("SwimMins", SwimMins)}
+        errorMessage={errors.SwimMins?.errorMessage}
+        hasError={errors.SwimMins?.hasError}
+        {...getOverrideProps(overrides, "SwimMins")}
+      ></TextField>
+      <TextField
+        label="Swim secs"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={SwimSecs}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              SwimDate,
+              SwimMins,
+              SwimSecs: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.SwimSecs ?? value;
+          }
+          if (errors.SwimSecs?.hasError) {
+            runValidationTasks("SwimSecs", value);
+          }
+          setSwimSecs(value);
+        }}
+        onBlur={() => runValidationTasks("SwimSecs", SwimSecs)}
+        errorMessage={errors.SwimSecs?.errorMessage}
+        hasError={errors.SwimSecs?.hasError}
+        {...getOverrideProps(overrides, "SwimSecs")}
       ></TextField>
       <Flex
         justifyContent="space-between"
@@ -163,7 +236,7 @@ export default function TodoUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || todoModelProp)}
+          isDisabled={!(idProp || swimTimeModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -175,7 +248,7 @@ export default function TodoUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || todoModelProp) ||
+              !(idProp || swimTimeModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}

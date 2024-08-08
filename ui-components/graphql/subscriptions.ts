@@ -1,14 +1,15 @@
 /* tslint:disable */
-/* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateTodo = /* GraphQL */ `
-  subscription OnCreateTodo(
-    $filter: ModelSubscriptionTodoFilterInput
+export const onCreateSwimTime = /* GraphQL */ `
+  subscription OnCreateSwimTime(
+    $filter: ModelSubscriptionSwimTimeFilterInput
     $owner: String
   ) {
-    onCreateTodo(filter: $filter, owner: $owner) {
-      content
+    onCreateSwimTime(filter: $filter, owner: $owner) {
+      SwimDate
+      SwimMins
+      SwimSecs
       createdAt
       id
       owner
@@ -17,13 +18,15 @@ export const onCreateTodo = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteTodo = /* GraphQL */ `
-  subscription OnDeleteTodo(
-    $filter: ModelSubscriptionTodoFilterInput
+export const onDeleteSwimTime = /* GraphQL */ `
+  subscription OnDeleteSwimTime(
+    $filter: ModelSubscriptionSwimTimeFilterInput
     $owner: String
   ) {
-    onDeleteTodo(filter: $filter, owner: $owner) {
-      content
+    onDeleteSwimTime(filter: $filter, owner: $owner) {
+      SwimDate
+      SwimMins
+      SwimSecs
       createdAt
       id
       owner
@@ -32,13 +35,15 @@ export const onDeleteTodo = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateTodo = /* GraphQL */ `
-  subscription OnUpdateTodo(
-    $filter: ModelSubscriptionTodoFilterInput
+export const onUpdateSwimTime = /* GraphQL */ `
+  subscription OnUpdateSwimTime(
+    $filter: ModelSubscriptionSwimTimeFilterInput
     $owner: String
   ) {
-    onUpdateTodo(filter: $filter, owner: $owner) {
-      content
+    onUpdateSwimTime(filter: $filter, owner: $owner) {
+      SwimDate
+      SwimMins
+      SwimSecs
       createdAt
       id
       owner

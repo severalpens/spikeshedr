@@ -1,11 +1,12 @@
 /* tslint:disable */
-/* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const getTodo = /* GraphQL */ `
-  query GetTodo($id: ID!) {
-    getTodo(id: $id) {
-      content
+export const getSwimTime = /* GraphQL */ `
+  query GetSwimTime($id: ID!) {
+    getSwimTime(id: $id) {
+      SwimDate
+      SwimMins
+      SwimSecs
       createdAt
       id
       owner
@@ -14,15 +15,17 @@ export const getTodo = /* GraphQL */ `
     }
   }
 `;
-export const listTodos = /* GraphQL */ `
-  query ListTodos(
-    $filter: ModelTodoFilterInput
+export const listSwimTimes = /* GraphQL */ `
+  query ListSwimTimes(
+    $filter: ModelSwimTimeFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listSwimTimes(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        content
+        SwimDate
+        SwimMins
+        SwimSecs
         createdAt
         id
         owner
