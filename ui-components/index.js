@@ -1,2 +1,2 @@
-export { default as SwimTimeCreateForm } from "./SwimTimeCreateForm";
-export { default as SwimTimeUpdateForm } from "./SwimTimeUpdateForm";
+export { default as RaceTimeCreateForm } from "./RaceTimeCreateForm";
+export { default as RaceTimeUpdateForm } from "./RaceTimeUpdateForm";

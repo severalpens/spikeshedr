@@ -4,13 +4,13 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { getSwimTime } from "./graphql/queries";
-import { updateSwimTime } from "./graphql/mutations";
+import { getRaceTime } from "./graphql/queries";
+import { updateRaceTime } from "./graphql/mutations";
 const client = generateClient();
-export default function SwimTimeUpdateForm(props) {
+export default function RaceTimeUpdateForm(props) {
   const {
     id: idProp,
-    swimTime: swimTimeModelProp,
+    raceTime: raceTimeModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -20,49 +20,49 @@ export default function SwimTimeUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    SwimDate: "",
-    SwimDistance: "",
-    SwimMins: "",
-    SwimSecs: "",
+    RaceDate: "",
+    RaceDistance: "",
+    RaceMins: "",
+    RaceSecs: "",
   };
-  const [SwimDate, setSwimDate] = React.useState(initialValues.SwimDate);
-  const [SwimDistance, setSwimDistance] = React.useState(
-    initialValues.SwimDistance
+  const [RaceDate, setRaceDate] = React.useState(initialValues.RaceDate);
+  const [RaceDistance, setRaceDistance] = React.useState(
+    initialValues.RaceDistance
   );
-  const [SwimMins, setSwimMins] = React.useState(initialValues.SwimMins);
-  const [SwimSecs, setSwimSecs] = React.useState(initialValues.SwimSecs);
+  const [RaceMins, setRaceMins] = React.useState(initialValues.RaceMins);
+  const [RaceSecs, setRaceSecs] = React.useState(initialValues.RaceSecs);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = swimTimeRecord
-      ? { ...initialValues, ...swimTimeRecord }
+    const cleanValues = raceTimeRecord
+      ? { ...initialValues, ...raceTimeRecord }
       : initialValues;
-    setSwimDate(cleanValues.SwimDate);
-    setSwimDistance(cleanValues.SwimDistance);
-    setSwimMins(cleanValues.SwimMins);
-    setSwimSecs(cleanValues.SwimSecs);
+    setRaceDate(cleanValues.RaceDate);
+    setRaceDistance(cleanValues.RaceDistance);
+    setRaceMins(cleanValues.RaceMins);
+    setRaceSecs(cleanValues.RaceSecs);
     setErrors({});
   };
-  const [swimTimeRecord, setSwimTimeRecord] = React.useState(swimTimeModelProp);
+  const [raceTimeRecord, setRaceTimeRecord] = React.useState(raceTimeModelProp);
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
         ? (
             await client.graphql({
-              query: getSwimTime.replaceAll("__typename", ""),
+              query: getRaceTime.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
-          )?.data?.getSwimTime
-        : swimTimeModelProp;
-      setSwimTimeRecord(record);
+          )?.data?.getRaceTime
+        : raceTimeModelProp;
+      setRaceTimeRecord(record);
     };
     queryData();
-  }, [idProp, swimTimeModelProp]);
-  React.useEffect(resetStateValues, [swimTimeRecord]);
+  }, [idProp, raceTimeModelProp]);
+  React.useEffect(resetStateValues, [raceTimeRecord]);
   const validations = {
-    SwimDate: [],
-    SwimDistance: [],
-    SwimMins: [],
-    SwimSecs: [],
+    RaceDate: [],
+    RaceDistance: [],
+    RaceMins: [],
+    RaceSecs: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -90,10 +90,10 @@ export default function SwimTimeUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          SwimDate: SwimDate ?? null,
-          SwimDistance: SwimDistance ?? null,
-          SwimMins: SwimMins ?? null,
-          SwimSecs: SwimSecs ?? null,
+          RaceDate: RaceDate ?? null,
+          RaceDistance: RaceDistance ?? null,
+          RaceMins: RaceMins ?? null,
+          RaceSecs: RaceSecs ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -124,10 +124,10 @@ export default function SwimTimeUpdateForm(props) {
             }
           });
           await client.graphql({
-            query: updateSwimTime.replaceAll("__typename", ""),
+            query: updateRaceTime.replaceAll("__typename", ""),
             variables: {
               input: {
-                id: swimTimeRecord.id,
+                id: raceTimeRecord.id,
                 ...modelFields,
               },
             },
@@ -142,129 +142,129 @@ export default function SwimTimeUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "SwimTimeUpdateForm")}
+      {...getOverrideProps(overrides, "RaceTimeUpdateForm")}
       {...rest}
     >
       <TextField
-        label="Swim date"
+        label="Race date"
         isRequired={false}
         isReadOnly={false}
         type="date"
-        value={SwimDate}
+        value={RaceDate}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              SwimDate: value,
-              SwimDistance,
-              SwimMins,
-              SwimSecs,
+              RaceDate: value,
+              RaceDistance,
+              RaceMins,
+              RaceSecs,
             };
             const result = onChange(modelFields);
-            value = result?.SwimDate ?? value;
+            value = result?.RaceDate ?? value;
           }
-          if (errors.SwimDate?.hasError) {
-            runValidationTasks("SwimDate", value);
+          if (errors.RaceDate?.hasError) {
+            runValidationTasks("RaceDate", value);
           }
-          setSwimDate(value);
+          setRaceDate(value);
         }}
-        onBlur={() => runValidationTasks("SwimDate", SwimDate)}
-        errorMessage={errors.SwimDate?.errorMessage}
-        hasError={errors.SwimDate?.hasError}
-        {...getOverrideProps(overrides, "SwimDate")}
+        onBlur={() => runValidationTasks("RaceDate", RaceDate)}
+        errorMessage={errors.RaceDate?.errorMessage}
+        hasError={errors.RaceDate?.hasError}
+        {...getOverrideProps(overrides, "RaceDate")}
       ></TextField>
       <TextField
-        label="Swim distance"
+        label="Race distance"
         isRequired={false}
         isReadOnly={false}
         type="number"
         step="any"
-        value={SwimDistance}
+        value={RaceDistance}
         onChange={(e) => {
           let value = isNaN(parseInt(e.target.value))
             ? e.target.value
             : parseInt(e.target.value);
           if (onChange) {
             const modelFields = {
-              SwimDate,
-              SwimDistance: value,
-              SwimMins,
-              SwimSecs,
+              RaceDate,
+              RaceDistance: value,
+              RaceMins,
+              RaceSecs,
             };
             const result = onChange(modelFields);
-            value = result?.SwimDistance ?? value;
+            value = result?.RaceDistance ?? value;
           }
-          if (errors.SwimDistance?.hasError) {
-            runValidationTasks("SwimDistance", value);
+          if (errors.RaceDistance?.hasError) {
+            runValidationTasks("RaceDistance", value);
           }
-          setSwimDistance(value);
+          setRaceDistance(value);
         }}
-        onBlur={() => runValidationTasks("SwimDistance", SwimDistance)}
-        errorMessage={errors.SwimDistance?.errorMessage}
-        hasError={errors.SwimDistance?.hasError}
-        {...getOverrideProps(overrides, "SwimDistance")}
+        onBlur={() => runValidationTasks("RaceDistance", RaceDistance)}
+        errorMessage={errors.RaceDistance?.errorMessage}
+        hasError={errors.RaceDistance?.hasError}
+        {...getOverrideProps(overrides, "RaceDistance")}
       ></TextField>
       <TextField
-        label="Swim mins"
+        label="Race mins"
         isRequired={false}
         isReadOnly={false}
         type="number"
         step="any"
-        value={SwimMins}
+        value={RaceMins}
         onChange={(e) => {
           let value = isNaN(parseInt(e.target.value))
             ? e.target.value
             : parseInt(e.target.value);
           if (onChange) {
             const modelFields = {
-              SwimDate,
-              SwimDistance,
-              SwimMins: value,
-              SwimSecs,
+              RaceDate,
+              RaceDistance,
+              RaceMins: value,
+              RaceSecs,
             };
             const result = onChange(modelFields);
-            value = result?.SwimMins ?? value;
+            value = result?.RaceMins ?? value;
           }
-          if (errors.SwimMins?.hasError) {
-            runValidationTasks("SwimMins", value);
+          if (errors.RaceMins?.hasError) {
+            runValidationTasks("RaceMins", value);
           }
-          setSwimMins(value);
+          setRaceMins(value);
         }}
-        onBlur={() => runValidationTasks("SwimMins", SwimMins)}
-        errorMessage={errors.SwimMins?.errorMessage}
-        hasError={errors.SwimMins?.hasError}
-        {...getOverrideProps(overrides, "SwimMins")}
+        onBlur={() => runValidationTasks("RaceMins", RaceMins)}
+        errorMessage={errors.RaceMins?.errorMessage}
+        hasError={errors.RaceMins?.hasError}
+        {...getOverrideProps(overrides, "RaceMins")}
       ></TextField>
       <TextField
-        label="Swim secs"
+        label="Race secs"
         isRequired={false}
         isReadOnly={false}
         type="number"
         step="any"
-        value={SwimSecs}
+        value={RaceSecs}
         onChange={(e) => {
           let value = isNaN(parseInt(e.target.value))
             ? e.target.value
             : parseInt(e.target.value);
           if (onChange) {
             const modelFields = {
-              SwimDate,
-              SwimDistance,
-              SwimMins,
-              SwimSecs: value,
+              RaceDate,
+              RaceDistance,
+              RaceMins,
+              RaceSecs: value,
             };
             const result = onChange(modelFields);
-            value = result?.SwimSecs ?? value;
+            value = result?.RaceSecs ?? value;
           }
-          if (errors.SwimSecs?.hasError) {
-            runValidationTasks("SwimSecs", value);
+          if (errors.RaceSecs?.hasError) {
+            runValidationTasks("RaceSecs", value);
           }
-          setSwimSecs(value);
+          setRaceSecs(value);
         }}
-        onBlur={() => runValidationTasks("SwimSecs", SwimSecs)}
-        errorMessage={errors.SwimSecs?.errorMessage}
-        hasError={errors.SwimSecs?.hasError}
-        {...getOverrideProps(overrides, "SwimSecs")}
+        onBlur={() => runValidationTasks("RaceSecs", RaceSecs)}
+        errorMessage={errors.RaceSecs?.errorMessage}
+        hasError={errors.RaceSecs?.hasError}
+        {...getOverrideProps(overrides, "RaceSecs")}
       ></TextField>
       <Flex
         justifyContent="space-between"
@@ -277,7 +277,7 @@ export default function SwimTimeUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || swimTimeModelProp)}
+          isDisabled={!(idProp || raceTimeModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -289,7 +289,7 @@ export default function SwimTimeUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || swimTimeModelProp) ||
+              !(idProp || raceTimeModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}

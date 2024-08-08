@@ -1,17 +1,16 @@
 /* tslint:disable */
-/* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
-export const onCreateSwimTime = /* GraphQL */ `
-  subscription OnCreateSwimTime(
-    $filter: ModelSubscriptionSwimTimeFilterInput
+export const onCreateRaceTime = /* GraphQL */ `
+  subscription OnCreateRaceTime(
+    $filter: ModelSubscriptionRaceTimeFilterInput
     $owner: String
   ) {
-    onCreateSwimTime(filter: $filter, owner: $owner) {
-      SwimDate
-      SwimDistance
-      SwimMins
-      SwimSecs
+    onCreateRaceTime(filter: $filter, owner: $owner) {
+      RaceDate
+      RaceDistance
+      RaceMins
+      RaceSecs
       createdAt
       id
       owner
@@ -20,16 +19,16 @@ export const onCreateSwimTime = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteSwimTime = /* GraphQL */ `
-  subscription OnDeleteSwimTime(
-    $filter: ModelSubscriptionSwimTimeFilterInput
+export const onDeleteRaceTime = /* GraphQL */ `
+  subscription OnDeleteRaceTime(
+    $filter: ModelSubscriptionRaceTimeFilterInput
     $owner: String
   ) {
-    onDeleteSwimTime(filter: $filter, owner: $owner) {
-      SwimDate
-      SwimDistance
-      SwimMins
-      SwimSecs
+    onDeleteRaceTime(filter: $filter, owner: $owner) {
+      RaceDate
+      RaceDistance
+      RaceMins
+      RaceSecs
       createdAt
       id
       owner
@@ -38,16 +37,16 @@ export const onDeleteSwimTime = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateSwimTime = /* GraphQL */ `
-  subscription OnUpdateSwimTime(
-    $filter: ModelSubscriptionSwimTimeFilterInput
+export const onUpdateRaceTime = /* GraphQL */ `
+  subscription OnUpdateRaceTime(
+    $filter: ModelSubscriptionRaceTimeFilterInput
     $owner: String
   ) {
-    onUpdateSwimTime(filter: $filter, owner: $owner) {
-      SwimDate
-      SwimDistance
-      SwimMins
-      SwimSecs
+    onUpdateRaceTime(filter: $filter, owner: $owner) {
+      RaceDate
+      RaceDistance
+      RaceMins
+      RaceSecs
       createdAt
       id
       owner
