@@ -1,4 +1,5 @@
 /* tslint:disable */
+/* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
 export const onCreateSwimTime = /* GraphQL */ `
@@ -8,6 +9,7 @@ export const onCreateSwimTime = /* GraphQL */ `
   ) {
     onCreateSwimTime(filter: $filter, owner: $owner) {
       SwimDate
+      SwimDistance
       SwimMins
       SwimSecs
       createdAt
@@ -25,6 +27,7 @@ export const onDeleteSwimTime = /* GraphQL */ `
   ) {
     onDeleteSwimTime(filter: $filter, owner: $owner) {
       SwimDate
+      SwimDistance
       SwimMins
       SwimSecs
       createdAt
@@ -42,6 +45,7 @@ export const onUpdateSwimTime = /* GraphQL */ `
   ) {
     onUpdateSwimTime(filter: $filter, owner: $owner) {
       SwimDate
+      SwimDistance
       SwimMins
       SwimSecs
       createdAt

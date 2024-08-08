@@ -1,10 +1,12 @@
 /* tslint:disable */
+/* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
 export const getSwimTime = /* GraphQL */ `
   query GetSwimTime($id: ID!) {
     getSwimTime(id: $id) {
       SwimDate
+      SwimDistance
       SwimMins
       SwimSecs
       createdAt
@@ -24,6 +26,7 @@ export const listSwimTimes = /* GraphQL */ `
     listSwimTimes(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         SwimDate
+        SwimDistance
         SwimMins
         SwimSecs
         createdAt

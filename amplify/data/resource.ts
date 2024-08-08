@@ -10,6 +10,7 @@ const schema = a.schema({
   SwimTime: a
     .model({
       SwimDate: a.date(),
+      SwimDistance: a.integer(),
       SwimMins: a.integer(),
       SwimSecs: a.integer(),
 

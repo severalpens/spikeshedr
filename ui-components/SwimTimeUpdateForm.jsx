@@ -21,10 +21,14 @@ export default function SwimTimeUpdateForm(props) {
   } = props;
   const initialValues = {
     SwimDate: "",
+    SwimDistance: "",
     SwimMins: "",
     SwimSecs: "",
   };
   const [SwimDate, setSwimDate] = React.useState(initialValues.SwimDate);
+  const [SwimDistance, setSwimDistance] = React.useState(
+    initialValues.SwimDistance
+  );
   const [SwimMins, setSwimMins] = React.useState(initialValues.SwimMins);
   const [SwimSecs, setSwimSecs] = React.useState(initialValues.SwimSecs);
   const [errors, setErrors] = React.useState({});
@@ -33,6 +37,7 @@ export default function SwimTimeUpdateForm(props) {
       ? { ...initialValues, ...swimTimeRecord }
       : initialValues;
     setSwimDate(cleanValues.SwimDate);
+    setSwimDistance(cleanValues.SwimDistance);
     setSwimMins(cleanValues.SwimMins);
     setSwimSecs(cleanValues.SwimSecs);
     setErrors({});
@@ -55,6 +60,7 @@ export default function SwimTimeUpdateForm(props) {
   React.useEffect(resetStateValues, [swimTimeRecord]);
   const validations = {
     SwimDate: [],
+    SwimDistance: [],
     SwimMins: [],
     SwimSecs: [],
   };
@@ -85,6 +91,7 @@ export default function SwimTimeUpdateForm(props) {
         event.preventDefault();
         let modelFields = {
           SwimDate: SwimDate ?? null,
+          SwimDistance: SwimDistance ?? null,
           SwimMins: SwimMins ?? null,
           SwimSecs: SwimSecs ?? null,
         };
@@ -149,6 +156,7 @@ export default function SwimTimeUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               SwimDate: value,
+              SwimDistance,
               SwimMins,
               SwimSecs,
             };
@@ -166,6 +174,37 @@ export default function SwimTimeUpdateForm(props) {
         {...getOverrideProps(overrides, "SwimDate")}
       ></TextField>
       <TextField
+        label="Swim distance"
+        isRequired={false}
+        isReadOnly={false}
+        type="number"
+        step="any"
+        value={SwimDistance}
+        onChange={(e) => {
+          let value = isNaN(parseInt(e.target.value))
+            ? e.target.value
+            : parseInt(e.target.value);
+          if (onChange) {
+            const modelFields = {
+              SwimDate,
+              SwimDistance: value,
+              SwimMins,
+              SwimSecs,
+            };
+            const result = onChange(modelFields);
+            value = result?.SwimDistance ?? value;
+          }
+          if (errors.SwimDistance?.hasError) {
+            runValidationTasks("SwimDistance", value);
+          }
+          setSwimDistance(value);
+        }}
+        onBlur={() => runValidationTasks("SwimDistance", SwimDistance)}
+        errorMessage={errors.SwimDistance?.errorMessage}
+        hasError={errors.SwimDistance?.hasError}
+        {...getOverrideProps(overrides, "SwimDistance")}
+      ></TextField>
+      <TextField
         label="Swim mins"
         isRequired={false}
         isReadOnly={false}
@@ -179,6 +218,7 @@ export default function SwimTimeUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               SwimDate,
+              SwimDistance,
               SwimMins: value,
               SwimSecs,
             };
@@ -209,6 +249,7 @@ export default function SwimTimeUpdateForm(props) {
           if (onChange) {
             const modelFields = {
               SwimDate,
+              SwimDistance,
               SwimMins,
               SwimSecs: value,
             };

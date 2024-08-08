@@ -17,11 +17,13 @@ export declare type ValidationResponse = {
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type SwimTimeCreateFormInputValues = {
     SwimDate?: string;
+    SwimDistance?: number;
     SwimMins?: number;
     SwimSecs?: number;
 };
 export declare type SwimTimeCreateFormValidationValues = {
     SwimDate?: ValidationFunction<string>;
+    SwimDistance?: ValidationFunction<number>;
     SwimMins?: ValidationFunction<number>;
     SwimSecs?: ValidationFunction<number>;
 };
@@ -29,6 +31,7 @@ export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes
 export declare type SwimTimeCreateFormOverridesProps = {
     SwimTimeCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     SwimDate?: PrimitiveOverrideProps<TextFieldProps>;
+    SwimDistance?: PrimitiveOverrideProps<TextFieldProps>;
     SwimMins?: PrimitiveOverrideProps<TextFieldProps>;
     SwimSecs?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
