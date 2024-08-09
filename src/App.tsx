@@ -2,7 +2,7 @@ import '@aws-amplify/ui-react/styles.css';
 import Navbar from "./components/Navbar";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
-import RaceTimes from "./components/RaceTimes";
+import RaceTimes from "./components/raceTimes/RaceTimes";
 
 
 function App() {
