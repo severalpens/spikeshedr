@@ -17,9 +17,9 @@ function RaceTimes() {
     });
   }, []);
 
-  function deleteRaceTime(id: string) {
-    client.models.RaceTime.delete({ id })
-  }
+  // function deleteRaceTime(id: string) {
+  //   client.models.RaceTime.delete({ id })
+  // }
 
   return (
     <Authenticator>
