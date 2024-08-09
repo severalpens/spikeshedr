@@ -18,7 +18,7 @@ function Navbar() {
               Home
             </NavLink>
           </div>
-          <div className="p-6">
+          <div className="p-6" hidden>
             <NavLink className="" to="/projects">
               Demo Projects
             </NavLink>

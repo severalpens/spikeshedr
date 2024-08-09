@@ -17,27 +17,29 @@ function RaceTimes() {
     });
   }, []);
 
-  function deleteRaceTime(id: string) {
-    client.models.RaceTime.delete({ id })
-  }
+  // function deleteRaceTime(id: string) {
+  //   client.models.RaceTime.delete({ id })
+  // }
 
   return (
     <Authenticator>
       {({ signOut, user }) => (
-    <main>
+        <main>
           <h1>{user?.signInDetails?.loginId}'s raceTimes</h1>
           <RaceTimeCreateForm />
-      <ul>
-        {raceTimes.map((raceTime) => (
-          <li onClick={() => deleteRaceTime(raceTime.id)}
-           key={raceTime.id}>{raceTime.RaceDate}</li>
-        ))}
-      </ul>
-      <button onClick={signOut}>Sign out</button>
-    </main>
-        
+          <ul>
+            {raceTimes.sort((a, b) => {
+              const dateA = a.RaceDate ? new Date(a.RaceDate.toString()) : null;
+              const dateB = b.RaceDate ? new Date(b.RaceDate.toString()) : null;
+              return dateA && dateB ? dateA.getTime() - dateB.getTime() : 0;
+            }).map((raceTime) => (
+              <li key={raceTime.id}>{raceTime.RaceDistance} | {raceTime.RaceDate} | {raceTime.RaceMins}:{raceTime.RaceSecs}</li>
+            ))}
+          </ul>
+          <button onClick={signOut}>Sign out</button>
+        </main>
       )}
-      </Authenticator>
+    </Authenticator>
   );
 }
 
