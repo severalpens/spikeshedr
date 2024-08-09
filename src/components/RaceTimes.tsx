@@ -79,7 +79,7 @@ function RaceTimes() {
           <div id="raceTimesTable">
             <button
               onClick={() => setShowTable(!showTable)}
-              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
               {showTable ? 'Hide Results' : 'Show Results'}
             </button>
@@ -108,7 +108,7 @@ function RaceTimes() {
               </tbody>
             </table>
           </div>
-          <div id="chart">
+          <div className="mt-4" id="chart">
             <button
               onClick={toggleChart}
               className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
