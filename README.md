@@ -1,5 +1,5 @@
 # Spikeshedr
-Severalpens app in the BikeShedr AWS Account
+Repo for severalpens.com 
 
 ## Phase 1 - Create new repo, auth, user login
 - Clone the Amplify template and create an amplify app as per https://docs.amplify.aws/react/start/quickstart/#6-implement-login-ui
