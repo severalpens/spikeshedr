@@ -15,7 +15,7 @@ function RaceTimes() {
   const [raceTimes, setRaceTimes] = useState<Array<Schema["RaceTime"]["type"]>>([]);
   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
   const [showForm, setShowForm] = useState<boolean>(false);
-  const [showTable, setShowTable] = useState<boolean>(false);
+  const [showTable, setShowTable] = useState<boolean>(true);
   const [showChart, setShowChart] = useState<boolean>(true);
  
   useEffect(() => {
