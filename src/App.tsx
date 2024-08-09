@@ -2,7 +2,7 @@ import '@aws-amplify/ui-react/styles.css';
 import Navbar from "./components/Navbar";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
-import SwimTimes from "./components/SwimTimes";
+import RaceTimes from "./components/RaceTimes";
 
 
 function App() {
@@ -11,7 +11,7 @@ function App() {
       <Navbar/>
       <Routes>
         <Route path="/" element={<Home />}/>
-        <Route path="swimtimes" element={<SwimTimes/>} />
+        <Route path="racetimes" element={<RaceTimes/>} />
       </Routes>
     </div>
   );

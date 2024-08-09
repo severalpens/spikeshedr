@@ -1,12 +1,13 @@
 /* tslint:disable */
 // this is an auto generated file. This will be overwritten
 
-export const getSwimTime = /* GraphQL */ `
-  query GetSwimTime($id: ID!) {
-    getSwimTime(id: $id) {
-      SwimDate
-      SwimMins
-      SwimSecs
+export const getRaceTime = /* GraphQL */ `
+  query GetRaceTime($id: ID!) {
+    getRaceTime(id: $id) {
+      RaceDate
+      RaceDistance
+      RaceMins
+      RaceSecs
       createdAt
       id
       owner
@@ -15,17 +16,18 @@ export const getSwimTime = /* GraphQL */ `
     }
   }
 `;
-export const listSwimTimes = /* GraphQL */ `
-  query ListSwimTimes(
-    $filter: ModelSwimTimeFilterInput
+export const listRaceTimes = /* GraphQL */ `
+  query ListRaceTimes(
+    $filter: ModelRaceTimeFilterInput
     $limit: Int
     $nextToken: String
   ) {
-    listSwimTimes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+    listRaceTimes(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
-        SwimDate
-        SwimMins
-        SwimSecs
+        RaceDate
+        RaceDistance
+        RaceMins
+        RaceSecs
         createdAt
         id
         owner

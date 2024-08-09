@@ -24,8 +24,8 @@ function Navbar() {
             </NavLink>
           </div>
           <div className="p-6">
-            <NavLink className="" to="/swimtimes">
-              Swim Times
+            <NavLink className="" to="/racetimes">
+              Race Times
             </NavLink>
           </div>
         </div>

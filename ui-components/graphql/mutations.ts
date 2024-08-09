@@ -1,15 +1,16 @@
 /* tslint:disable */
 // this is an auto generated file. This will be overwritten
 
-export const createSwimTime = /* GraphQL */ `
-  mutation CreateSwimTime(
-    $condition: ModelSwimTimeConditionInput
-    $input: CreateSwimTimeInput!
+export const createRaceTime = /* GraphQL */ `
+  mutation CreateRaceTime(
+    $condition: ModelRaceTimeConditionInput
+    $input: CreateRaceTimeInput!
   ) {
-    createSwimTime(condition: $condition, input: $input) {
-      SwimDate
-      SwimMins
-      SwimSecs
+    createRaceTime(condition: $condition, input: $input) {
+      RaceDate
+      RaceDistance
+      RaceMins
+      RaceSecs
       createdAt
       id
       owner
@@ -18,15 +19,16 @@ export const createSwimTime = /* GraphQL */ `
     }
   }
 `;
-export const deleteSwimTime = /* GraphQL */ `
-  mutation DeleteSwimTime(
-    $condition: ModelSwimTimeConditionInput
-    $input: DeleteSwimTimeInput!
+export const deleteRaceTime = /* GraphQL */ `
+  mutation DeleteRaceTime(
+    $condition: ModelRaceTimeConditionInput
+    $input: DeleteRaceTimeInput!
   ) {
-    deleteSwimTime(condition: $condition, input: $input) {
-      SwimDate
-      SwimMins
-      SwimSecs
+    deleteRaceTime(condition: $condition, input: $input) {
+      RaceDate
+      RaceDistance
+      RaceMins
+      RaceSecs
       createdAt
       id
       owner
@@ -35,15 +37,16 @@ export const deleteSwimTime = /* GraphQL */ `
     }
   }
 `;
-export const updateSwimTime = /* GraphQL */ `
-  mutation UpdateSwimTime(
-    $condition: ModelSwimTimeConditionInput
-    $input: UpdateSwimTimeInput!
+export const updateRaceTime = /* GraphQL */ `
+  mutation UpdateRaceTime(
+    $condition: ModelRaceTimeConditionInput
+    $input: UpdateRaceTimeInput!
   ) {
-    updateSwimTime(condition: $condition, input: $input) {
-      SwimDate
-      SwimMins
-      SwimSecs
+    updateRaceTime(condition: $condition, input: $input) {
+      RaceDate
+      RaceDistance
+      RaceMins
+      RaceSecs
       createdAt
       id
       owner
