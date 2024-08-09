@@ -19,6 +19,7 @@ function RaceTimes() {
   const [showForm, setShowForm] = useState<boolean>(false);
   const [showTable, setShowTable] = useState<boolean>(true);
   const [showChart, setShowChart] = useState<boolean>(false);
+  const [showPrepopulate, setShowPrepopulate] = useState<boolean>(true);
  
   useEffect(() => {
     client.models.RaceTime.observeQuery().subscribe({
@@ -79,10 +80,11 @@ function RaceTimes() {
           <button id="PrePoulateUsingOldRaceTimes" onClick={() => {
               oldRaceTimes.forEach(async (raceTime) => {
                 await client.models.RaceTime.create(raceTime);
-              })
+              });
+              setShowPrepopulate(false);
           }}
               className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-            hidden
+              hidden={showPrepopulate}
             >
               Prepopulate using old race times
             </button>
