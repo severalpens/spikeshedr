@@ -3,7 +3,19 @@ import type { Schema } from "../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import RaceTimeCreateForm from '../../ui-components/RaceTimeCreateForm'
+import RaceTimeCreateForm from '../../ui-components/RaceTimeCreateForm';
+import Highcharts from 'highcharts';
+import HighchartsReact from 'highcharts-react-official';
+
+const options = {
+  title: {
+    text: 'Race Times'
+  },
+  series: [{
+    data: [1, 2, 3]
+  }]
+}
+
 
 const client = generateClient<Schema>();
 
@@ -53,6 +65,10 @@ function RaceTimes() {
           <button onClick={signOut} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
             Sign out
           </button>
+          <HighchartsReact
+    highcharts={Highcharts}
+    options={options}
+  />
         </main>
       )}
     </Authenticator>
