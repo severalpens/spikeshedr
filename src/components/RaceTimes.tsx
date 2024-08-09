@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { Schema } from "../../amplify/data/resource";
+// import regression from 'highcharts-regression';
 import { generateClient } from "aws-amplify/data";
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
@@ -16,7 +17,7 @@ function RaceTimes() {
   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [showTable, setShowTable] = useState<boolean>(true);
-  const [showChart, setShowChart] = useState<boolean>(true);
+  const [showChart, setShowChart] = useState<boolean>(false);
  
   useEffect(() => {
     client.models.RaceTime.observeQuery().subscribe({
@@ -52,7 +53,13 @@ function RaceTimes() {
     },
     series: [{
       name: 'Race Time',
-      data: chartData
+      data: chartData,
+      regression: true,
+      regressionSettings: {
+        type: 'linear',
+        color: 'rgba(223, 83, 83, .9)',
+        name: 'Trend Line'
+      }
     }]
   };
 
@@ -111,7 +118,7 @@ function RaceTimes() {
           <div className="mt-4" id="chart">
             <button
               onClick={toggleChart}
-              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
             >
               {showChart ? 'Hide Chart' : 'Show Chart'}
             </button>
