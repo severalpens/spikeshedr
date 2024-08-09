@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import type { Schema } from "../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import { Authenticator } from '@aws-amplify/ui-react';
@@ -7,14 +7,16 @@ import RaceTimeCreateForm from '../../ui-components/RaceTimeCreateForm';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 
-const options = {
+
+const options: Highcharts.Options = {
   title: {
-    text: 'Race Times'
+      text: 'Race Times'
   },
   series: [{
-    data: [1, 2, 3]
+      type: 'line',
+      data: [1, 2, 3]
   }]
-}
+};
 
 
 const client = generateClient<Schema>();
@@ -22,7 +24,7 @@ const client = generateClient<Schema>();
 
 function RaceTimes() {
   const [raceTimes, setRaceTimes] = useState<Array<Schema["RaceTime"]["type"]>>([]);
-
+  const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
   useEffect(() => {
     client.models.RaceTime.observeQuery().subscribe({
       next: (data) => setRaceTimes([...data.items]),
@@ -66,9 +68,11 @@ function RaceTimes() {
             Sign out
           </button>
           <HighchartsReact
-    highcharts={Highcharts}
-    options={options}
-  />
+      highcharts={Highcharts}
+      options={options}
+      ref={chartComponentRef}
+      
+    />
         </main>
       )}
     </Authenticator>
