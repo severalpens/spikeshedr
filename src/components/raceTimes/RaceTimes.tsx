@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
-import type { Schema } from "../../amplify/data/resource";
+import type { Schema } from "../../../amplify/data/resource";
 // import regression from 'highcharts-regression';
 import { generateClient } from "aws-amplify/data";
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
-import RaceTimeCreateForm from '../../ui-components/RaceTimeCreateForm';
+import RaceTimeCreateForm from '../../../ui-components/RaceTimeCreateForm';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
+import oldRaceTimes from './oldRaceTimes.json';
 
 
 const client = generateClient<Schema>();
@@ -74,6 +75,17 @@ function RaceTimes() {
       {({ signOut, user }) => (
         <main>
           <h1 className="text-xl mb-4">{user?.signInDetails?.loginId}'s Race Times</h1>
+          <div>
+          <button id="PrePoulateUsingOldRaceTimes" onClick={() => {
+              oldRaceTimes.forEach(async (raceTime) => {
+                await client.models.RaceTime.create(raceTime);
+              })
+          }}
+              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            >
+              Prepopulate using old race times
+            </button>
+          </div>
           <div id="newTimeForm" className="mb-12">
             <button
               onClick={() => setShowForm(!showForm)}
