@@ -7,7 +7,7 @@ import '@aws-amplify/ui-react/styles.css';
 import RaceTimeCreateForm from '../../../ui-components/RaceTimeCreateForm';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import oldRaceTimes from './oldRaceTimes.json';
+import { Link } from "react-router-dom";
 
 
 const client = generateClient<Schema>();
@@ -19,7 +19,8 @@ function RaceTimes() {
   const [showForm, setShowForm] = useState<boolean>(false);
   const [showTable, setShowTable] = useState<boolean>(true);
   const [showChart, setShowChart] = useState<boolean>(false);
-  const [showPrepopulate, setShowPrepopulate] = useState<boolean>(true);
+  const [selectedRaceTimeIDs, setSelectedRaceTimeIDs] = useState<Array<string>>([]);
+
  
   useEffect(() => {
     client.models.RaceTime.observeQuery().subscribe({
@@ -27,9 +28,6 @@ function RaceTimes() {
     });
   }, []);
 
-  // function deleteRaceTime(id: string) {
-  //   client.models.RaceTime.delete({ id })
-  // }
 
   const chartData = raceTimes.map(raceTime => {
     const raceDate = raceTime.RaceDate ? new Date(raceTime.RaceDate.toString()).getTime() : null;
@@ -65,6 +63,15 @@ function RaceTimes() {
     }]
   };
 
+    
+  function deleteTodos() {
+    selectedRaceTimeIDs.forEach(async (id) => {
+      await client.models.RaceTime.delete({id});
+    });
+    setSelectedRaceTimeIDs([]);
+    }
+
+
 
 
   const toggleChart = () => {
@@ -76,23 +83,15 @@ function RaceTimes() {
       {({ signOut, user }) => (
         <main>
           <h1 className="text-xl mb-4">{user?.signInDetails?.loginId}'s Race Times</h1>
-          <div>
-          <button id="PrePoulateUsingOldRaceTimes" onClick={() => {
-              oldRaceTimes.forEach(async (raceTime) => {
-                await client.models.RaceTime.create(raceTime);
-              });
-              setShowPrepopulate(false);
-          }}
-              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-              hidden={!showPrepopulate}
-            >
-              Prepopulate using old race times
-            </button>
-          </div>
+          <em >
+            <Link className="px-2 border rounded"to="/seedRaceTimes">
+              Seed Race Times
+            </Link>
+          </em>
           <div id="newTimeForm" className="mb-12">
             <button
               onClick={() => setShowForm(!showForm)}
-              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  w-48"
             >
               {showForm ? 'Hide New Time Form' : 'Add New Time'}
             </button>
@@ -101,7 +100,7 @@ function RaceTimes() {
           <div id="raceTimesTable">
             <button
               onClick={() => setShowTable(!showTable)}
-              className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded w-48"
             >
               {showTable ? 'Hide Results' : 'Show Results'}
             </button>
@@ -112,6 +111,29 @@ function RaceTimes() {
                   <th className="border px-4 py-2">Race Distance</th>
                   <th className="border px-4 py-2">Race Date</th>
                   <th className="border px-4 py-2">Race Time</th>
+                  <th className="border px-4 py-2">
+                    <input
+                      className="mr-2"
+                      type="checkbox"
+                      onChange={(e) => {
+                        if (e.target.checked) {
+                          setSelectedRaceTimeIDs(raceTimes.map(raceTime => raceTime.id));
+                        }
+                        else {
+                          setSelectedRaceTimeIDs([]);
+                        }
+                      }
+                      }
+                    />  
+
+                    <button id="deleteSelectedRaceTimes"
+                      onClick={() => deleteTodos()}
+                      className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white font-bold py-2 px-4 rounded  w-48"
+                      disabled={selectedRaceTimeIDs.length === 0}
+                    >
+                      Delete Selected
+                    </button>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -125,6 +147,18 @@ function RaceTimes() {
                     <td className="border px-4 py-2">{raceTime.RaceDate}</td>
                     <td className="border px-4 py-2">{raceTime.RaceMins}:
                       {raceTime.RaceSecs != null ? (raceTime.RaceSecs < 10 ? `0${raceTime.RaceSecs}` : raceTime.RaceSecs) : 0}</td>
+                      <td className="border px-4 py-2">
+                        <input
+                          type="checkbox"
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedRaceTimeIDs([...selectedRaceTimeIDs, raceTime.id]);
+                            } else {
+                              setSelectedRaceTimeIDs(selectedRaceTimeIDs.filter(id => id !== raceTime.id));
+                            }
+                          }}
+                        />
+                      </td>
                   </tr>
                 ))}
               </tbody>
@@ -133,7 +167,7 @@ function RaceTimes() {
           <div className="mt-4" id="chart">
             <button
               onClick={toggleChart}
-              className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  w-48"
             >
               {showChart ? 'Hide Chart' : 'Show Chart'}
             </button>
@@ -145,7 +179,7 @@ function RaceTimes() {
               />
             )}
           </div>
-          <button onClick={signOut} className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+          <button onClick={signOut} className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  w-48">
             Sign out
           </button>
         </main>
