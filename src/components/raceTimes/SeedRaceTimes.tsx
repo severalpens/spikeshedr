@@ -5,7 +5,6 @@ import { generateClient } from "aws-amplify/data";
 import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import oldRaceTimes from './oldRaceTimes.json';
-import { redirect } from "react-router-dom";
 
 
 const client = generateClient<Schema>();

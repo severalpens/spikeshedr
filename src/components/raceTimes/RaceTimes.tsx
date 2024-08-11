@@ -7,7 +7,6 @@ import '@aws-amplify/ui-react/styles.css';
 import RaceTimeCreateForm from '../../../ui-components/RaceTimeCreateForm';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
-import oldRaceTimes from './oldRaceTimes.json';
 import { Link } from "react-router-dom";
 
 
