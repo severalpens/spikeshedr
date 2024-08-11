@@ -20,6 +20,8 @@ function RaceTimes() {
   const [showTable, setShowTable] = useState<boolean>(true);
   const [showChart, setShowChart] = useState<boolean>(false);
   const [showPrepopulate, setShowPrepopulate] = useState<boolean>(true);
+  const [selectedRaceTimeIDs, setSelectedRaceTimeIDs] = useState<Array<string>>([]);
+
  
   useEffect(() => {
     client.models.RaceTime.observeQuery().subscribe({
@@ -27,9 +29,6 @@ function RaceTimes() {
     });
   }, []);
 
-  // function deleteRaceTime(id: string) {
-  //   client.models.RaceTime.delete({ id })
-  // }
 
   const chartData = raceTimes.map(raceTime => {
     const raceDate = raceTime.RaceDate ? new Date(raceTime.RaceDate.toString()).getTime() : null;
@@ -64,6 +63,15 @@ function RaceTimes() {
       }
     }]
   };
+
+    
+  function deleteTodos() {
+    selectedRaceTimeIDs.forEach(async (id) => {
+      await client.models.RaceTime.delete({id});
+    });
+    setSelectedRaceTimeIDs([]);
+    }
+
 
 
 
@@ -112,6 +120,15 @@ function RaceTimes() {
                   <th className="border px-4 py-2">Race Distance</th>
                   <th className="border px-4 py-2">Race Date</th>
                   <th className="border px-4 py-2">Race Time</th>
+                  <th className="border px-4 py-2">
+                    <button id="deleteSelectedRaceTimes"
+                      onClick={() => deleteTodos()}
+                      className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white font-bold py-2 px-4 rounded"
+                      disabled={selectedRaceTimeIDs.length === 0}
+                    >
+                      Delete Selected
+                    </button>
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -125,6 +142,18 @@ function RaceTimes() {
                     <td className="border px-4 py-2">{raceTime.RaceDate}</td>
                     <td className="border px-4 py-2">{raceTime.RaceMins}:
                       {raceTime.RaceSecs != null ? (raceTime.RaceSecs < 10 ? `0${raceTime.RaceSecs}` : raceTime.RaceSecs) : 0}</td>
+                      <td className="border px-4 py-2">
+                        <input
+                          type="checkbox"
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedRaceTimeIDs([...selectedRaceTimeIDs, raceTime.id]);
+                            } else {
+                              setSelectedRaceTimeIDs(selectedRaceTimeIDs.filter(id => id !== raceTime.id));
+                            }
+                          }}
+                        />
+                      </td>
                   </tr>
                 ))}
               </tbody>

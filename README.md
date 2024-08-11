@@ -30,3 +30,17 @@ Repo for severalpens.com
 - https://reactrouter.com/en/main/start/tutorial
 - Update routing files as per severalpens repo.
 - Deploy and verify
+
+
+## Phase 6 - Add client-side applets from old repo
+- TBD
+
+## Phase 6 - Build Race Times app
+- TODO:
+    - Add 'seed data' button
+    - Add delete row button
+    - Add Race Frequency chart
+
+## Phase 7 - Build Time Tracker app
+- TBD
+
