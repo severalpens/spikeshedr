@@ -3,6 +3,7 @@ import Navbar from "./components/Navbar";
 import { Routes, Route } from "react-router-dom";
 import Home from "./components/Home";
 import RaceTimes from "./components/raceTimes/RaceTimes";
+import SeedRaceTimes from './components/raceTimes/SeedRaceTimes';
 
 
 function App() {
@@ -12,6 +13,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />}/>
         <Route path="racetimes" element={<RaceTimes/>} />
+        <Route path="seedracetimes" element={<SeedRaceTimes/>} />
       </Routes>
     </div>
   );
