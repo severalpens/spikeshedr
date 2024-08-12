@@ -28,6 +28,11 @@ function Navbar() {
               Race Times
             </NavLink>
           </div>
+          <div className="p-6">
+            <NavLink className="" to="/timer">
+              Timer
+            </NavLink>
+          </div>
         </div>
         <div className="p-6 columns-2">
         </div>
