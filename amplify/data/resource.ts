@@ -16,7 +16,8 @@ const schema = a.schema({
     }).authorization((allow) => [allow.owner()]),
 
     TimerPeriod: a.model({
-      name: a.string().required(),
+      startTime: a.datetime(),
+      endTime: a.datetime(),
       timerTaskId: a.id(),
       timerTask: a.belongsTo('TimerTask', 'timerTaskId'),
     }).authorization(allow => [allow.owner()]),
