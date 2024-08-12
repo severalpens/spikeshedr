@@ -13,9 +13,28 @@ const schema = a.schema({
       RaceDistance: a.integer(),
       RaceMins: a.integer(),
       RaceSecs: a.integer(),
+    }).authorization((allow) => [allow.owner()]),
 
-    })
-    .authorization((allow) => [allow.owner()]),
+    TimerPeriod: a.model({
+      startTime: a.datetime(),
+      endTime: a.datetime(),
+      timerTaskId: a.id(),
+      timerTask: a.belongsTo('TimerTask', 'timerTaskId'),
+    }).authorization(allow => [allow.owner()]),
+  
+    TimerTask: a.model({
+      name: a.string().required(),
+      timerProjectId: a.id(),
+      timerPeriods: a.hasMany('TimerPeriod', 'timerTaskId'),
+      timerProject: a.belongsTo('TimerProject', 'timerProjectId'),
+
+    }).authorization(allow => [allow.owner()]),
+
+    TimerProject: a.model({
+      name: a.string().required(),
+      timerTasks: a.hasMany('TimerTask', 'timerProjectId'),
+    }).authorization(allow => [allow.owner()]),
+
 });
 
 export type Schema = ClientSchema<typeof schema>;
