@@ -1,6 +1,7 @@
+import type { Schema } from "../../../amplify/data/resource";
 
 
-function chart1Options(raceTimes: any[]) {
+function chart1Options(raceTimes: Array<Schema["RaceTime"]["type"]>) {
     const chartData = raceTimes.map(raceTime => {
       const raceDate = raceTime.RaceDate ? new Date(raceTime.RaceDate.toString()).getTime() : null;
   
