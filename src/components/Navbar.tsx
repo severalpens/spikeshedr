@@ -30,7 +30,7 @@ function Navbar() {
           </div>
           <div className="p-6">
             <NavLink className="" to="/timer">
-              Timer
+              Task Timer
             </NavLink>
           </div>
         </div>
