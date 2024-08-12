@@ -20,9 +20,10 @@ export const getTimerPeriod = /* GraphQL */ `
   query GetTimerPeriod($id: ID!) {
     getTimerPeriod(id: $id) {
       createdAt
+      endTime
       id
-      name
       owner
+      startTime
       timerTask {
         createdAt
         id
@@ -111,9 +112,10 @@ export const listTimerPeriods = /* GraphQL */ `
     listTimerPeriods(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
         createdAt
+        endTime
         id
-        name
         owner
+        startTime
         timerTaskId
         updatedAt
         __typename

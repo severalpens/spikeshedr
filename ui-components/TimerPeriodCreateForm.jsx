@@ -18,16 +18,20 @@ export default function TimerPeriodCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    name: "",
+    startTime: "",
+    endTime: "",
   };
-  const [name, setName] = React.useState(initialValues.name);
+  const [startTime, setStartTime] = React.useState(initialValues.startTime);
+  const [endTime, setEndTime] = React.useState(initialValues.endTime);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.name);
+    setStartTime(initialValues.startTime);
+    setEndTime(initialValues.endTime);
     setErrors({});
   };
   const validations = {
-    name: [{ type: "Required" }],
+    startTime: [],
+    endTime: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -46,6 +50,23 @@ export default function TimerPeriodCreateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
+  const convertToLocal = (date) => {
+    const df = new Intl.DateTimeFormat("default", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      calendar: "iso8601",
+      numberingSystem: "latn",
+      hourCycle: "h23",
+    });
+    const parts = df.formatToParts(date).reduce((acc, part) => {
+      acc[part.type] = part.value;
+      return acc;
+    }, {});
+    return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
+  };
   return (
     <Grid
       as="form"
@@ -55,7 +76,8 @@ export default function TimerPeriodCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name,
+          startTime,
+          endTime,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -110,28 +132,58 @@ export default function TimerPeriodCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Name"
-        isRequired={true}
+        label="Start time"
+        isRequired={false}
         isReadOnly={false}
-        value={name}
+        type="datetime-local"
+        value={startTime && convertToLocal(new Date(startTime))}
         onChange={(e) => {
-          let { value } = e.target;
+          let value =
+            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
           if (onChange) {
             const modelFields = {
-              name: value,
+              startTime: value,
+              endTime,
             };
             const result = onChange(modelFields);
-            value = result?.name ?? value;
+            value = result?.startTime ?? value;
           }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
+          if (errors.startTime?.hasError) {
+            runValidationTasks("startTime", value);
           }
-          setName(value);
+          setStartTime(value);
         }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
+        onBlur={() => runValidationTasks("startTime", startTime)}
+        errorMessage={errors.startTime?.errorMessage}
+        hasError={errors.startTime?.hasError}
+        {...getOverrideProps(overrides, "startTime")}
+      ></TextField>
+      <TextField
+        label="End time"
+        isRequired={false}
+        isReadOnly={false}
+        type="datetime-local"
+        value={endTime && convertToLocal(new Date(endTime))}
+        onChange={(e) => {
+          let value =
+            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
+          if (onChange) {
+            const modelFields = {
+              startTime,
+              endTime: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.endTime ?? value;
+          }
+          if (errors.endTime?.hasError) {
+            runValidationTasks("endTime", value);
+          }
+          setEndTime(value);
+        }}
+        onBlur={() => runValidationTasks("endTime", endTime)}
+        errorMessage={errors.endTime?.errorMessage}
+        hasError={errors.endTime?.hasError}
+        {...getOverrideProps(overrides, "endTime")}
       ></TextField>
       <Flex
         justifyContent="space-between"

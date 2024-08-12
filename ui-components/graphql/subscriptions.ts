@@ -26,9 +26,10 @@ export const onCreateTimerPeriod = /* GraphQL */ `
   ) {
     onCreateTimerPeriod(filter: $filter, owner: $owner) {
       createdAt
+      endTime
       id
-      name
       owner
+      startTime
       timerTask {
         createdAt
         id
@@ -116,9 +117,10 @@ export const onDeleteTimerPeriod = /* GraphQL */ `
   ) {
     onDeleteTimerPeriod(filter: $filter, owner: $owner) {
       createdAt
+      endTime
       id
-      name
       owner
+      startTime
       timerTask {
         createdAt
         id
@@ -206,9 +208,10 @@ export const onUpdateTimerPeriod = /* GraphQL */ `
   ) {
     onUpdateTimerPeriod(filter: $filter, owner: $owner) {
       createdAt
+      endTime
       id
-      name
       owner
+      startTime
       timerTask {
         createdAt
         id
