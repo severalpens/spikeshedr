@@ -22,13 +22,14 @@ function RaceTimes() {
   const [showChart, setShowChart] = useState<boolean>(false);
   const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
   const [selectedRaceTimeIDs, setSelectedRaceTimeIDs] = useState<Array<string>>([]);
-
-
+  const chartOptions = chart1Options(raceTimes);
+    
   useEffect(() => {
     client.models.RaceTime.observeQuery().subscribe({
       next: (data) => setRaceTimes([...data.items]),
     });
   }, []);
+  
 
   const seedRaceTimes = async () => {
     const confirmSeedRaceTimes = window.confirm("Are you sure you want to seed race times?");
@@ -38,10 +39,7 @@ function RaceTimes() {
       });
     }
   }
-
-
-  const chartOptions = chart1Options(raceTimes);
-
+  
 
   function deleteAllRaceTimes() {
     selectedRaceTimeIDs.forEach(async (id) => {
