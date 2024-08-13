@@ -16,15 +16,15 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type TimerTaskCreateFormInputValues = {
-    name?: string;
+    Name?: string;
 };
 export declare type TimerTaskCreateFormValidationValues = {
-    name?: ValidationFunction<string>;
+    Name?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type TimerTaskCreateFormOverridesProps = {
     TimerTaskCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    name?: PrimitiveOverrideProps<TextFieldProps>;
+    Name?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type TimerTaskCreateFormProps = React.PropsWithChildren<{
     overrides?: TimerTaskCreateFormOverridesProps | undefined | null;

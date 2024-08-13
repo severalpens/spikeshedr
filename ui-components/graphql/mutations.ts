@@ -25,21 +25,21 @@ export const createTimerPeriod = /* GraphQL */ `
     $input: CreateTimerPeriodInput!
   ) {
     createTimerPeriod(condition: $condition, input: $input) {
-      createdAt
-      endTime
-      id
-      owner
-      startTime
-      timerTask {
+      EndTime
+      StartTime
+      TimerTask {
+        Name
+        TimerProjectId
         createdAt
         id
-        name
         owner
-        timerProjectId
         updatedAt
         __typename
       }
-      timerTaskId
+      TimerTaskId
+      createdAt
+      id
+      owner
       updatedAt
       __typename
     }
@@ -51,14 +51,14 @@ export const createTimerProject = /* GraphQL */ `
     $input: CreateTimerProjectInput!
   ) {
     createTimerProject(condition: $condition, input: $input) {
-      createdAt
-      id
-      name
-      owner
-      timerTasks {
+      Name
+      TimerTasks {
         nextToken
         __typename
       }
+      createdAt
+      id
+      owner
       updatedAt
       __typename
     }
@@ -70,23 +70,23 @@ export const createTimerTask = /* GraphQL */ `
     $input: CreateTimerTaskInput!
   ) {
     createTimerTask(condition: $condition, input: $input) {
-      createdAt
-      id
-      name
-      owner
-      timerPeriods {
+      Name
+      TimerPeriods {
         nextToken
         __typename
       }
-      timerProject {
+      TimerProject {
+        Name
         createdAt
         id
-        name
         owner
         updatedAt
         __typename
       }
-      timerProjectId
+      TimerProjectId
+      createdAt
+      id
+      owner
       updatedAt
       __typename
     }
@@ -116,21 +116,21 @@ export const deleteTimerPeriod = /* GraphQL */ `
     $input: DeleteTimerPeriodInput!
   ) {
     deleteTimerPeriod(condition: $condition, input: $input) {
-      createdAt
-      endTime
-      id
-      owner
-      startTime
-      timerTask {
+      EndTime
+      StartTime
+      TimerTask {
+        Name
+        TimerProjectId
         createdAt
         id
-        name
         owner
-        timerProjectId
         updatedAt
         __typename
       }
-      timerTaskId
+      TimerTaskId
+      createdAt
+      id
+      owner
       updatedAt
       __typename
     }
@@ -142,14 +142,14 @@ export const deleteTimerProject = /* GraphQL */ `
     $input: DeleteTimerProjectInput!
   ) {
     deleteTimerProject(condition: $condition, input: $input) {
-      createdAt
-      id
-      name
-      owner
-      timerTasks {
+      Name
+      TimerTasks {
         nextToken
         __typename
       }
+      createdAt
+      id
+      owner
       updatedAt
       __typename
     }
@@ -161,23 +161,23 @@ export const deleteTimerTask = /* GraphQL */ `
     $input: DeleteTimerTaskInput!
   ) {
     deleteTimerTask(condition: $condition, input: $input) {
-      createdAt
-      id
-      name
-      owner
-      timerPeriods {
+      Name
+      TimerPeriods {
         nextToken
         __typename
       }
-      timerProject {
+      TimerProject {
+        Name
         createdAt
         id
-        name
         owner
         updatedAt
         __typename
       }
-      timerProjectId
+      TimerProjectId
+      createdAt
+      id
+      owner
       updatedAt
       __typename
     }
@@ -207,21 +207,21 @@ export const updateTimerPeriod = /* GraphQL */ `
     $input: UpdateTimerPeriodInput!
   ) {
     updateTimerPeriod(condition: $condition, input: $input) {
-      createdAt
-      endTime
-      id
-      owner
-      startTime
-      timerTask {
+      EndTime
+      StartTime
+      TimerTask {
+        Name
+        TimerProjectId
         createdAt
         id
-        name
         owner
-        timerProjectId
         updatedAt
         __typename
       }
-      timerTaskId
+      TimerTaskId
+      createdAt
+      id
+      owner
       updatedAt
       __typename
     }
@@ -233,14 +233,14 @@ export const updateTimerProject = /* GraphQL */ `
     $input: UpdateTimerProjectInput!
   ) {
     updateTimerProject(condition: $condition, input: $input) {
-      createdAt
-      id
-      name
-      owner
-      timerTasks {
+      Name
+      TimerTasks {
         nextToken
         __typename
       }
+      createdAt
+      id
+      owner
       updatedAt
       __typename
     }
@@ -252,23 +252,23 @@ export const updateTimerTask = /* GraphQL */ `
     $input: UpdateTimerTaskInput!
   ) {
     updateTimerTask(condition: $condition, input: $input) {
-      createdAt
-      id
-      name
-      owner
-      timerPeriods {
+      Name
+      TimerPeriods {
         nextToken
         __typename
       }
-      timerProject {
+      TimerProject {
+        Name
         createdAt
         id
-        name
         owner
         updatedAt
         __typename
       }
-      timerProjectId
+      TimerProjectId
+      createdAt
+      id
+      owner
       updatedAt
       __typename
     }

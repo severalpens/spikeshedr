@@ -19,21 +19,21 @@ export const getRaceTime = /* GraphQL */ `
 export const getTimerPeriod = /* GraphQL */ `
   query GetTimerPeriod($id: ID!) {
     getTimerPeriod(id: $id) {
-      createdAt
-      endTime
-      id
-      owner
-      startTime
-      timerTask {
+      EndTime
+      StartTime
+      TimerTask {
+        Name
+        TimerProjectId
         createdAt
         id
-        name
         owner
-        timerProjectId
         updatedAt
         __typename
       }
-      timerTaskId
+      TimerTaskId
+      createdAt
+      id
+      owner
       updatedAt
       __typename
     }
@@ -42,14 +42,14 @@ export const getTimerPeriod = /* GraphQL */ `
 export const getTimerProject = /* GraphQL */ `
   query GetTimerProject($id: ID!) {
     getTimerProject(id: $id) {
-      createdAt
-      id
-      name
-      owner
-      timerTasks {
+      Name
+      TimerTasks {
         nextToken
         __typename
       }
+      createdAt
+      id
+      owner
       updatedAt
       __typename
     }
@@ -58,23 +58,23 @@ export const getTimerProject = /* GraphQL */ `
 export const getTimerTask = /* GraphQL */ `
   query GetTimerTask($id: ID!) {
     getTimerTask(id: $id) {
-      createdAt
-      id
-      name
-      owner
-      timerPeriods {
+      Name
+      TimerPeriods {
         nextToken
         __typename
       }
-      timerProject {
+      TimerProject {
+        Name
         createdAt
         id
-        name
         owner
         updatedAt
         __typename
       }
-      timerProjectId
+      TimerProjectId
+      createdAt
+      id
+      owner
       updatedAt
       __typename
     }
@@ -111,12 +111,12 @@ export const listTimerPeriods = /* GraphQL */ `
   ) {
     listTimerPeriods(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        EndTime
+        StartTime
+        TimerTaskId
         createdAt
-        endTime
         id
         owner
-        startTime
-        timerTaskId
         updatedAt
         __typename
       }
@@ -133,9 +133,9 @@ export const listTimerProjects = /* GraphQL */ `
   ) {
     listTimerProjects(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        Name
         createdAt
         id
-        name
         owner
         updatedAt
         __typename
@@ -153,11 +153,11 @@ export const listTimerTasks = /* GraphQL */ `
   ) {
     listTimerTasks(filter: $filter, limit: $limit, nextToken: $nextToken) {
       items {
+        Name
+        TimerProjectId
         createdAt
         id
-        name
         owner
-        timerProjectId
         updatedAt
         __typename
       }
