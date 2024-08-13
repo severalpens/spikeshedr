@@ -11,9 +11,6 @@ const client = generateClient<Schema>();
 function TimerProjects() {
   const [timerProjects, setTimerProjects] = useState<Array<Schema["TimerProject"]["type"]>>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
-  const [showTable] = useState<boolean>(true);
-  const [selectedProjectIDs, setSelectedProjectIDs] = useState<Array<string>>([]);
-
  
   useEffect(() => {
     client.models.TimerProject.observeQuery().subscribe({
@@ -21,88 +18,53 @@ function TimerProjects() {
     });
   }, []);
 
-    
-  function deleteProjects() {
-    selectedProjectIDs.forEach(async (id) => {
-      await client.models.TimerProject.delete({id});
-    });
-    setSelectedProjectIDs([]);
-    }
-
 
   return (
     <Authenticator>
       {({ signOut, user }) => (
         <main>
           <h1 className="text-xl mb-4">{user?.signInDetails?.loginId}'s Projects</h1>
-          <em >
-            <Link className="px-2 border rounded"to="/seedProjectTimes">
-              Seed Projects
-            </Link>
-          </em>
-          <div id="newProjectForm" className="mb-8">
+          <div id="breadcrumb" className="mb-8">
+            <Link to="/timer">Timer</Link> &gt; Projects
+          </div>
+          <div id="newTimeForm" className="mb-12">
             <button
               onClick={() => setShowForm(!showForm)}
               className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  w-48"
             >
-              {showForm ? 'Hide Form' : 'Add New Project'}
+              {showForm ? 'Hide New Item Form' : 'Add New'}
             </button>
             {showForm && <TimerProjectCreateForm />}
           </div>
-          <div id="projectsTable">
-            <table className="table-auto" hidden={!showTable}>
-              <thead>
-                <tr>
-                  <th className="border px-4 py-2">Project Name</th>
-                  <th className="border px-4 py-2">
-                    <input
-                      className="mr-2"
-                      type="checkbox"
-                      onChange={(e) => {
-                        if (e.target.checked) {
-                          setSelectedProjectIDs(timerProjects.map(project => project.id));
-                        }
-                        else {
-                          setSelectedProjectIDs([]);
-                        }
-                      }
-                      }
-                    />  
-
-                    <button id="deleteSelectedProjectTimes"
-                      onClick={() => deleteProjects()}
-                      className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white font-bold py-2 px-4 rounded  w-48"
-                      disabled={selectedProjectIDs.length === 0}
-                    >
-                      Delete Selected
-                    </button>
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {timerProjects.map((project) => (
-                  <tr key={project.id}>
-                    <td className="border px-4 py-2">{project.name}</td>
-                      <td className="border px-4 py-2">
-                        <input
-                          type="checkbox"
-                          onChange={(e) => {
-                            if (e.target.checked) {
-                              setSelectedProjectIDs([...selectedProjectIDs, project.id]);
-                            } else {
-                              setSelectedProjectIDs(selectedProjectIDs.filter(id => id !== project.id));
-                            }
-                          }}
-                        />
-                      </td>
+          <div id="timerProjectsTable" >
+            <div className="flex justify-end mb-4">
+            </div>
+            <div className="overflow-x-auto">
+              <table className="table-auto w-full" >
+                <thead>
+                  <tr>
+                    <th className="border px-4 py-2">Project Name</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
+                </thead>
+                <tbody>
+                  {timerProjects
+                    .map((timerProject) => (
+                      <tr key={timerProject.id}>
+                        <td className="border px-4 py-2">
+                          <Link to={`/timer/projects/${timerProject.id}`}>{timerProject.Name}</Link>
+                          </td>
+                      </tr>
+                    ))}
+                </tbody>
+              </table>
+            </div>
           </div>
-          <button onClick={signOut} className="my-8 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  w-48">
+          <div className="flex justify-end">
+          <button onClick={signOut} className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  w-48">
             Sign out
           </button>
+            
+          </div>
         </main>
       )}
     </Authenticator>

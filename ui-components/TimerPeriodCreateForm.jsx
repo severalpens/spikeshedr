@@ -18,20 +18,20 @@ export default function TimerPeriodCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    startTime: "",
-    endTime: "",
+    StartTime: "",
+    EndTime: "",
   };
-  const [startTime, setStartTime] = React.useState(initialValues.startTime);
-  const [endTime, setEndTime] = React.useState(initialValues.endTime);
+  const [StartTime, setStartTime] = React.useState(initialValues.StartTime);
+  const [EndTime, setEndTime] = React.useState(initialValues.EndTime);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setStartTime(initialValues.startTime);
-    setEndTime(initialValues.endTime);
+    setStartTime(initialValues.StartTime);
+    setEndTime(initialValues.EndTime);
     setErrors({});
   };
   const validations = {
-    startTime: [],
-    endTime: [],
+    StartTime: [],
+    EndTime: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -76,8 +76,8 @@ export default function TimerPeriodCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          startTime,
-          endTime,
+          StartTime,
+          EndTime,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -136,54 +136,54 @@ export default function TimerPeriodCreateForm(props) {
         isRequired={false}
         isReadOnly={false}
         type="datetime-local"
-        value={startTime && convertToLocal(new Date(startTime))}
+        value={StartTime && convertToLocal(new Date(StartTime))}
         onChange={(e) => {
           let value =
             e.target.value === "" ? "" : new Date(e.target.value).toISOString();
           if (onChange) {
             const modelFields = {
-              startTime: value,
-              endTime,
+              StartTime: value,
+              EndTime,
             };
             const result = onChange(modelFields);
-            value = result?.startTime ?? value;
+            value = result?.StartTime ?? value;
           }
-          if (errors.startTime?.hasError) {
-            runValidationTasks("startTime", value);
+          if (errors.StartTime?.hasError) {
+            runValidationTasks("StartTime", value);
           }
           setStartTime(value);
         }}
-        onBlur={() => runValidationTasks("startTime", startTime)}
-        errorMessage={errors.startTime?.errorMessage}
-        hasError={errors.startTime?.hasError}
-        {...getOverrideProps(overrides, "startTime")}
+        onBlur={() => runValidationTasks("StartTime", StartTime)}
+        errorMessage={errors.StartTime?.errorMessage}
+        hasError={errors.StartTime?.hasError}
+        {...getOverrideProps(overrides, "StartTime")}
       ></TextField>
       <TextField
         label="End time"
         isRequired={false}
         isReadOnly={false}
         type="datetime-local"
-        value={endTime && convertToLocal(new Date(endTime))}
+        value={EndTime && convertToLocal(new Date(EndTime))}
         onChange={(e) => {
           let value =
             e.target.value === "" ? "" : new Date(e.target.value).toISOString();
           if (onChange) {
             const modelFields = {
-              startTime,
-              endTime: value,
+              StartTime,
+              EndTime: value,
             };
             const result = onChange(modelFields);
-            value = result?.endTime ?? value;
+            value = result?.EndTime ?? value;
           }
-          if (errors.endTime?.hasError) {
-            runValidationTasks("endTime", value);
+          if (errors.EndTime?.hasError) {
+            runValidationTasks("EndTime", value);
           }
           setEndTime(value);
         }}
-        onBlur={() => runValidationTasks("endTime", endTime)}
-        errorMessage={errors.endTime?.errorMessage}
-        hasError={errors.endTime?.hasError}
-        {...getOverrideProps(overrides, "endTime")}
+        onBlur={() => runValidationTasks("EndTime", EndTime)}
+        errorMessage={errors.EndTime?.errorMessage}
+        hasError={errors.EndTime?.hasError}
+        {...getOverrideProps(overrides, "EndTime")}
       ></TextField>
       <Flex
         justifyContent="space-between"

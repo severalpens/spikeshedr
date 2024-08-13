@@ -16,18 +16,18 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type TimerPeriodCreateFormInputValues = {
-    startTime?: string;
-    endTime?: string;
+    StartTime?: string;
+    EndTime?: string;
 };
 export declare type TimerPeriodCreateFormValidationValues = {
-    startTime?: ValidationFunction<string>;
-    endTime?: ValidationFunction<string>;
+    StartTime?: ValidationFunction<string>;
+    EndTime?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type TimerPeriodCreateFormOverridesProps = {
     TimerPeriodCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    startTime?: PrimitiveOverrideProps<TextFieldProps>;
-    endTime?: PrimitiveOverrideProps<TextFieldProps>;
+    StartTime?: PrimitiveOverrideProps<TextFieldProps>;
+    EndTime?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type TimerPeriodCreateFormProps = React.PropsWithChildren<{
     overrides?: TimerPeriodCreateFormOverridesProps | undefined | null;

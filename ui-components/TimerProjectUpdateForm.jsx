@@ -20,15 +20,15 @@ export default function TimerProjectUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    name: "",
+    Name: "",
   };
-  const [name, setName] = React.useState(initialValues.name);
+  const [Name, setName] = React.useState(initialValues.Name);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = timerProjectRecord
       ? { ...initialValues, ...timerProjectRecord }
       : initialValues;
-    setName(cleanValues.name);
+    setName(cleanValues.Name);
     setErrors({});
   };
   const [timerProjectRecord, setTimerProjectRecord] = React.useState(
@@ -50,7 +50,7 @@ export default function TimerProjectUpdateForm(props) {
   }, [idProp, timerProjectModelProp]);
   React.useEffect(resetStateValues, [timerProjectRecord]);
   const validations = {
-    name: [{ type: "Required" }],
+    Name: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -78,7 +78,7 @@ export default function TimerProjectUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          name,
+          Name,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -134,25 +134,25 @@ export default function TimerProjectUpdateForm(props) {
         label="Name"
         isRequired={true}
         isReadOnly={false}
-        value={name}
+        value={Name}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              name: value,
+              Name: value,
             };
             const result = onChange(modelFields);
-            value = result?.name ?? value;
+            value = result?.Name ?? value;
           }
-          if (errors.name?.hasError) {
-            runValidationTasks("name", value);
+          if (errors.Name?.hasError) {
+            runValidationTasks("Name", value);
           }
           setName(value);
         }}
-        onBlur={() => runValidationTasks("name", name)}
-        errorMessage={errors.name?.errorMessage}
-        hasError={errors.name?.hasError}
-        {...getOverrideProps(overrides, "name")}
+        onBlur={() => runValidationTasks("Name", Name)}
+        errorMessage={errors.Name?.errorMessage}
+        hasError={errors.Name?.hasError}
+        {...getOverrideProps(overrides, "Name")}
       ></TextField>
       <Flex
         justifyContent="space-between"

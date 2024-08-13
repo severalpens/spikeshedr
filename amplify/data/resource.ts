@@ -16,23 +16,23 @@ const schema = a.schema({
     }).authorization((allow) => [allow.owner()]),
 
     TimerPeriod: a.model({
-      startTime: a.datetime(),
-      endTime: a.datetime(),
-      timerTaskId: a.id(),
-      timerTask: a.belongsTo('TimerTask', 'timerTaskId'),
+      StartTime: a.datetime(),
+      EndTime: a.datetime(),
+      TimerTaskId: a.id(),
+      TimerTask: a.belongsTo('TimerTask', 'TimerTaskId'),
     }).authorization(allow => [allow.owner()]),
   
     TimerTask: a.model({
-      name: a.string().required(),
-      timerProjectId: a.id(),
-      timerPeriods: a.hasMany('TimerPeriod', 'timerTaskId'),
-      timerProject: a.belongsTo('TimerProject', 'timerProjectId'),
+      Name: a.string().required(),
+      TimerProjectId: a.id(),
+      TimerPeriods: a.hasMany('TimerPeriod', 'TimerTaskId'),
+      TimerProject: a.belongsTo('TimerProject', 'TimerProjectId'),
 
     }).authorization(allow => [allow.owner()]),
 
     TimerProject: a.model({
-      name: a.string().required(),
-      timerTasks: a.hasMany('TimerTask', 'timerProjectId'),
+      Name: a.string().required(),
+      TimerTasks: a.hasMany('TimerTask', 'TimerProjectId'),
     }).authorization(allow => [allow.owner()]),
 
 });
