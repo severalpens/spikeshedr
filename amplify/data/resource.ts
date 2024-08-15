@@ -35,6 +35,16 @@ const schema = a.schema({
       TimerTasks: a.hasMany('TimerTask', 'TimerProjectId'),
     }).authorization(allow => [allow.owner()]),
 
+    TtPeriod: a.model({
+      StartTime: a.datetime(),
+      EndTime: a.datetime(),
+      TimerTaskId: a.id()
+    }).authorization(allow => [allow.owner()]),
+  
+    TtTask: a.model({
+      Name: a.string().required(),
+      ProjectName: a.string()
+    }).authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
