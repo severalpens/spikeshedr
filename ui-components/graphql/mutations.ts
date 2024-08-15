@@ -92,6 +92,54 @@ export const createTimerTask = /* GraphQL */ `
     }
   }
 `;
+export const createTtProject = /* GraphQL */ `
+  mutation CreateTtProject(
+    $condition: ModelTtProjectConditionInput
+    $input: CreateTtProjectInput!
+  ) {
+    createTtProject(condition: $condition, input: $input) {
+      Name
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createTtProjectTask = /* GraphQL */ `
+  mutation CreateTtProjectTask(
+    $condition: ModelTtProjectTaskConditionInput
+    $input: CreateTtProjectTaskInput!
+  ) {
+    createTtProjectTask(condition: $condition, input: $input) {
+      Name
+      ProjectId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createTtTaskTimeBlock = /* GraphQL */ `
+  mutation CreateTtTaskTimeBlock(
+    $condition: ModelTtTaskTimeBlockConditionInput
+    $input: CreateTtTaskTimeBlockInput!
+  ) {
+    createTtTaskTimeBlock(condition: $condition, input: $input) {
+      EndTime
+      StartTime
+      TimerTaskId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const deleteRaceTime = /* GraphQL */ `
   mutation DeleteRaceTime(
     $condition: ModelRaceTimeConditionInput
@@ -183,6 +231,54 @@ export const deleteTimerTask = /* GraphQL */ `
     }
   }
 `;
+export const deleteTtProject = /* GraphQL */ `
+  mutation DeleteTtProject(
+    $condition: ModelTtProjectConditionInput
+    $input: DeleteTtProjectInput!
+  ) {
+    deleteTtProject(condition: $condition, input: $input) {
+      Name
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteTtProjectTask = /* GraphQL */ `
+  mutation DeleteTtProjectTask(
+    $condition: ModelTtProjectTaskConditionInput
+    $input: DeleteTtProjectTaskInput!
+  ) {
+    deleteTtProjectTask(condition: $condition, input: $input) {
+      Name
+      ProjectId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteTtTaskTimeBlock = /* GraphQL */ `
+  mutation DeleteTtTaskTimeBlock(
+    $condition: ModelTtTaskTimeBlockConditionInput
+    $input: DeleteTtTaskTimeBlockInput!
+  ) {
+    deleteTtTaskTimeBlock(condition: $condition, input: $input) {
+      EndTime
+      StartTime
+      TimerTaskId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const updateRaceTime = /* GraphQL */ `
   mutation UpdateRaceTime(
     $condition: ModelRaceTimeConditionInput
@@ -266,6 +362,54 @@ export const updateTimerTask = /* GraphQL */ `
         __typename
       }
       TimerProjectId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateTtProject = /* GraphQL */ `
+  mutation UpdateTtProject(
+    $condition: ModelTtProjectConditionInput
+    $input: UpdateTtProjectInput!
+  ) {
+    updateTtProject(condition: $condition, input: $input) {
+      Name
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateTtProjectTask = /* GraphQL */ `
+  mutation UpdateTtProjectTask(
+    $condition: ModelTtProjectTaskConditionInput
+    $input: UpdateTtProjectTaskInput!
+  ) {
+    updateTtProjectTask(condition: $condition, input: $input) {
+      Name
+      ProjectId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateTtTaskTimeBlock = /* GraphQL */ `
+  mutation UpdateTtTaskTimeBlock(
+    $condition: ModelTtTaskTimeBlockConditionInput
+    $input: UpdateTtTaskTimeBlockInput!
+  ) {
+    updateTtTaskTimeBlock(condition: $condition, input: $input) {
+      EndTime
+      StartTime
+      TimerTaskId
       createdAt
       id
       owner

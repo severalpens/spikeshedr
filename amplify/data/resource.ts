@@ -35,16 +35,25 @@ const schema = a.schema({
       TimerTasks: a.hasMany('TimerTask', 'TimerProjectId'),
     }).authorization(allow => [allow.owner()]),
 
-    TtPeriod: a.model({
+
+
+    TtTaskTimeBlock: a.model({
       StartTime: a.datetime(),
       EndTime: a.datetime(),
       TimerTaskId: a.id()
     }).authorization(allow => [allow.owner()]),
-  
-    TtTask: a.model({
+
+    TtProjectTask: a.model({
       Name: a.string().required(),
-      ProjectName: a.string()
+      ProjectId: a.id()
     }).authorization(allow => [allow.owner()]),
+  
+    TtProject: a.model({
+      Name: a.string().required()
+    }).authorization(allow => [allow.owner()]),
+
+
+
 });
 
 export type Schema = ClientSchema<typeof schema>;

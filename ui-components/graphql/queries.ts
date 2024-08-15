@@ -80,6 +80,45 @@ export const getTimerTask = /* GraphQL */ `
     }
   }
 `;
+export const getTtProject = /* GraphQL */ `
+  query GetTtProject($id: ID!) {
+    getTtProject(id: $id) {
+      Name
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const getTtProjectTask = /* GraphQL */ `
+  query GetTtProjectTask($id: ID!) {
+    getTtProjectTask(id: $id) {
+      Name
+      ProjectId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const getTtTaskTimeBlock = /* GraphQL */ `
+  query GetTtTaskTimeBlock($id: ID!) {
+    getTtTaskTimeBlock(id: $id) {
+      EndTime
+      StartTime
+      TimerTaskId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const listRaceTimes = /* GraphQL */ `
   query ListRaceTimes(
     $filter: ModelRaceTimeFilterInput
@@ -155,6 +194,73 @@ export const listTimerTasks = /* GraphQL */ `
       items {
         Name
         TimerProjectId
+        createdAt
+        id
+        owner
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listTtProjectTasks = /* GraphQL */ `
+  query ListTtProjectTasks(
+    $filter: ModelTtProjectTaskFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTtProjectTasks(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        Name
+        ProjectId
+        createdAt
+        id
+        owner
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listTtProjects = /* GraphQL */ `
+  query ListTtProjects(
+    $filter: ModelTtProjectFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTtProjects(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        Name
+        createdAt
+        id
+        owner
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listTtTaskTimeBlocks = /* GraphQL */ `
+  query ListTtTaskTimeBlocks(
+    $filter: ModelTtTaskTimeBlockFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTtTaskTimeBlocks(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        EndTime
+        StartTime
+        TimerTaskId
         createdAt
         id
         owner

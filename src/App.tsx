@@ -7,6 +7,8 @@ import Timer from './components/timer/Timer';
 import TimerProjects from './components/timer/TimerProjects';
 import TimerTasks from './components/timer/TimerTasks';
 import TimerPeriods from './components/timer/TimerPeriods';
+import TtProjects from './components/ttProjects/TtProjects';
+import TtProjectTasks from './components/ttProjects/TtProjectTasks';
 
 
 function App() {
@@ -20,6 +22,8 @@ function App() {
         <Route path="timerprojects" element={<TimerProjects/>} />
         <Route path="timertasks" element={<TimerTasks/>} />
         <Route path="timerperiods" element={<TimerPeriods/>} />
+        <Route path="ttprojects" element={<TtProjects/>} />
+        <Route path="ttprojecttasks/:projectId" element={<TtProjectTasks/>} />
       </Routes>
     </div>
   );

@@ -92,6 +92,54 @@ export const onCreateTimerTask = /* GraphQL */ `
     }
   }
 `;
+export const onCreateTtProject = /* GraphQL */ `
+  subscription OnCreateTtProject(
+    $filter: ModelSubscriptionTtProjectFilterInput
+    $owner: String
+  ) {
+    onCreateTtProject(filter: $filter, owner: $owner) {
+      Name
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateTtProjectTask = /* GraphQL */ `
+  subscription OnCreateTtProjectTask(
+    $filter: ModelSubscriptionTtProjectTaskFilterInput
+    $owner: String
+  ) {
+    onCreateTtProjectTask(filter: $filter, owner: $owner) {
+      Name
+      ProjectId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateTtTaskTimeBlock = /* GraphQL */ `
+  subscription OnCreateTtTaskTimeBlock(
+    $filter: ModelSubscriptionTtTaskTimeBlockFilterInput
+    $owner: String
+  ) {
+    onCreateTtTaskTimeBlock(filter: $filter, owner: $owner) {
+      EndTime
+      StartTime
+      TimerTaskId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onDeleteRaceTime = /* GraphQL */ `
   subscription OnDeleteRaceTime(
     $filter: ModelSubscriptionRaceTimeFilterInput
@@ -183,6 +231,54 @@ export const onDeleteTimerTask = /* GraphQL */ `
     }
   }
 `;
+export const onDeleteTtProject = /* GraphQL */ `
+  subscription OnDeleteTtProject(
+    $filter: ModelSubscriptionTtProjectFilterInput
+    $owner: String
+  ) {
+    onDeleteTtProject(filter: $filter, owner: $owner) {
+      Name
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteTtProjectTask = /* GraphQL */ `
+  subscription OnDeleteTtProjectTask(
+    $filter: ModelSubscriptionTtProjectTaskFilterInput
+    $owner: String
+  ) {
+    onDeleteTtProjectTask(filter: $filter, owner: $owner) {
+      Name
+      ProjectId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteTtTaskTimeBlock = /* GraphQL */ `
+  subscription OnDeleteTtTaskTimeBlock(
+    $filter: ModelSubscriptionTtTaskTimeBlockFilterInput
+    $owner: String
+  ) {
+    onDeleteTtTaskTimeBlock(filter: $filter, owner: $owner) {
+      EndTime
+      StartTime
+      TimerTaskId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onUpdateRaceTime = /* GraphQL */ `
   subscription OnUpdateRaceTime(
     $filter: ModelSubscriptionRaceTimeFilterInput
@@ -266,6 +362,54 @@ export const onUpdateTimerTask = /* GraphQL */ `
         __typename
       }
       TimerProjectId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateTtProject = /* GraphQL */ `
+  subscription OnUpdateTtProject(
+    $filter: ModelSubscriptionTtProjectFilterInput
+    $owner: String
+  ) {
+    onUpdateTtProject(filter: $filter, owner: $owner) {
+      Name
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateTtProjectTask = /* GraphQL */ `
+  subscription OnUpdateTtProjectTask(
+    $filter: ModelSubscriptionTtProjectTaskFilterInput
+    $owner: String
+  ) {
+    onUpdateTtProjectTask(filter: $filter, owner: $owner) {
+      Name
+      ProjectId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateTtTaskTimeBlock = /* GraphQL */ `
+  subscription OnUpdateTtTaskTimeBlock(
+    $filter: ModelSubscriptionTtTaskTimeBlockFilterInput
+    $owner: String
+  ) {
+    onUpdateTtTaskTimeBlock(filter: $filter, owner: $owner) {
+      EndTime
+      StartTime
+      TimerTaskId
       createdAt
       id
       owner
