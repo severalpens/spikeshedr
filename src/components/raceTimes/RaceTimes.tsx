@@ -21,13 +21,25 @@ function RaceTimes() {
   const [showTable, setShowTable] = useState<boolean>(true);
   const [showChart, setShowChart] = useState<boolean>(false);
   const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
+  const [isSyncedData, setIsSyncedData] = useState<boolean>(false);
   const [selectedRaceTimeIDs, setSelectedRaceTimeIDs] = useState<Array<string>>([]);
   const chartOptions = chart1Options(raceTimes);
     
+  // useEffect( () => {
+  //    client.models.RaceTime.observeQuery().subscribe({
+  //     next: (data) => setRaceTimes([...data.items]),
+  //   });
+  // }, [raceTimes]);
+
+  
   useEffect(() => {
-    client.models.RaceTime.observeQuery().subscribe({
-      next: (data) => setRaceTimes([...data.items]),
+    const sub = client.models.RaceTime.observeQuery().subscribe({
+      next: ({ items, isSynced }) => {
+        setRaceTimes([...items]);
+        setIsSyncedData(isSynced);
+      },
     });
+    return () => sub.unsubscribe();
   }, []);
   
 
@@ -78,83 +90,84 @@ function RaceTimes() {
             >
               {showTable ? 'Hide Table' : 'Show Table'}
             </button>
-          <div id="raceTimesTable" hidden={!showTable}>
-            <div className="flex justify-end mb-4">
-              <button id="seedRaceTimes" onClick={seedRaceTimes} className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white  px-4 rounded text-sm mr-4">
-                Seed Race Times
-              </button>
-
-              <button
-                onClick={() => deleteAllRaceTimes()}
-                className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white  px-4 rounded text-sm"
-                disabled={selectedRaceTimeIDs.length === 0}
-              >
-                Delete Selected
-              </button>
+          {isSyncedData && (
+            <div hidden={!showTable}>
+              <div className="flex justify-end mb-4">
+                <button id="seedRaceTimes" onClick={seedRaceTimes} className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white  px-4 rounded text-sm mr-4">
+                  Seed Race Times
+                </button>
+                <button id="deleteSelectedButton"
+                  onClick={() => deleteAllRaceTimes()}
+                  className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white  px-4 rounded text-sm"
+                  disabled={selectedRaceTimeIDs.length === 0}
+                >
+                  Delete Selected
+                </button>
+              </div>
+              <div className="overflow-x-auto">
+                <table  id="raceTimesTable" className="table-auto w-full" >
+                  <thead>
+                    <tr>
+                      <th className="border px-4 py-2">Race Distance</th>
+                      <th className="border px-4 py-2">Race Date</th>
+                      <th className="border px-4 py-2">Race Time</th>
+                      <th className="border px-4 py-2">
+                        <input
+                          className="mr-2"
+                          type="checkbox"
+                          checked={isAllSelected}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedRaceTimeIDs(raceTimes.map(raceTime => raceTime.id));
+                              setIsAllSelected(true);
+                            } else {
+                              setSelectedRaceTimeIDs([]);
+                              setIsAllSelected(false);
+                            }
+                          }}
+                        />
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {raceTimes
+                      .sort((a, b) => {
+                        const dateA = a.RaceDate ? new Date(a.RaceDate.toString()) : null;
+                        const dateB = b.RaceDate ? new Date(b.RaceDate.toString()) : null;
+                        return dateA && dateB ? dateA.getTime() - dateB.getTime() : 0;
+                      })
+                      .map((raceTime) => (
+                        <tr key={raceTime.id}>
+                          <td className="border px-4 py-2">{raceTime.RaceDistance}</td>
+                          <td className="border px-4 py-2">{raceTime.RaceDate}</td>
+                          <td className="border px-4 py-2">
+                            {raceTime.RaceMins}:
+                            {raceTime.RaceSecs != null
+                              ? raceTime.RaceSecs < 10
+                                ? `0${raceTime.RaceSecs}`
+                                : raceTime.RaceSecs
+                              : 0}
+                          </td>
+                          <td className="border px-4 py-2">
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setSelectedRaceTimeIDs([...selectedRaceTimeIDs, raceTime.id]);
+                                } else {
+                                  setSelectedRaceTimeIDs(selectedRaceTimeIDs.filter(id => id !== raceTime.id));
+                                }
+                              }}
+                              checked={selectedRaceTimeIDs.includes(raceTime.id)}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <div className="overflow-x-auto">
-              <table className="table-auto w-full" >
-                <thead>
-                  <tr>
-                    <th className="border px-4 py-2">Race Distance</th>
-                    <th className="border px-4 py-2">Race Date</th>
-                    <th className="border px-4 py-2">Race Time</th>
-                    <th className="border px-4 py-2">
-                      <input
-                        className="mr-2"
-                        type="checkbox"
-                        checked={isAllSelected}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedRaceTimeIDs(raceTimes.map(raceTime => raceTime.id));
-                            setIsAllSelected(true);
-                          } else {
-                            setSelectedRaceTimeIDs([]);
-                            setIsAllSelected(false);
-                          }
-                        }}
-                      />
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {raceTimes
-                    .sort((a, b) => {
-                      const dateA = a.RaceDate ? new Date(a.RaceDate.toString()) : null;
-                      const dateB = b.RaceDate ? new Date(b.RaceDate.toString()) : null;
-                      return dateA && dateB ? dateA.getTime() - dateB.getTime() : 0;
-                    })
-                    .map((raceTime) => (
-                      <tr key={raceTime.id}>
-                        <td className="border px-4 py-2">{raceTime.RaceDistance}</td>
-                        <td className="border px-4 py-2">{raceTime.RaceDate}</td>
-                        <td className="border px-4 py-2">
-                          {raceTime.RaceMins}:
-                          {raceTime.RaceSecs != null
-                            ? raceTime.RaceSecs < 10
-                              ? `0${raceTime.RaceSecs}`
-                              : raceTime.RaceSecs
-                            : 0}
-                        </td>
-                        <td className="border px-4 py-2">
-                          <input
-                            type="checkbox"
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setSelectedRaceTimeIDs([...selectedRaceTimeIDs, raceTime.id]);
-                              } else {
-                                setSelectedRaceTimeIDs(selectedRaceTimeIDs.filter(id => id !== raceTime.id));
-                              }
-                            }}
-                            checked={selectedRaceTimeIDs.includes(raceTime.id)}
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
+          )}
           <div className="mt-4" id="chart">
             <button
               onClick={toggleChart}
