@@ -1,47 +1,34 @@
 import { useEffect, useRef, useState } from "react";
 import type { Schema } from "../../../amplify/data/resource";
-// import regression from 'highcharts-regression';
 import { generateClient } from "aws-amplify/data";
-import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import RaceTimeCreateForm from '../../../ui-components/RaceTimeCreateForm';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import raceTimesSeedData from './raceTimesSeedData.json';
 import chart1Options from "./chart1Options";
-
+import { AuthUser } from "aws-amplify/auth";
 
 const client = generateClient<Schema>();
 
-
-function RaceTimes() {
+function RaceTimes({ user }: { user: AuthUser }) {
   const [raceTimes, setRaceTimes] = useState<Array<Schema["RaceTime"]["type"]>>([]);
   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [showTable, setShowTable] = useState<boolean>(true);
   const [showChart, setShowChart] = useState<boolean>(false);
   const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
-  const [isSyncedData, setIsSyncedData] = useState<boolean>(false);
   const [selectedRaceTimeIDs, setSelectedRaceTimeIDs] = useState<Array<string>>([]);
   const chartOptions = chart1Options(raceTimes);
-    
-  // useEffect( () => {
-  //    client.models.RaceTime.observeQuery().subscribe({
-  //     next: (data) => setRaceTimes([...data.items]),
-  //   });
-  // }, [raceTimes]);
-
   
   useEffect(() => {
     const sub = client.models.RaceTime.observeQuery().subscribe({
-      next: ({ items, isSynced }) => {
+      next: ({ items }) => {
         setRaceTimes([...items]);
-        setIsSyncedData(isSynced);
       },
     });
     return () => sub.unsubscribe();
   }, []);
-  
 
   const seedRaceTimes = async () => {
     const confirmSeedRaceTimes = window.confirm("Are you sure you want to seed race times?");
@@ -51,7 +38,6 @@ function RaceTimes() {
       });
     }
   }
-  
 
   function deleteAllRaceTimes() {
     selectedRaceTimeIDs.forEach(async (id) => {
@@ -71,9 +57,9 @@ function RaceTimes() {
   };
 
   return (
-    <Authenticator>
-      {({ signOut, user }) => (
         <main>
+          {user && (
+          <section>
           <h1 className="text-xl mb-4">{user?.signInDetails?.loginId}'s Race Times</h1>
           <div id="newTimeForm" className="mb-12">
             <button
@@ -90,7 +76,6 @@ function RaceTimes() {
             >
               {showTable ? 'Hide Table' : 'Show Table'}
             </button>
-          {isSyncedData && (
             <div hidden={!showTable}>
               <div className="flex justify-end mb-4">
                 <button id="seedRaceTimes" onClick={seedRaceTimes} className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white  px-4 rounded text-sm mr-4">
@@ -167,7 +152,6 @@ function RaceTimes() {
                 </table>
               </div>
             </div>
-          )}
           <div className="mt-4" id="chart">
             <button
               onClick={toggleChart}
@@ -183,16 +167,11 @@ function RaceTimes() {
               />
             )}
           </div>
-          <div className="flex justify-end">
-          <button onClick={signOut} className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  w-48">
-            Sign out
-          </button>
-            
-          </div>
-        </main>
+        </section>
       )}
-    </Authenticator>
-  );
+        </main>
+
+      );
 }
 
 export default RaceTimes;

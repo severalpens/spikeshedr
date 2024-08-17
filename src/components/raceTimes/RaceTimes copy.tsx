@@ -1,0 +1,248 @@
+// import { useEffect, useRef, useState } from "react";
+// import type { Schema } from "../../../amplify/data/resource";
+// import { generateClient } from "aws-amplify/data";
+// import { Authenticator } from '@aws-amplify/ui-react'; // Import Auth module
+// import '@aws-amplify/ui-react/styles.css';
+// import RaceTimeCreateForm from '../../../ui-components/RaceTimeCreateForm';
+// import { getCurrentUser, fetchAuthSession } from 'aws-amplify/auth';
+// import Highcharts from 'highcharts';
+// import HighchartsReact from 'highcharts-react-official';
+// import raceTimesSeedData from './raceTimesSeedData.json';
+// import chart1Options from "./chart1Options";
+
+// const client = generateClient<Schema>();
+
+// function RaceTimes({ user }: { user: any }) {
+//   const [raceTimes, setRaceTimes] = useState<Array<Schema["RaceTime"]["type"]>>([]);
+//   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
+//   const [showForm, setShowForm] = useState<boolean>(false);
+//   const [showTable, setShowTable] = useState<boolean>(true);
+//   const [showChart, setShowChart] = useState<boolean>(false);
+//   const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
+//   const [isSyncedData, setIsSyncedData] = useState<boolean>(false);
+//   const [selectedRaceTimeIDs, setSelectedRaceTimeIDs] = useState<Array<string>>([]);
+//   const chartOptions = chart1Options(raceTimes);
+  
+//   // useEffect(() => {
+//   //   const sub = client.models.RaceTime.observeQuery().subscribe({
+//   //     next: ({ items, isSynced }) => {
+//   //       setRaceTimes([...items]);
+//   //       setIsSyncedData(isSynced);
+//   //     },
+//   //   });
+//   //   return () => sub.unsubscribe();
+//   // }, []);
+
+
+//   useEffect(() => {
+//     const fetchData = async () => {
+//       const session = await fetchAuthSession();
+//       if (session) {
+//         const sub = client.models.RaceTime.observeQuery().subscribe({
+//           next: ({ items, isSynced }) => {
+//             setRaceTimes([...items]);
+//             setIsSyncedData(isSynced);
+//           },
+//         });
+//         return() => sub.unsubscribe();
+//       }
+//     };
+  
+//     fetchData();
+//   }, []);
+  
+
+  
+//   // useEffect(() => {
+//   //   const getLoggedInUser = async () => {
+//   //     try {
+//   //       const { username } = await getCurrentUser();
+//   //       console.log("username", username);
+//   //       setUsr(username);
+//   //     } catch (error) {
+//   //       setLoginAttempts(loginAttempts + 1);
+//   //       console.log("loginAttempts", loginAttempts);
+//   //           }
+//   //   }
+
+//   //   const fetchData = async () => {
+//   //     const sub = client.models.RaceTime.observeQuery().subscribe({
+//   //       next: ({ items, isSynced }) => {
+//   //         setRaceTimes([...items]);
+//   //         setIsSyncedData(isSynced);
+//   //       },
+//   //     });
+//   //     return() => sub.unsubscribe();
+//   //   };
+    
+//   //   try {
+//   //    getLoggedInUser();
+//   //    fetchData();
+//   //  } catch (error) {
+//   //   setLoginAttempts(loginAttempts + 1);
+//   //   console.log("loginAttempts", loginAttempts);
+  
+//   //  }
+//   // }, [usr, loginAttempts]);
+
+  
+
+//   const seedRaceTimes = async () => {
+//     const confirmSeedRaceTimes = window.confirm("Are you sure you want to seed race times?");
+//     if (confirmSeedRaceTimes) {
+//       raceTimesSeedData.forEach(async (raceTime: { RaceDistance: number; RaceDate: string; RaceMins: number; RaceSecs: number; }) => {
+//         await client.models.RaceTime.create(raceTime);
+//       });
+//     }
+//   }
+  
+
+//   function deleteAllRaceTimes() {
+//     selectedRaceTimeIDs.forEach(async (id) => {
+//       await client.models.RaceTime.delete({ id });
+//     });
+//     setSelectedRaceTimeIDs([]);
+//     setIsAllSelected(false);
+//   }
+
+
+//   const toggleShowTable = () => {
+//     setShowTable(!showTable);
+//   };
+
+//   const toggleChart = () => {
+//     setShowChart(!showChart);
+//   };
+
+//   return (
+//     <Authenticator>
+//       {({ signOut, user }) => (
+//         <main>
+//           {user && (
+//           <section>
+//           <h1 className="text-xl mb-4">{user?.signInDetails?.loginId}'s Race Times</h1>
+//           <div id="newTimeForm" className="mb-12">
+//             <button
+//               onClick={() => setShowForm(!showForm)}
+//               className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  w-48"
+//             >
+//               {showForm ? 'Hide New Time Form' : 'Add New Time'}
+//             </button>
+//             {showForm && <RaceTimeCreateForm />}
+//           </div>
+//             <button
+//               onClick={toggleShowTable}
+//               className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  w-48"
+//             >
+//               {showTable ? 'Hide Table' : 'Show Table'}
+//             </button>
+//           {isSyncedData && (
+//             <div hidden={!showTable}>
+//               <div className="flex justify-end mb-4">
+//                 <button id="seedRaceTimes" onClick={seedRaceTimes} className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white  px-4 rounded text-sm mr-4">
+//                   Seed Race Times
+//                 </button>
+//                 <button id="deleteSelectedButton"
+//                   onClick={() => deleteAllRaceTimes()}
+//                   className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white  px-4 rounded text-sm"
+//                   disabled={selectedRaceTimeIDs.length === 0}
+//                 >
+//                   Delete Selected
+//                 </button>
+//               </div>
+//               <div className="overflow-x-auto">
+//                 <table  id="raceTimesTable" className="table-auto w-full" >
+//                   <thead>
+//                     <tr>
+//                       <th className="border px-4 py-2">Race Distance</th>
+//                       <th className="border px-4 py-2">Race Date</th>
+//                       <th className="border px-4 py-2">Race Time</th>
+//                       <th className="border px-4 py-2">
+//                         <input
+//                           className="mr-2"
+//                           type="checkbox"
+//                           checked={isAllSelected}
+//                           onChange={(e) => {
+//                             if (e.target.checked) {
+//                               setSelectedRaceTimeIDs(raceTimes.map(raceTime => raceTime.id));
+//                               setIsAllSelected(true);
+//                             } else {
+//                               setSelectedRaceTimeIDs([]);
+//                               setIsAllSelected(false);
+//                             }
+//                           }}
+//                         />
+//                       </th>
+//                     </tr>
+//                   </thead>
+//                   <tbody>
+//                     {raceTimes
+//                       .sort((a, b) => {
+//                         const dateA = a.RaceDate ? new Date(a.RaceDate.toString()) : null;
+//                         const dateB = b.RaceDate ? new Date(b.RaceDate.toString()) : null;
+//                         return dateA && dateB ? dateA.getTime() - dateB.getTime() : 0;
+//                       })
+//                       .map((raceTime) => (
+//                         <tr key={raceTime.id}>
+//                           <td className="border px-4 py-2">{raceTime.RaceDistance}</td>
+//                           <td className="border px-4 py-2">{raceTime.RaceDate}</td>
+//                           <td className="border px-4 py-2">
+//                             {raceTime.RaceMins}:
+//                             {raceTime.RaceSecs != null
+//                               ? raceTime.RaceSecs < 10
+//                                 ? `0${raceTime.RaceSecs}`
+//                                 : raceTime.RaceSecs
+//                               : 0}
+//                           </td>
+//                           <td className="border px-4 py-2">
+//                             <input
+//                               type="checkbox"
+//                               onChange={(e) => {
+//                                 if (e.target.checked) {
+//                                   setSelectedRaceTimeIDs([...selectedRaceTimeIDs, raceTime.id]);
+//                                 } else {
+//                                   setSelectedRaceTimeIDs(selectedRaceTimeIDs.filter(id => id !== raceTime.id));
+//                                 }
+//                               }}
+//                               checked={selectedRaceTimeIDs.includes(raceTime.id)}
+//                             />
+//                           </td>
+//                         </tr>
+//                       ))}
+//                   </tbody>
+//                 </table>
+//               </div>
+//             </div>
+//           )}
+//           <div className="mt-4" id="chart">
+//             <button
+//               onClick={toggleChart}
+//               className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  w-48"
+//             >
+//               {showChart ? 'Hide Chart' : 'Show Chart'}
+//             </button>
+//             {showChart && (
+//               <HighchartsReact
+//                 highcharts={Highcharts}
+//                 options={chartOptions}
+//                 ref={chartComponentRef}
+//               />
+//             )}
+//           </div>
+//           <div className="flex justify-end">
+//           <button onClick={signOut} className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  w-48">
+//             Sign out
+//           </button>
+            
+//           </div>
+//         </section>
+//       )}
+//         </main>
+
+//       )}
+//     </Authenticator>
+//   );
+// }
+
+// export default RaceTimes;
+

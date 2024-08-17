@@ -34,6 +34,11 @@ function Navbar() {
             </NavLink>
           </div>
           <div className="p-6">
+            <NavLink className="" to="/tttasktimeblock">
+              Time Blocks
+            </NavLink>
+          </div>
+          <div className="p-6">
             <NavLink className="" to="/timer">
               Task Timer
             </NavLink>
