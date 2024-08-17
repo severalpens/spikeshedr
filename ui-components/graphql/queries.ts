@@ -105,6 +105,19 @@ export const getTtProjectTask = /* GraphQL */ `
     }
   }
 `;
+export const getTtTask = /* GraphQL */ `
+  query GetTtTask($id: ID!) {
+    getTtTask(id: $id) {
+      ProjectName
+      TaskName
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const getTtTaskTimeBlock = /* GraphQL */ `
   query GetTtTaskTimeBlock($id: ID!) {
     getTtTaskTimeBlock(id: $id) {
@@ -261,6 +274,27 @@ export const listTtTaskTimeBlocks = /* GraphQL */ `
         EndTime
         StartTime
         TimerTaskId
+        createdAt
+        id
+        owner
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listTtTasks = /* GraphQL */ `
+  query ListTtTasks(
+    $filter: ModelTtTaskFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTtTasks(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        ProjectName
+        TaskName
         createdAt
         id
         owner

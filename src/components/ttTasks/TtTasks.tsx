@@ -2,7 +2,7 @@ import { useEffect,  useState } from "react";
 import type { Schema } from "../../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import '@aws-amplify/ui-react/styles.css';
-import TtProjectCreateForm from '../../../ui-components/TtProjectCreateForm';
+import TtTaskCreateForm from '../../../ui-components/TtTaskCreateForm';
 import { Link } from "react-router-dom";
 import { AuthUser } from "aws-amplify/auth";
 
@@ -10,14 +10,14 @@ import { AuthUser } from "aws-amplify/auth";
 const client = generateClient<Schema>();
 
 
-function TtProjects({user}: {user: AuthUser}) {
-  const [ttProjects, setTtProjects] = useState<Array<Schema["TtProject"]["type"]>>([]);
+function TtTasks({user}: {user: AuthUser}) {
+  const [ttTasks, setTtTasks] = useState<Array<Schema["TtTask"]["type"]>>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
     
   useEffect(() => {
-    const sub = client.models.TtProject.observeQuery().subscribe({
+    const sub = client.models.TtTask.observeQuery().subscribe({
       next: ({ items }) => {
-        setTtProjects([...items]);
+        setTtTasks([...items]);
       },
     });
     return () => sub.unsubscribe();
@@ -25,7 +25,7 @@ function TtProjects({user}: {user: AuthUser}) {
   
   return (
         <main>
-          <h1 className="text-xl mb-4">{user?.signInDetails?.loginId}'s Projects</h1>
+          <h1 className="text-xl mb-4">{user?.signInDetails?.loginId}'s Tasks</h1>
           <div id="newTimeForm" className="mb-12">
             <button
               onClick={() => setShowForm(!showForm)}
@@ -33,21 +33,21 @@ function TtProjects({user}: {user: AuthUser}) {
             >
               {showForm ? 'Hide Form' : 'Add New'}
             </button>
-            {showForm && <TtProjectCreateForm />}
+            {showForm && <TtTaskCreateForm />}
           </div>
               <div className="overflow-x-auto">
-                <table  id="ttProjectsTable" className="table-auto w-full" >
+                <table  id="ttTasksTable" className="table-auto w-full" >
                   <thead>
                     <tr>
-                      <th className="border px-4 py-2">Projects</th>
+                      <th className="border px-4 py-2">Tasks</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {ttProjects
-                      .map((ttProject) => (
-                        <tr key={ttProject.id}>
+                    {ttTasks
+                      .map((ttTask) => (
+                        <tr key={ttTask.id}>
                           <td className="border px-4 py-2">
-                            <Link to={`/ttprojecttasks/${ttProject.id}`}>{ttProject.Name}</Link>
+                            <Link to={`/ttprojecttasks/${ttTask.id}`}>{ttTask.TaskName}</Link>
                           </td>
                         </tr>
                       ))}
@@ -58,5 +58,5 @@ function TtProjects({user}: {user: AuthUser}) {
   );
 }
 
-export default TtProjects;
+export default TtTasks;
 

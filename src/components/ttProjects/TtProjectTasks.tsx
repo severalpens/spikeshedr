@@ -75,7 +75,7 @@ function TtProjectTasks() {
                       .map((ttProjectTask) => (
                         <tr key={ttProjectTask.id}>
                           <td className="border px-4 py-2">
-                            <Link to={`/ttprojecttasks/${ttProjectTask.id}`}>{ttProjectTask.Name}</Link>
+                            <Link to={`/tttimeblocks/${ttProjectTask.id}`}>{ttProjectTask.Name}</Link>
                           </td>
                         </tr>
                       ))}

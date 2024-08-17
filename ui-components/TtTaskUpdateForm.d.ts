@@ -17,18 +17,18 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type TtTaskUpdateFormInputValues = {
-    Name?: string;
-    ProjectId?: string;
+    TaskName?: string;
+    ProjectName?: string;
 };
 export declare type TtTaskUpdateFormValidationValues = {
-    Name?: ValidationFunction<string>;
-    ProjectId?: ValidationFunction<string>;
+    TaskName?: ValidationFunction<string>;
+    ProjectName?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type TtTaskUpdateFormOverridesProps = {
     TtTaskUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    Name?: PrimitiveOverrideProps<TextFieldProps>;
-    ProjectId?: PrimitiveOverrideProps<TextFieldProps>;
+    TaskName?: PrimitiveOverrideProps<TextFieldProps>;
+    ProjectName?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type TtTaskUpdateFormProps = React.PropsWithChildren<{
     overrides?: TtTaskUpdateFormOverridesProps | undefined | null;

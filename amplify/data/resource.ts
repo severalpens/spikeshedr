@@ -48,6 +48,11 @@ const schema = a.schema({
       ProjectId: a.id()
     }).authorization(allow => [allow.owner()]),
   
+    TtTask: a.model({
+      TaskName: a.string().required(),
+      ProjectName: a.string(),
+    }).authorization(allow => [allow.owner()]),
+  
     TtProject: a.model({
       Name: a.string().required()
     }).authorization(allow => [allow.owner()]),

@@ -18,20 +18,22 @@ export default function TtTaskCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    Name: "",
-    ProjectId: "",
+    TaskName: "",
+    ProjectName: "",
   };
-  const [Name, setName] = React.useState(initialValues.Name);
-  const [ProjectId, setProjectId] = React.useState(initialValues.ProjectId);
+  const [TaskName, setTaskName] = React.useState(initialValues.TaskName);
+  const [ProjectName, setProjectName] = React.useState(
+    initialValues.ProjectName
+  );
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.Name);
-    setProjectId(initialValues.ProjectId);
+    setTaskName(initialValues.TaskName);
+    setProjectName(initialValues.ProjectName);
     setErrors({});
   };
   const validations = {
-    Name: [{ type: "Required" }],
-    ProjectId: [],
+    TaskName: [{ type: "Required" }],
+    ProjectName: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -59,8 +61,8 @@ export default function TtTaskCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          Name,
-          ProjectId,
+          TaskName,
+          ProjectName,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -115,54 +117,54 @@ export default function TtTaskCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Name"
+        label="Task name"
         isRequired={true}
         isReadOnly={false}
-        value={Name}
+        value={TaskName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              Name: value,
-              ProjectId,
+              TaskName: value,
+              ProjectName,
             };
             const result = onChange(modelFields);
-            value = result?.Name ?? value;
+            value = result?.TaskName ?? value;
           }
-          if (errors.Name?.hasError) {
-            runValidationTasks("Name", value);
+          if (errors.TaskName?.hasError) {
+            runValidationTasks("TaskName", value);
           }
-          setName(value);
+          setTaskName(value);
         }}
-        onBlur={() => runValidationTasks("Name", Name)}
-        errorMessage={errors.Name?.errorMessage}
-        hasError={errors.Name?.hasError}
-        {...getOverrideProps(overrides, "Name")}
+        onBlur={() => runValidationTasks("TaskName", TaskName)}
+        errorMessage={errors.TaskName?.errorMessage}
+        hasError={errors.TaskName?.hasError}
+        {...getOverrideProps(overrides, "TaskName")}
       ></TextField>
       <TextField
-        label="Project id"
+        label="Project name"
         isRequired={false}
         isReadOnly={false}
-        value={ProjectId}
+        value={ProjectName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              Name,
-              ProjectId: value,
+              TaskName,
+              ProjectName: value,
             };
             const result = onChange(modelFields);
-            value = result?.ProjectId ?? value;
+            value = result?.ProjectName ?? value;
           }
-          if (errors.ProjectId?.hasError) {
-            runValidationTasks("ProjectId", value);
+          if (errors.ProjectName?.hasError) {
+            runValidationTasks("ProjectName", value);
           }
-          setProjectId(value);
+          setProjectName(value);
         }}
-        onBlur={() => runValidationTasks("ProjectId", ProjectId)}
-        errorMessage={errors.ProjectId?.errorMessage}
-        hasError={errors.ProjectId?.hasError}
-        {...getOverrideProps(overrides, "ProjectId")}
+        onBlur={() => runValidationTasks("ProjectName", ProjectName)}
+        errorMessage={errors.ProjectName?.errorMessage}
+        hasError={errors.ProjectName?.hasError}
+        {...getOverrideProps(overrides, "ProjectName")}
       ></TextField>
       <Flex
         justifyContent="space-between"

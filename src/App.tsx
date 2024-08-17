@@ -7,9 +7,10 @@ import Timer from './components/timer/Timer';
 import TimerProjects from './components/timer/TimerProjects';
 import TimerTasks from './components/timer/TimerTasks';
 import TimerPeriods from './components/timer/TimerPeriods';
-import TtProjects from './components/ttProjects/TtProjects';
+import TtProjectsAuthWrapper from './components/ttProjects/TtProjectsAuthWrapper';
 import TtProjectTasks from './components/ttProjects/TtProjectTasks';
 import TtTaskTimeBlocks from './components/ttProjects/TtTimeBlocks';
+import TtTasksAuthWrapper from './components/ttTasks/TtTasksAuthWrapper';
 
 
 function App() {
@@ -23,7 +24,8 @@ function App() {
         <Route path="timerprojects" element={<TimerProjects/>} />
         <Route path="timertasks" element={<TimerTasks/>} />
         <Route path="timerperiods" element={<TimerPeriods/>} />
-        <Route path="ttprojects" element={<TtProjects/>} />
+        <Route path="ttprojects" element={<TtProjectsAuthWrapper/>} />
+        <Route path="tttasks" element={<TtTasksAuthWrapper/>} />
         <Route path="ttprojecttasks/:projectId" element={<TtProjectTasks/>} />
         <Route path="tttimeblocks/:projectId/:taskId" element={<TtTaskTimeBlocks/>} />
       </Routes>

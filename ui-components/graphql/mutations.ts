@@ -123,6 +123,22 @@ export const createTtProjectTask = /* GraphQL */ `
     }
   }
 `;
+export const createTtTask = /* GraphQL */ `
+  mutation CreateTtTask(
+    $condition: ModelTtTaskConditionInput
+    $input: CreateTtTaskInput!
+  ) {
+    createTtTask(condition: $condition, input: $input) {
+      ProjectName
+      TaskName
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const createTtTaskTimeBlock = /* GraphQL */ `
   mutation CreateTtTaskTimeBlock(
     $condition: ModelTtTaskTimeBlockConditionInput
@@ -262,6 +278,22 @@ export const deleteTtProjectTask = /* GraphQL */ `
     }
   }
 `;
+export const deleteTtTask = /* GraphQL */ `
+  mutation DeleteTtTask(
+    $condition: ModelTtTaskConditionInput
+    $input: DeleteTtTaskInput!
+  ) {
+    deleteTtTask(condition: $condition, input: $input) {
+      ProjectName
+      TaskName
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const deleteTtTaskTimeBlock = /* GraphQL */ `
   mutation DeleteTtTaskTimeBlock(
     $condition: ModelTtTaskTimeBlockConditionInput
@@ -393,6 +425,22 @@ export const updateTtProjectTask = /* GraphQL */ `
     updateTtProjectTask(condition: $condition, input: $input) {
       Name
       ProjectId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateTtTask = /* GraphQL */ `
+  mutation UpdateTtTask(
+    $condition: ModelTtTaskConditionInput
+    $input: UpdateTtTaskInput!
+  ) {
+    updateTtTask(condition: $condition, input: $input) {
+      ProjectName
+      TaskName
       createdAt
       id
       owner
