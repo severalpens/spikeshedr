@@ -35,6 +35,11 @@ function TtTasks({ user }: { user: AuthUser }) {
       await client.models.TtTask.update({ id: task.id, IsRunning: false });
       
     }
+    const timeBlocks = ttTaskTimeBlocks.filter((timeBlock) =>  !timeBlock.EndTime);
+
+    for await (const timeBlock of timeBlocks) {
+      await client.models.TtTaskTimeBlock.update({ id: timeBlock.id, EndTime: new Date().toISOString() });
+  }
 
   }
 
@@ -49,10 +54,6 @@ function TtTasks({ user }: { user: AuthUser }) {
 
     else{
       await setAllIsRunningToFalse();
-      const timeBlocks = ttTaskTimeBlocks.filter((timeBlock) =>  !timeBlock.EndTime);
-      for await (const timeBlock of timeBlocks) {
-        await client.models.TtTaskTimeBlock.update({ id: timeBlock.id, EndTime: new Date().toISOString() });
-    }
 
     }
 
