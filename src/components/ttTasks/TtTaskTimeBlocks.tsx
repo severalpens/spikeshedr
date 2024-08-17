@@ -19,6 +19,12 @@ function TtTaskTimeBlocks() {
     });
   }, []);
 
+  const deleteAllTaskTimeBlocks = async () => {
+    for (const ttTaskTimeBlock of ttTaskTimeBlocks) {
+      await client.models.TtTaskTimeBlock.delete({ id: ttTaskTimeBlock.id });
+    }
+  }
+
   
   return (
     <div id="ttTaskTimeBlockTableDiv" className="m-5">
@@ -53,6 +59,9 @@ function TtTaskTimeBlocks() {
           ))} 
       </tbody>
     </table>
+    <button onClick={deleteAllTaskTimeBlocks} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  w-48">  
+      Delete All Logs
+    </button>
     </div>
 
   );

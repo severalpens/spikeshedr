@@ -25,11 +25,6 @@ function TtTasks({ user }: { user: AuthUser }) {
     });
   }, []);
 
-  const deleteAllTaskTimeBlocks = async () => {
-    for (const ttTaskTimeBlock of ttTaskTimeBlocks) {
-      await client.models.TtTaskTimeBlock.delete({ id: ttTaskTimeBlock.id });
-    }
-  }
 
 // deleteAllTaskTimeBlocks();
 
