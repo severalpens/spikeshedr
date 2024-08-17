@@ -9,7 +9,7 @@ const client = generateClient<Schema>();
 
 function TtTaskTimeBlocks() {
   const [ttTaskTimeBlocks, setTtTaskTimeBlocks] = useState<Array<Schema["TtTaskTimeBlock"]["type"]>>([]);
-  const [ttTasks, setTtTasks] = useState<Array<Schema["TtTask"]["type"] & { Name: string }>>([]);
+  const [ttTasks, setTtTasks] = useState<Array<Schema["TtTask"]["type"]>>([]);
   useEffect(() => {
     client.models.TtTask.observeQuery().subscribe({
       next: (data) => setTtTasks([...data.items]),
@@ -21,7 +21,7 @@ function TtTaskTimeBlocks() {
 
   
   return (
-    <div id="ttTaskTimeBlockTableDiv">
+    <div id="ttTaskTimeBlockTableDiv" className="m-5">
     <table  id="ttTaskTimeBlockTable" className="table-auto w-full" >
       <thead>
         <tr>
@@ -32,10 +32,16 @@ function TtTaskTimeBlocks() {
       </thead>
       <tbody>
         {ttTaskTimeBlocks
+          .sort((a, b) => {
+            const aStartTime = a.StartTime ? new Date(a.StartTime) : new Date();
+            const bStartTime = b.StartTime ? new Date(b.StartTime) :  new Date();
+            return bStartTime.getTime() - aStartTime.getTime();
+            
+          })
           .map((ttTaskTimeBlock) => (
             <tr key={ttTaskTimeBlock.id}>
               <td className="border px-4 py-2">
-                {ttTasks.find((ttTask) => ttTask.id === ttTaskTimeBlock.TtTaskId)?.Name}
+                {ttTasks.find((ttTask) => ttTask.id === ttTaskTimeBlock.TtTaskId)?.TaskName}
               </td>
               <td className="border px-4 py-2">
                 {ttTaskTimeBlock.StartTime}

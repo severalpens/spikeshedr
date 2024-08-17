@@ -27,7 +27,6 @@ const schema = a.schema({
       TaskName: a.string().required(),
       IsRunning: a.boolean(),
     }).authorization(allow => [allow.owner()]),
-  
 
 
 });
