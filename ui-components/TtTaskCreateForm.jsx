@@ -1,7 +1,13 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SwitchField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
 import { createTtTask } from "./graphql/mutations";
@@ -18,22 +24,26 @@ export default function TtTaskCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    TaskName: "",
     ProjectName: "",
+    TaskName: "",
+    IsRunning: false,
   };
-  const [TaskName, setTaskName] = React.useState(initialValues.TaskName);
   const [ProjectName, setProjectName] = React.useState(
     initialValues.ProjectName
   );
+  const [TaskName, setTaskName] = React.useState(initialValues.TaskName);
+  const [IsRunning, setIsRunning] = React.useState(initialValues.IsRunning);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setTaskName(initialValues.TaskName);
     setProjectName(initialValues.ProjectName);
+    setTaskName(initialValues.TaskName);
+    setIsRunning(initialValues.IsRunning);
     setErrors({});
   };
   const validations = {
-    TaskName: [{ type: "Required" }],
     ProjectName: [],
+    TaskName: [{ type: "Required" }],
+    IsRunning: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -61,8 +71,9 @@ export default function TtTaskCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          TaskName,
           ProjectName,
+          TaskName,
+          IsRunning,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -117,31 +128,6 @@ export default function TtTaskCreateForm(props) {
       {...rest}
     >
       <TextField
-        label="Task name"
-        isRequired={true}
-        isReadOnly={false}
-        value={TaskName}
-        onChange={(e) => {
-          let { value } = e.target;
-          if (onChange) {
-            const modelFields = {
-              TaskName: value,
-              ProjectName,
-            };
-            const result = onChange(modelFields);
-            value = result?.TaskName ?? value;
-          }
-          if (errors.TaskName?.hasError) {
-            runValidationTasks("TaskName", value);
-          }
-          setTaskName(value);
-        }}
-        onBlur={() => runValidationTasks("TaskName", TaskName)}
-        errorMessage={errors.TaskName?.errorMessage}
-        hasError={errors.TaskName?.hasError}
-        {...getOverrideProps(overrides, "TaskName")}
-      ></TextField>
-      <TextField
         label="Project name"
         isRequired={false}
         isReadOnly={false}
@@ -150,8 +136,9 @@ export default function TtTaskCreateForm(props) {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              TaskName,
               ProjectName: value,
+              TaskName,
+              IsRunning,
             };
             const result = onChange(modelFields);
             value = result?.ProjectName ?? value;
@@ -166,6 +153,58 @@ export default function TtTaskCreateForm(props) {
         hasError={errors.ProjectName?.hasError}
         {...getOverrideProps(overrides, "ProjectName")}
       ></TextField>
+      <TextField
+        label="Task name"
+        isRequired={true}
+        isReadOnly={false}
+        value={TaskName}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              ProjectName,
+              TaskName: value,
+              IsRunning,
+            };
+            const result = onChange(modelFields);
+            value = result?.TaskName ?? value;
+          }
+          if (errors.TaskName?.hasError) {
+            runValidationTasks("TaskName", value);
+          }
+          setTaskName(value);
+        }}
+        onBlur={() => runValidationTasks("TaskName", TaskName)}
+        errorMessage={errors.TaskName?.errorMessage}
+        hasError={errors.TaskName?.hasError}
+        {...getOverrideProps(overrides, "TaskName")}
+      ></TextField>
+      <SwitchField
+        label="Is running"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={IsRunning}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              ProjectName,
+              TaskName,
+              IsRunning: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.IsRunning ?? value;
+          }
+          if (errors.IsRunning?.hasError) {
+            runValidationTasks("IsRunning", value);
+          }
+          setIsRunning(value);
+        }}
+        onBlur={() => runValidationTasks("IsRunning", IsRunning)}
+        errorMessage={errors.IsRunning?.errorMessage}
+        hasError={errors.IsRunning?.hasError}
+        {...getOverrideProps(overrides, "IsRunning")}
+      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

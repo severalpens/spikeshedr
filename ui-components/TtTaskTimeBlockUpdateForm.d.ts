@@ -19,19 +19,19 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type TtTaskTimeBlockUpdateFormInputValues = {
     StartTime?: string;
     EndTime?: string;
-    TimerTaskId?: string;
+    TtTaskId?: string;
 };
 export declare type TtTaskTimeBlockUpdateFormValidationValues = {
     StartTime?: ValidationFunction<string>;
     EndTime?: ValidationFunction<string>;
-    TimerTaskId?: ValidationFunction<string>;
+    TtTaskId?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type TtTaskTimeBlockUpdateFormOverridesProps = {
     TtTaskTimeBlockUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
     StartTime?: PrimitiveOverrideProps<TextFieldProps>;
     EndTime?: PrimitiveOverrideProps<TextFieldProps>;
-    TimerTaskId?: PrimitiveOverrideProps<TextFieldProps>;
+    TtTaskId?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type TtTaskTimeBlockUpdateFormProps = React.PropsWithChildren<{
     overrides?: TtTaskTimeBlockUpdateFormOverridesProps | undefined | null;

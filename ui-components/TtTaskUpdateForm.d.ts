@@ -1,5 +1,5 @@
 import * as React from "react";
-import { GridProps, TextFieldProps } from "@aws-amplify/ui-react";
+import { GridProps, SwitchFieldProps, TextFieldProps } from "@aws-amplify/ui-react";
 import { TtTask } from "./graphql/types";
 export declare type EscapeHatchProps = {
     [elementHierarchy: string]: Record<string, unknown>;
@@ -17,18 +17,21 @@ export declare type ValidationResponse = {
 };
 export declare type ValidationFunction<T> = (value: T, validationResponse: ValidationResponse) => ValidationResponse | Promise<ValidationResponse>;
 export declare type TtTaskUpdateFormInputValues = {
-    TaskName?: string;
     ProjectName?: string;
+    TaskName?: string;
+    IsRunning?: boolean;
 };
 export declare type TtTaskUpdateFormValidationValues = {
-    TaskName?: ValidationFunction<string>;
     ProjectName?: ValidationFunction<string>;
+    TaskName?: ValidationFunction<string>;
+    IsRunning?: ValidationFunction<boolean>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type TtTaskUpdateFormOverridesProps = {
     TtTaskUpdateFormGrid?: PrimitiveOverrideProps<GridProps>;
-    TaskName?: PrimitiveOverrideProps<TextFieldProps>;
     ProjectName?: PrimitiveOverrideProps<TextFieldProps>;
+    TaskName?: PrimitiveOverrideProps<TextFieldProps>;
+    IsRunning?: PrimitiveOverrideProps<SwitchFieldProps>;
 } & EscapeHatchProps;
 export declare type TtTaskUpdateFormProps = React.PropsWithChildren<{
     overrides?: TtTaskUpdateFormOverridesProps | undefined | null;

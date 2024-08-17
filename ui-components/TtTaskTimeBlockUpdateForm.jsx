@@ -22,13 +22,11 @@ export default function TtTaskTimeBlockUpdateForm(props) {
   const initialValues = {
     StartTime: "",
     EndTime: "",
-    TimerTaskId: "",
+    TtTaskId: "",
   };
   const [StartTime, setStartTime] = React.useState(initialValues.StartTime);
   const [EndTime, setEndTime] = React.useState(initialValues.EndTime);
-  const [TimerTaskId, setTimerTaskId] = React.useState(
-    initialValues.TimerTaskId
-  );
+  const [TtTaskId, setTtTaskId] = React.useState(initialValues.TtTaskId);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     const cleanValues = ttTaskTimeBlockRecord
@@ -36,7 +34,7 @@ export default function TtTaskTimeBlockUpdateForm(props) {
       : initialValues;
     setStartTime(cleanValues.StartTime);
     setEndTime(cleanValues.EndTime);
-    setTimerTaskId(cleanValues.TimerTaskId);
+    setTtTaskId(cleanValues.TtTaskId);
     setErrors({});
   };
   const [ttTaskTimeBlockRecord, setTtTaskTimeBlockRecord] = React.useState(
@@ -60,7 +58,7 @@ export default function TtTaskTimeBlockUpdateForm(props) {
   const validations = {
     StartTime: [],
     EndTime: [],
-    TimerTaskId: [],
+    TtTaskId: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -107,7 +105,7 @@ export default function TtTaskTimeBlockUpdateForm(props) {
         let modelFields = {
           StartTime: StartTime ?? null,
           EndTime: EndTime ?? null,
-          TimerTaskId: TimerTaskId ?? null,
+          TtTaskId: TtTaskId ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -172,7 +170,7 @@ export default function TtTaskTimeBlockUpdateForm(props) {
             const modelFields = {
               StartTime: value,
               EndTime,
-              TimerTaskId,
+              TtTaskId,
             };
             const result = onChange(modelFields);
             value = result?.StartTime ?? value;
@@ -200,7 +198,7 @@ export default function TtTaskTimeBlockUpdateForm(props) {
             const modelFields = {
               StartTime,
               EndTime: value,
-              TimerTaskId,
+              TtTaskId,
             };
             const result = onChange(modelFields);
             value = result?.EndTime ?? value;
@@ -216,30 +214,30 @@ export default function TtTaskTimeBlockUpdateForm(props) {
         {...getOverrideProps(overrides, "EndTime")}
       ></TextField>
       <TextField
-        label="Timer task id"
+        label="Tt task id"
         isRequired={false}
         isReadOnly={false}
-        value={TimerTaskId}
+        value={TtTaskId}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
               StartTime,
               EndTime,
-              TimerTaskId: value,
+              TtTaskId: value,
             };
             const result = onChange(modelFields);
-            value = result?.TimerTaskId ?? value;
+            value = result?.TtTaskId ?? value;
           }
-          if (errors.TimerTaskId?.hasError) {
-            runValidationTasks("TimerTaskId", value);
+          if (errors.TtTaskId?.hasError) {
+            runValidationTasks("TtTaskId", value);
           }
-          setTimerTaskId(value);
+          setTtTaskId(value);
         }}
-        onBlur={() => runValidationTasks("TimerTaskId", TimerTaskId)}
-        errorMessage={errors.TimerTaskId?.errorMessage}
-        hasError={errors.TimerTaskId?.hasError}
-        {...getOverrideProps(overrides, "TimerTaskId")}
+        onBlur={() => runValidationTasks("TtTaskId", TtTaskId)}
+        errorMessage={errors.TtTaskId?.errorMessage}
+        hasError={errors.TtTaskId?.hasError}
+        {...getOverrideProps(overrides, "TtTaskId")}
       ></TextField>
       <Flex
         justifyContent="space-between"
