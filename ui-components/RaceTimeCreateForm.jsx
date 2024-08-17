@@ -18,10 +18,10 @@ export default function RaceTimeCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    RaceDate: new Date().toISOString().split('T')[0],
-    RaceDistance: 400,
-    RaceMins: 7,
-    RaceSecs: 5,
+    RaceDate: "",
+    RaceDistance: "",
+    RaceMins: "",
+    RaceSecs: "",
   };
   const [RaceDate, setRaceDate] = React.useState(initialValues.RaceDate);
   const [RaceDistance, setRaceDistance] = React.useState(

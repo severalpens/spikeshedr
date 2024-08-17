@@ -4,9 +4,9 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createTimerTask } from "./graphql/mutations";
+import { createTtTaskTimeBlock } from "./graphql/mutations";
 const client = generateClient();
-export default function TimerTaskCreateForm(props) {
+export default function TtTaskTimeBlockCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -18,16 +18,24 @@ export default function TimerTaskCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    Name: "",
+    StartTime: "",
+    EndTime: "",
+    TtTaskId: "",
   };
-  const [Name, setName] = React.useState(initialValues.Name);
+  const [StartTime, setStartTime] = React.useState(initialValues.StartTime);
+  const [EndTime, setEndTime] = React.useState(initialValues.EndTime);
+  const [TtTaskId, setTtTaskId] = React.useState(initialValues.TtTaskId);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setName(initialValues.Name);
+    setStartTime(initialValues.StartTime);
+    setEndTime(initialValues.EndTime);
+    setTtTaskId(initialValues.TtTaskId);
     setErrors({});
   };
   const validations = {
-    Name: [{ type: "Required" }],
+    StartTime: [],
+    EndTime: [],
+    TtTaskId: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -46,6 +54,23 @@ export default function TimerTaskCreateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
+  const convertToLocal = (date) => {
+    const df = new Intl.DateTimeFormat("default", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      calendar: "iso8601",
+      numberingSystem: "latn",
+      hourCycle: "h23",
+    });
+    const parts = df.formatToParts(date).reduce((acc, part) => {
+      acc[part.type] = part.value;
+      return acc;
+    }, {});
+    return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
+  };
   return (
     <Grid
       as="form"
@@ -55,7 +80,9 @@ export default function TimerTaskCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          Name,
+          StartTime,
+          EndTime,
+          TtTaskId,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -86,7 +113,7 @@ export default function TimerTaskCreateForm(props) {
             }
           });
           await client.graphql({
-            query: createTimerTask.replaceAll("__typename", ""),
+            query: createTtTaskTimeBlock.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,
@@ -106,32 +133,90 @@ export default function TimerTaskCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "TimerTaskCreateForm")}
+      {...getOverrideProps(overrides, "TtTaskTimeBlockCreateForm")}
       {...rest}
     >
       <TextField
-        label="Name"
-        isRequired={true}
+        label="Start time"
+        isRequired={false}
         isReadOnly={false}
-        value={Name}
+        type="datetime-local"
+        value={StartTime && convertToLocal(new Date(StartTime))}
+        onChange={(e) => {
+          let value =
+            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
+          if (onChange) {
+            const modelFields = {
+              StartTime: value,
+              EndTime,
+              TtTaskId,
+            };
+            const result = onChange(modelFields);
+            value = result?.StartTime ?? value;
+          }
+          if (errors.StartTime?.hasError) {
+            runValidationTasks("StartTime", value);
+          }
+          setStartTime(value);
+        }}
+        onBlur={() => runValidationTasks("StartTime", StartTime)}
+        errorMessage={errors.StartTime?.errorMessage}
+        hasError={errors.StartTime?.hasError}
+        {...getOverrideProps(overrides, "StartTime")}
+      ></TextField>
+      <TextField
+        label="End time"
+        isRequired={false}
+        isReadOnly={false}
+        type="datetime-local"
+        value={EndTime && convertToLocal(new Date(EndTime))}
+        onChange={(e) => {
+          let value =
+            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
+          if (onChange) {
+            const modelFields = {
+              StartTime,
+              EndTime: value,
+              TtTaskId,
+            };
+            const result = onChange(modelFields);
+            value = result?.EndTime ?? value;
+          }
+          if (errors.EndTime?.hasError) {
+            runValidationTasks("EndTime", value);
+          }
+          setEndTime(value);
+        }}
+        onBlur={() => runValidationTasks("EndTime", EndTime)}
+        errorMessage={errors.EndTime?.errorMessage}
+        hasError={errors.EndTime?.hasError}
+        {...getOverrideProps(overrides, "EndTime")}
+      ></TextField>
+      <TextField
+        label="Tt task id"
+        isRequired={false}
+        isReadOnly={false}
+        value={TtTaskId}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              Name: value,
+              StartTime,
+              EndTime,
+              TtTaskId: value,
             };
             const result = onChange(modelFields);
-            value = result?.Name ?? value;
+            value = result?.TtTaskId ?? value;
           }
-          if (errors.Name?.hasError) {
-            runValidationTasks("Name", value);
+          if (errors.TtTaskId?.hasError) {
+            runValidationTasks("TtTaskId", value);
           }
-          setName(value);
+          setTtTaskId(value);
         }}
-        onBlur={() => runValidationTasks("Name", Name)}
-        errorMessage={errors.Name?.errorMessage}
-        hasError={errors.Name?.hasError}
-        {...getOverrideProps(overrides, "Name")}
+        onBlur={() => runValidationTasks("TtTaskId", TtTaskId)}
+        errorMessage={errors.TtTaskId?.errorMessage}
+        hasError={errors.TtTaskId?.hasError}
+        {...getOverrideProps(overrides, "TtTaskId")}
       ></TextField>
       <Flex
         justifyContent="space-between"

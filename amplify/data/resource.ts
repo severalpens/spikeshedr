@@ -15,25 +15,19 @@ const schema = a.schema({
       RaceSecs: a.integer(),
     }).authorization((allow) => [allow.owner()]),
 
-    TimerPeriod: a.model({
+
+    TtTaskTimeBlock: a.model({
       StartTime: a.datetime(),
       EndTime: a.datetime(),
-      TimerTaskId: a.id(),
-      TimerTask: a.belongsTo('TimerTask', 'TimerTaskId'),
-    }).authorization(allow => [allow.owner()]),
-  
-    TimerTask: a.model({
-      Name: a.string().required(),
-      TimerProjectId: a.id(),
-      TimerPeriods: a.hasMany('TimerPeriod', 'TimerTaskId'),
-      TimerProject: a.belongsTo('TimerProject', 'TimerProjectId'),
-
+      TtTaskId: a.id()
     }).authorization(allow => [allow.owner()]),
 
-    TimerProject: a.model({
-      Name: a.string().required(),
-      TimerTasks: a.hasMany('TimerTask', 'TimerProjectId'),
+    TtTask: a.model({
+      ProjectName: a.string(),
+      TaskName: a.string().required(),
+      IsRunning: a.boolean(),
     }).authorization(allow => [allow.owner()]),
+
 
 });
 

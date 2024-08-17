@@ -4,13 +4,13 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { getTimerPeriod } from "./graphql/queries";
-import { updateTimerPeriod } from "./graphql/mutations";
+import { getTtTaskTimeBlock } from "./graphql/queries";
+import { updateTtTaskTimeBlock } from "./graphql/mutations";
 const client = generateClient();
-export default function TimerPeriodUpdateForm(props) {
+export default function TtTaskTimeBlockUpdateForm(props) {
   const {
     id: idProp,
-    timerPeriod: timerPeriodModelProp,
+    ttTaskTimeBlock: ttTaskTimeBlockModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -22,38 +22,43 @@ export default function TimerPeriodUpdateForm(props) {
   const initialValues = {
     StartTime: "",
     EndTime: "",
+    TtTaskId: "",
   };
   const [StartTime, setStartTime] = React.useState(initialValues.StartTime);
   const [EndTime, setEndTime] = React.useState(initialValues.EndTime);
+  const [TtTaskId, setTtTaskId] = React.useState(initialValues.TtTaskId);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = timerPeriodRecord
-      ? { ...initialValues, ...timerPeriodRecord }
+    const cleanValues = ttTaskTimeBlockRecord
+      ? { ...initialValues, ...ttTaskTimeBlockRecord }
       : initialValues;
     setStartTime(cleanValues.StartTime);
     setEndTime(cleanValues.EndTime);
+    setTtTaskId(cleanValues.TtTaskId);
     setErrors({});
   };
-  const [timerPeriodRecord, setTimerPeriodRecord] =
-    React.useState(timerPeriodModelProp);
+  const [ttTaskTimeBlockRecord, setTtTaskTimeBlockRecord] = React.useState(
+    ttTaskTimeBlockModelProp
+  );
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
         ? (
             await client.graphql({
-              query: getTimerPeriod.replaceAll("__typename", ""),
+              query: getTtTaskTimeBlock.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
-          )?.data?.getTimerPeriod
-        : timerPeriodModelProp;
-      setTimerPeriodRecord(record);
+          )?.data?.getTtTaskTimeBlock
+        : ttTaskTimeBlockModelProp;
+      setTtTaskTimeBlockRecord(record);
     };
     queryData();
-  }, [idProp, timerPeriodModelProp]);
-  React.useEffect(resetStateValues, [timerPeriodRecord]);
+  }, [idProp, ttTaskTimeBlockModelProp]);
+  React.useEffect(resetStateValues, [ttTaskTimeBlockRecord]);
   const validations = {
     StartTime: [],
     EndTime: [],
+    TtTaskId: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -100,6 +105,7 @@ export default function TimerPeriodUpdateForm(props) {
         let modelFields = {
           StartTime: StartTime ?? null,
           EndTime: EndTime ?? null,
+          TtTaskId: TtTaskId ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -130,10 +136,10 @@ export default function TimerPeriodUpdateForm(props) {
             }
           });
           await client.graphql({
-            query: updateTimerPeriod.replaceAll("__typename", ""),
+            query: updateTtTaskTimeBlock.replaceAll("__typename", ""),
             variables: {
               input: {
-                id: timerPeriodRecord.id,
+                id: ttTaskTimeBlockRecord.id,
                 ...modelFields,
               },
             },
@@ -148,7 +154,7 @@ export default function TimerPeriodUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "TimerPeriodUpdateForm")}
+      {...getOverrideProps(overrides, "TtTaskTimeBlockUpdateForm")}
       {...rest}
     >
       <TextField
@@ -164,6 +170,7 @@ export default function TimerPeriodUpdateForm(props) {
             const modelFields = {
               StartTime: value,
               EndTime,
+              TtTaskId,
             };
             const result = onChange(modelFields);
             value = result?.StartTime ?? value;
@@ -191,6 +198,7 @@ export default function TimerPeriodUpdateForm(props) {
             const modelFields = {
               StartTime,
               EndTime: value,
+              TtTaskId,
             };
             const result = onChange(modelFields);
             value = result?.EndTime ?? value;
@@ -205,6 +213,32 @@ export default function TimerPeriodUpdateForm(props) {
         hasError={errors.EndTime?.hasError}
         {...getOverrideProps(overrides, "EndTime")}
       ></TextField>
+      <TextField
+        label="Tt task id"
+        isRequired={false}
+        isReadOnly={false}
+        value={TtTaskId}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              StartTime,
+              EndTime,
+              TtTaskId: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.TtTaskId ?? value;
+          }
+          if (errors.TtTaskId?.hasError) {
+            runValidationTasks("TtTaskId", value);
+          }
+          setTtTaskId(value);
+        }}
+        onBlur={() => runValidationTasks("TtTaskId", TtTaskId)}
+        errorMessage={errors.TtTaskId?.errorMessage}
+        hasError={errors.TtTaskId?.hasError}
+        {...getOverrideProps(overrides, "TtTaskId")}
+      ></TextField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
@@ -216,7 +250,7 @@ export default function TimerPeriodUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || timerPeriodModelProp)}
+          isDisabled={!(idProp || ttTaskTimeBlockModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -228,7 +262,7 @@ export default function TimerPeriodUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || timerPeriodModelProp) ||
+              !(idProp || ttTaskTimeBlockModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}

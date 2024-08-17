@@ -1,16 +1,22 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SwitchField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { getTimerProject } from "./graphql/queries";
-import { updateTimerProject } from "./graphql/mutations";
+import { getTtTask } from "./graphql/queries";
+import { updateTtTask } from "./graphql/mutations";
 const client = generateClient();
-export default function TimerProjectUpdateForm(props) {
+export default function TtTaskUpdateForm(props) {
   const {
     id: idProp,
-    timerProject: timerProjectModelProp,
+    ttTask: ttTaskModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -20,37 +26,45 @@ export default function TimerProjectUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    Name: "",
+    ProjectName: "",
+    TaskName: "",
+    IsRunning: false,
   };
-  const [Name, setName] = React.useState(initialValues.Name);
+  const [ProjectName, setProjectName] = React.useState(
+    initialValues.ProjectName
+  );
+  const [TaskName, setTaskName] = React.useState(initialValues.TaskName);
+  const [IsRunning, setIsRunning] = React.useState(initialValues.IsRunning);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = timerProjectRecord
-      ? { ...initialValues, ...timerProjectRecord }
+    const cleanValues = ttTaskRecord
+      ? { ...initialValues, ...ttTaskRecord }
       : initialValues;
-    setName(cleanValues.Name);
+    setProjectName(cleanValues.ProjectName);
+    setTaskName(cleanValues.TaskName);
+    setIsRunning(cleanValues.IsRunning);
     setErrors({});
   };
-  const [timerProjectRecord, setTimerProjectRecord] = React.useState(
-    timerProjectModelProp
-  );
+  const [ttTaskRecord, setTtTaskRecord] = React.useState(ttTaskModelProp);
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
         ? (
             await client.graphql({
-              query: getTimerProject.replaceAll("__typename", ""),
+              query: getTtTask.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
-          )?.data?.getTimerProject
-        : timerProjectModelProp;
-      setTimerProjectRecord(record);
+          )?.data?.getTtTask
+        : ttTaskModelProp;
+      setTtTaskRecord(record);
     };
     queryData();
-  }, [idProp, timerProjectModelProp]);
-  React.useEffect(resetStateValues, [timerProjectRecord]);
+  }, [idProp, ttTaskModelProp]);
+  React.useEffect(resetStateValues, [ttTaskRecord]);
   const validations = {
-    Name: [{ type: "Required" }],
+    ProjectName: [],
+    TaskName: [{ type: "Required" }],
+    IsRunning: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -78,7 +92,9 @@ export default function TimerProjectUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          Name,
+          ProjectName: ProjectName ?? null,
+          TaskName,
+          IsRunning: IsRunning ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -109,10 +125,10 @@ export default function TimerProjectUpdateForm(props) {
             }
           });
           await client.graphql({
-            query: updateTimerProject.replaceAll("__typename", ""),
+            query: updateTtTask.replaceAll("__typename", ""),
             variables: {
               input: {
-                id: timerProjectRecord.id,
+                id: ttTaskRecord.id,
                 ...modelFields,
               },
             },
@@ -127,33 +143,87 @@ export default function TimerProjectUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "TimerProjectUpdateForm")}
+      {...getOverrideProps(overrides, "TtTaskUpdateForm")}
       {...rest}
     >
       <TextField
-        label="Name"
-        isRequired={true}
+        label="Project name"
+        isRequired={false}
         isReadOnly={false}
-        value={Name}
+        value={ProjectName}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              Name: value,
+              ProjectName: value,
+              TaskName,
+              IsRunning,
             };
             const result = onChange(modelFields);
-            value = result?.Name ?? value;
+            value = result?.ProjectName ?? value;
           }
-          if (errors.Name?.hasError) {
-            runValidationTasks("Name", value);
+          if (errors.ProjectName?.hasError) {
+            runValidationTasks("ProjectName", value);
           }
-          setName(value);
+          setProjectName(value);
         }}
-        onBlur={() => runValidationTasks("Name", Name)}
-        errorMessage={errors.Name?.errorMessage}
-        hasError={errors.Name?.hasError}
-        {...getOverrideProps(overrides, "Name")}
+        onBlur={() => runValidationTasks("ProjectName", ProjectName)}
+        errorMessage={errors.ProjectName?.errorMessage}
+        hasError={errors.ProjectName?.hasError}
+        {...getOverrideProps(overrides, "ProjectName")}
       ></TextField>
+      <TextField
+        label="Task name"
+        isRequired={true}
+        isReadOnly={false}
+        value={TaskName}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              ProjectName,
+              TaskName: value,
+              IsRunning,
+            };
+            const result = onChange(modelFields);
+            value = result?.TaskName ?? value;
+          }
+          if (errors.TaskName?.hasError) {
+            runValidationTasks("TaskName", value);
+          }
+          setTaskName(value);
+        }}
+        onBlur={() => runValidationTasks("TaskName", TaskName)}
+        errorMessage={errors.TaskName?.errorMessage}
+        hasError={errors.TaskName?.hasError}
+        {...getOverrideProps(overrides, "TaskName")}
+      ></TextField>
+      <SwitchField
+        label="Is running"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={IsRunning}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              ProjectName,
+              TaskName,
+              IsRunning: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.IsRunning ?? value;
+          }
+          if (errors.IsRunning?.hasError) {
+            runValidationTasks("IsRunning", value);
+          }
+          setIsRunning(value);
+        }}
+        onBlur={() => runValidationTasks("IsRunning", IsRunning)}
+        errorMessage={errors.IsRunning?.errorMessage}
+        hasError={errors.IsRunning?.hasError}
+        {...getOverrideProps(overrides, "IsRunning")}
+      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}
@@ -165,7 +235,7 @@ export default function TimerProjectUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || timerProjectModelProp)}
+          isDisabled={!(idProp || ttTaskModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -177,7 +247,7 @@ export default function TimerProjectUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || timerProjectModelProp) ||
+              !(idProp || ttTaskModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}

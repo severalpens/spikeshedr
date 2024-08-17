@@ -4,13 +4,13 @@ import * as React from "react";
 import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { getTimerTask } from "./graphql/queries";
-import { updateTimerTask } from "./graphql/mutations";
+import { getTtTaskTimeLog } from "./graphql/queries";
+import { updateTtTaskTimeLog } from "./graphql/mutations";
 const client = generateClient();
-export default function TimerTaskUpdateForm(props) {
+export default function TtTaskTimeLogUpdateForm(props) {
   const {
     id: idProp,
-    timerTask: timerTaskModelProp,
+    ttTaskTimeLog: ttTaskTimeLogModelProp,
     onSuccess,
     onError,
     onSubmit,
@@ -20,36 +20,41 @@ export default function TimerTaskUpdateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    Name: "",
+    LogTime: "",
+    TtTaskId: "",
   };
-  const [Name, setName] = React.useState(initialValues.Name);
+  const [LogTime, setLogTime] = React.useState(initialValues.LogTime);
+  const [TtTaskId, setTtTaskId] = React.useState(initialValues.TtTaskId);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    const cleanValues = timerTaskRecord
-      ? { ...initialValues, ...timerTaskRecord }
+    const cleanValues = ttTaskTimeLogRecord
+      ? { ...initialValues, ...ttTaskTimeLogRecord }
       : initialValues;
-    setName(cleanValues.Name);
+    setLogTime(cleanValues.LogTime);
+    setTtTaskId(cleanValues.TtTaskId);
     setErrors({});
   };
-  const [timerTaskRecord, setTimerTaskRecord] =
-    React.useState(timerTaskModelProp);
+  const [ttTaskTimeLogRecord, setTtTaskTimeLogRecord] = React.useState(
+    ttTaskTimeLogModelProp
+  );
   React.useEffect(() => {
     const queryData = async () => {
       const record = idProp
         ? (
             await client.graphql({
-              query: getTimerTask.replaceAll("__typename", ""),
+              query: getTtTaskTimeLog.replaceAll("__typename", ""),
               variables: { id: idProp },
             })
-          )?.data?.getTimerTask
-        : timerTaskModelProp;
-      setTimerTaskRecord(record);
+          )?.data?.getTtTaskTimeLog
+        : ttTaskTimeLogModelProp;
+      setTtTaskTimeLogRecord(record);
     };
     queryData();
-  }, [idProp, timerTaskModelProp]);
-  React.useEffect(resetStateValues, [timerTaskRecord]);
+  }, [idProp, ttTaskTimeLogModelProp]);
+  React.useEffect(resetStateValues, [ttTaskTimeLogRecord]);
   const validations = {
-    Name: [{ type: "Required" }],
+    LogTime: [],
+    TtTaskId: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -68,6 +73,23 @@ export default function TimerTaskUpdateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
+  const convertToLocal = (date) => {
+    const df = new Intl.DateTimeFormat("default", {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      calendar: "iso8601",
+      numberingSystem: "latn",
+      hourCycle: "h23",
+    });
+    const parts = df.formatToParts(date).reduce((acc, part) => {
+      acc[part.type] = part.value;
+      return acc;
+    }, {});
+    return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
+  };
   return (
     <Grid
       as="form"
@@ -77,7 +99,8 @@ export default function TimerTaskUpdateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          Name,
+          LogTime: LogTime ?? null,
+          TtTaskId: TtTaskId ?? null,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -108,10 +131,10 @@ export default function TimerTaskUpdateForm(props) {
             }
           });
           await client.graphql({
-            query: updateTimerTask.replaceAll("__typename", ""),
+            query: updateTtTaskTimeLog.replaceAll("__typename", ""),
             variables: {
               input: {
-                id: timerTaskRecord.id,
+                id: ttTaskTimeLogRecord.id,
                 ...modelFields,
               },
             },
@@ -126,32 +149,60 @@ export default function TimerTaskUpdateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "TimerTaskUpdateForm")}
+      {...getOverrideProps(overrides, "TtTaskTimeLogUpdateForm")}
       {...rest}
     >
       <TextField
-        label="Name"
-        isRequired={true}
+        label="Log time"
+        isRequired={false}
         isReadOnly={false}
-        value={Name}
+        type="datetime-local"
+        value={LogTime && convertToLocal(new Date(LogTime))}
+        onChange={(e) => {
+          let value =
+            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
+          if (onChange) {
+            const modelFields = {
+              LogTime: value,
+              TtTaskId,
+            };
+            const result = onChange(modelFields);
+            value = result?.LogTime ?? value;
+          }
+          if (errors.LogTime?.hasError) {
+            runValidationTasks("LogTime", value);
+          }
+          setLogTime(value);
+        }}
+        onBlur={() => runValidationTasks("LogTime", LogTime)}
+        errorMessage={errors.LogTime?.errorMessage}
+        hasError={errors.LogTime?.hasError}
+        {...getOverrideProps(overrides, "LogTime")}
+      ></TextField>
+      <TextField
+        label="Tt task id"
+        isRequired={false}
+        isReadOnly={false}
+        value={TtTaskId}
         onChange={(e) => {
           let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              Name: value,
+              LogTime,
+              TtTaskId: value,
             };
             const result = onChange(modelFields);
-            value = result?.Name ?? value;
+            value = result?.TtTaskId ?? value;
           }
-          if (errors.Name?.hasError) {
-            runValidationTasks("Name", value);
+          if (errors.TtTaskId?.hasError) {
+            runValidationTasks("TtTaskId", value);
           }
-          setName(value);
+          setTtTaskId(value);
         }}
-        onBlur={() => runValidationTasks("Name", Name)}
-        errorMessage={errors.Name?.errorMessage}
-        hasError={errors.Name?.hasError}
-        {...getOverrideProps(overrides, "Name")}
+        onBlur={() => runValidationTasks("TtTaskId", TtTaskId)}
+        errorMessage={errors.TtTaskId?.errorMessage}
+        hasError={errors.TtTaskId?.hasError}
+        {...getOverrideProps(overrides, "TtTaskId")}
       ></TextField>
       <Flex
         justifyContent="space-between"
@@ -164,7 +215,7 @@ export default function TimerTaskUpdateForm(props) {
             event.preventDefault();
             resetStateValues();
           }}
-          isDisabled={!(idProp || timerTaskModelProp)}
+          isDisabled={!(idProp || ttTaskTimeLogModelProp)}
           {...getOverrideProps(overrides, "ResetButton")}
         ></Button>
         <Flex
@@ -176,7 +227,7 @@ export default function TimerTaskUpdateForm(props) {
             type="submit"
             variation="primary"
             isDisabled={
-              !(idProp || timerTaskModelProp) ||
+              !(idProp || ttTaskTimeLogModelProp) ||
               Object.values(errors).some((e) => e?.hasError)
             }
             {...getOverrideProps(overrides, "SubmitButton")}

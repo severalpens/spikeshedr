@@ -19,71 +19,32 @@ export const onCreateRaceTime = /* GraphQL */ `
     }
   }
 `;
-export const onCreateTimerPeriod = /* GraphQL */ `
-  subscription OnCreateTimerPeriod(
-    $filter: ModelSubscriptionTimerPeriodFilterInput
+export const onCreateTtTask = /* GraphQL */ `
+  subscription OnCreateTtTask(
+    $filter: ModelSubscriptionTtTaskFilterInput
     $owner: String
   ) {
-    onCreateTimerPeriod(filter: $filter, owner: $owner) {
+    onCreateTtTask(filter: $filter, owner: $owner) {
+      IsRunning
+      ProjectName
+      TaskName
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateTtTaskTimeBlock = /* GraphQL */ `
+  subscription OnCreateTtTaskTimeBlock(
+    $filter: ModelSubscriptionTtTaskTimeBlockFilterInput
+    $owner: String
+  ) {
+    onCreateTtTaskTimeBlock(filter: $filter, owner: $owner) {
       EndTime
       StartTime
-      TimerTask {
-        Name
-        TimerProjectId
-        createdAt
-        id
-        owner
-        updatedAt
-        __typename
-      }
-      TimerTaskId
-      createdAt
-      id
-      owner
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onCreateTimerProject = /* GraphQL */ `
-  subscription OnCreateTimerProject(
-    $filter: ModelSubscriptionTimerProjectFilterInput
-    $owner: String
-  ) {
-    onCreateTimerProject(filter: $filter, owner: $owner) {
-      Name
-      TimerTasks {
-        nextToken
-        __typename
-      }
-      createdAt
-      id
-      owner
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onCreateTimerTask = /* GraphQL */ `
-  subscription OnCreateTimerTask(
-    $filter: ModelSubscriptionTimerTaskFilterInput
-    $owner: String
-  ) {
-    onCreateTimerTask(filter: $filter, owner: $owner) {
-      Name
-      TimerPeriods {
-        nextToken
-        __typename
-      }
-      TimerProject {
-        Name
-        createdAt
-        id
-        owner
-        updatedAt
-        __typename
-      }
-      TimerProjectId
+      TtTaskId
       createdAt
       id
       owner
@@ -110,71 +71,32 @@ export const onDeleteRaceTime = /* GraphQL */ `
     }
   }
 `;
-export const onDeleteTimerPeriod = /* GraphQL */ `
-  subscription OnDeleteTimerPeriod(
-    $filter: ModelSubscriptionTimerPeriodFilterInput
+export const onDeleteTtTask = /* GraphQL */ `
+  subscription OnDeleteTtTask(
+    $filter: ModelSubscriptionTtTaskFilterInput
     $owner: String
   ) {
-    onDeleteTimerPeriod(filter: $filter, owner: $owner) {
+    onDeleteTtTask(filter: $filter, owner: $owner) {
+      IsRunning
+      ProjectName
+      TaskName
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteTtTaskTimeBlock = /* GraphQL */ `
+  subscription OnDeleteTtTaskTimeBlock(
+    $filter: ModelSubscriptionTtTaskTimeBlockFilterInput
+    $owner: String
+  ) {
+    onDeleteTtTaskTimeBlock(filter: $filter, owner: $owner) {
       EndTime
       StartTime
-      TimerTask {
-        Name
-        TimerProjectId
-        createdAt
-        id
-        owner
-        updatedAt
-        __typename
-      }
-      TimerTaskId
-      createdAt
-      id
-      owner
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onDeleteTimerProject = /* GraphQL */ `
-  subscription OnDeleteTimerProject(
-    $filter: ModelSubscriptionTimerProjectFilterInput
-    $owner: String
-  ) {
-    onDeleteTimerProject(filter: $filter, owner: $owner) {
-      Name
-      TimerTasks {
-        nextToken
-        __typename
-      }
-      createdAt
-      id
-      owner
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onDeleteTimerTask = /* GraphQL */ `
-  subscription OnDeleteTimerTask(
-    $filter: ModelSubscriptionTimerTaskFilterInput
-    $owner: String
-  ) {
-    onDeleteTimerTask(filter: $filter, owner: $owner) {
-      Name
-      TimerPeriods {
-        nextToken
-        __typename
-      }
-      TimerProject {
-        Name
-        createdAt
-        id
-        owner
-        updatedAt
-        __typename
-      }
-      TimerProjectId
+      TtTaskId
       createdAt
       id
       owner
@@ -201,71 +123,32 @@ export const onUpdateRaceTime = /* GraphQL */ `
     }
   }
 `;
-export const onUpdateTimerPeriod = /* GraphQL */ `
-  subscription OnUpdateTimerPeriod(
-    $filter: ModelSubscriptionTimerPeriodFilterInput
+export const onUpdateTtTask = /* GraphQL */ `
+  subscription OnUpdateTtTask(
+    $filter: ModelSubscriptionTtTaskFilterInput
     $owner: String
   ) {
-    onUpdateTimerPeriod(filter: $filter, owner: $owner) {
+    onUpdateTtTask(filter: $filter, owner: $owner) {
+      IsRunning
+      ProjectName
+      TaskName
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateTtTaskTimeBlock = /* GraphQL */ `
+  subscription OnUpdateTtTaskTimeBlock(
+    $filter: ModelSubscriptionTtTaskTimeBlockFilterInput
+    $owner: String
+  ) {
+    onUpdateTtTaskTimeBlock(filter: $filter, owner: $owner) {
       EndTime
       StartTime
-      TimerTask {
-        Name
-        TimerProjectId
-        createdAt
-        id
-        owner
-        updatedAt
-        __typename
-      }
-      TimerTaskId
-      createdAt
-      id
-      owner
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onUpdateTimerProject = /* GraphQL */ `
-  subscription OnUpdateTimerProject(
-    $filter: ModelSubscriptionTimerProjectFilterInput
-    $owner: String
-  ) {
-    onUpdateTimerProject(filter: $filter, owner: $owner) {
-      Name
-      TimerTasks {
-        nextToken
-        __typename
-      }
-      createdAt
-      id
-      owner
-      updatedAt
-      __typename
-    }
-  }
-`;
-export const onUpdateTimerTask = /* GraphQL */ `
-  subscription OnUpdateTimerTask(
-    $filter: ModelSubscriptionTimerTaskFilterInput
-    $owner: String
-  ) {
-    onUpdateTimerTask(filter: $filter, owner: $owner) {
-      Name
-      TimerPeriods {
-        nextToken
-        __typename
-      }
-      TimerProject {
-        Name
-        createdAt
-        id
-        owner
-        updatedAt
-        __typename
-      }
-      TimerProjectId
+      TtTaskId
       createdAt
       id
       owner

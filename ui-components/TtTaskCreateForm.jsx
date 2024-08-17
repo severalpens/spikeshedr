@@ -1,12 +1,18 @@
 /* eslint-disable */
 "use client";
 import * as React from "react";
-import { Button, Flex, Grid, TextField } from "@aws-amplify/ui-react";
+import {
+  Button,
+  Flex,
+  Grid,
+  SwitchField,
+  TextField,
+} from "@aws-amplify/ui-react";
 import { fetchByPath, getOverrideProps, validateField } from "./utils";
 import { generateClient } from "aws-amplify/api";
-import { createTimerPeriod } from "./graphql/mutations";
+import { createTtTask } from "./graphql/mutations";
 const client = generateClient();
-export default function TimerPeriodCreateForm(props) {
+export default function TtTaskCreateForm(props) {
   const {
     clearOnSuccess = true,
     onSuccess,
@@ -18,20 +24,26 @@ export default function TimerPeriodCreateForm(props) {
     ...rest
   } = props;
   const initialValues = {
-    StartTime: "",
-    EndTime: "",
+    ProjectName: "",
+    TaskName: "",
+    IsRunning: false,
   };
-  const [StartTime, setStartTime] = React.useState(initialValues.StartTime);
-  const [EndTime, setEndTime] = React.useState(initialValues.EndTime);
+  const [ProjectName, setProjectName] = React.useState(
+    initialValues.ProjectName
+  );
+  const [TaskName, setTaskName] = React.useState(initialValues.TaskName);
+  const [IsRunning, setIsRunning] = React.useState(initialValues.IsRunning);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
-    setStartTime(initialValues.StartTime);
-    setEndTime(initialValues.EndTime);
+    setProjectName(initialValues.ProjectName);
+    setTaskName(initialValues.TaskName);
+    setIsRunning(initialValues.IsRunning);
     setErrors({});
   };
   const validations = {
-    StartTime: [],
-    EndTime: [],
+    ProjectName: [],
+    TaskName: [{ type: "Required" }],
+    IsRunning: [],
   };
   const runValidationTasks = async (
     fieldName,
@@ -50,23 +62,6 @@ export default function TimerPeriodCreateForm(props) {
     setErrors((errors) => ({ ...errors, [fieldName]: validationResponse }));
     return validationResponse;
   };
-  const convertToLocal = (date) => {
-    const df = new Intl.DateTimeFormat("default", {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-      calendar: "iso8601",
-      numberingSystem: "latn",
-      hourCycle: "h23",
-    });
-    const parts = df.formatToParts(date).reduce((acc, part) => {
-      acc[part.type] = part.value;
-      return acc;
-    }, {});
-    return `${parts.year}-${parts.month}-${parts.day}T${parts.hour}:${parts.minute}`;
-  };
   return (
     <Grid
       as="form"
@@ -76,8 +71,9 @@ export default function TimerPeriodCreateForm(props) {
       onSubmit={async (event) => {
         event.preventDefault();
         let modelFields = {
-          StartTime,
-          EndTime,
+          ProjectName,
+          TaskName,
+          IsRunning,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -108,7 +104,7 @@ export default function TimerPeriodCreateForm(props) {
             }
           });
           await client.graphql({
-            query: createTimerPeriod.replaceAll("__typename", ""),
+            query: createTtTask.replaceAll("__typename", ""),
             variables: {
               input: {
                 ...modelFields,
@@ -128,63 +124,87 @@ export default function TimerPeriodCreateForm(props) {
           }
         }
       }}
-      {...getOverrideProps(overrides, "TimerPeriodCreateForm")}
+      {...getOverrideProps(overrides, "TtTaskCreateForm")}
       {...rest}
     >
       <TextField
-        label="Start time"
+        label="Project name"
         isRequired={false}
         isReadOnly={false}
-        type="datetime-local"
-        value={StartTime && convertToLocal(new Date(StartTime))}
+        value={ProjectName}
         onChange={(e) => {
-          let value =
-            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
+          let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              StartTime: value,
-              EndTime,
+              ProjectName: value,
+              TaskName,
+              IsRunning,
             };
             const result = onChange(modelFields);
-            value = result?.StartTime ?? value;
+            value = result?.ProjectName ?? value;
           }
-          if (errors.StartTime?.hasError) {
-            runValidationTasks("StartTime", value);
+          if (errors.ProjectName?.hasError) {
+            runValidationTasks("ProjectName", value);
           }
-          setStartTime(value);
+          setProjectName(value);
         }}
-        onBlur={() => runValidationTasks("StartTime", StartTime)}
-        errorMessage={errors.StartTime?.errorMessage}
-        hasError={errors.StartTime?.hasError}
-        {...getOverrideProps(overrides, "StartTime")}
+        onBlur={() => runValidationTasks("ProjectName", ProjectName)}
+        errorMessage={errors.ProjectName?.errorMessage}
+        hasError={errors.ProjectName?.hasError}
+        {...getOverrideProps(overrides, "ProjectName")}
       ></TextField>
       <TextField
-        label="End time"
-        isRequired={false}
+        label="Task name"
+        isRequired={true}
         isReadOnly={false}
-        type="datetime-local"
-        value={EndTime && convertToLocal(new Date(EndTime))}
+        value={TaskName}
         onChange={(e) => {
-          let value =
-            e.target.value === "" ? "" : new Date(e.target.value).toISOString();
+          let { value } = e.target;
           if (onChange) {
             const modelFields = {
-              StartTime,
-              EndTime: value,
+              ProjectName,
+              TaskName: value,
+              IsRunning,
             };
             const result = onChange(modelFields);
-            value = result?.EndTime ?? value;
+            value = result?.TaskName ?? value;
           }
-          if (errors.EndTime?.hasError) {
-            runValidationTasks("EndTime", value);
+          if (errors.TaskName?.hasError) {
+            runValidationTasks("TaskName", value);
           }
-          setEndTime(value);
+          setTaskName(value);
         }}
-        onBlur={() => runValidationTasks("EndTime", EndTime)}
-        errorMessage={errors.EndTime?.errorMessage}
-        hasError={errors.EndTime?.hasError}
-        {...getOverrideProps(overrides, "EndTime")}
+        onBlur={() => runValidationTasks("TaskName", TaskName)}
+        errorMessage={errors.TaskName?.errorMessage}
+        hasError={errors.TaskName?.hasError}
+        {...getOverrideProps(overrides, "TaskName")}
       ></TextField>
+      <SwitchField
+        label="Is running"
+        defaultChecked={false}
+        isDisabled={false}
+        isChecked={IsRunning}
+        onChange={(e) => {
+          let value = e.target.checked;
+          if (onChange) {
+            const modelFields = {
+              ProjectName,
+              TaskName,
+              IsRunning: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.IsRunning ?? value;
+          }
+          if (errors.IsRunning?.hasError) {
+            runValidationTasks("IsRunning", value);
+          }
+          setIsRunning(value);
+        }}
+        onBlur={() => runValidationTasks("IsRunning", IsRunning)}
+        errorMessage={errors.IsRunning?.errorMessage}
+        hasError={errors.IsRunning?.hasError}
+        {...getOverrideProps(overrides, "IsRunning")}
+      ></SwitchField>
       <Flex
         justifyContent="space-between"
         {...getOverrideProps(overrides, "CTAFlex")}

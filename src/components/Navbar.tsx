@@ -29,7 +29,7 @@ function Navbar() {
             </NavLink>
           </div>
           <div className="p-6">
-            <NavLink className="" to="/timer">
+            <NavLink className="" to="/tttasks">
               Task Timer
             </NavLink>
           </div>

@@ -1,20 +1,17 @@
 import { useEffect, useRef, useState } from "react";
 import type { Schema } from "../../../amplify/data/resource";
-// import regression from 'highcharts-regression';
 import { generateClient } from "aws-amplify/data";
-import { Authenticator } from '@aws-amplify/ui-react';
 import '@aws-amplify/ui-react/styles.css';
 import RaceTimeCreateForm from '../../../ui-components/RaceTimeCreateForm';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import raceTimesSeedData from './raceTimesSeedData.json';
 import chart1Options from "./chart1Options";
-
+import { AuthUser } from "aws-amplify/auth";
 
 const client = generateClient<Schema>();
 
-
-function RaceTimes() {
+function RaceTimes({ user }: { user: AuthUser }) {
   const [raceTimes, setRaceTimes] = useState<Array<Schema["RaceTime"]["type"]>>([]);
   const chartComponentRef = useRef<HighchartsReact.RefObject>(null);
   const [showForm, setShowForm] = useState<boolean>(false);
@@ -23,13 +20,15 @@ function RaceTimes() {
   const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
   const [selectedRaceTimeIDs, setSelectedRaceTimeIDs] = useState<Array<string>>([]);
   const chartOptions = chart1Options(raceTimes);
-    
-  useEffect(() => {
-    client.models.RaceTime.observeQuery().subscribe({
-      next: (data) => setRaceTimes([...data.items]),
-    });
-  }, []);
   
+  useEffect(() => {
+    const sub = client.models.RaceTime.observeQuery().subscribe({
+      next: ({ items }) => {
+        setRaceTimes([...items]);
+      },
+    });
+    return () => sub.unsubscribe();
+  }, []);
 
   const seedRaceTimes = async () => {
     const confirmSeedRaceTimes = window.confirm("Are you sure you want to seed race times?");
@@ -39,7 +38,6 @@ function RaceTimes() {
       });
     }
   }
-  
 
   function deleteAllRaceTimes() {
     selectedRaceTimeIDs.forEach(async (id) => {
@@ -59,9 +57,9 @@ function RaceTimes() {
   };
 
   return (
-    <Authenticator>
-      {({ signOut, user }) => (
         <main>
+          {user && (
+          <section>
           <h1 className="text-xl mb-4">{user?.signInDetails?.loginId}'s Race Times</h1>
           <div id="newTimeForm" className="mb-12">
             <button
@@ -78,83 +76,82 @@ function RaceTimes() {
             >
               {showTable ? 'Hide Table' : 'Show Table'}
             </button>
-          <div id="raceTimesTable" hidden={!showTable}>
-            <div className="flex justify-end mb-4">
-              <button id="seedRaceTimes" onClick={seedRaceTimes} className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white  px-4 rounded text-sm mr-4">
-                Seed Race Times
-              </button>
-
-              <button
-                onClick={() => deleteAllRaceTimes()}
-                className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white  px-4 rounded text-sm"
-                disabled={selectedRaceTimeIDs.length === 0}
-              >
-                Delete Selected
-              </button>
+            <div hidden={!showTable}>
+              <div className="flex justify-end mb-4">
+                <button id="seedRaceTimes" onClick={seedRaceTimes} className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white  px-4 rounded text-sm mr-4">
+                  Seed Race Times
+                </button>
+                <button id="deleteSelectedButton"
+                  onClick={() => deleteAllRaceTimes()}
+                  className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white  px-4 rounded text-sm"
+                  disabled={selectedRaceTimeIDs.length === 0}
+                >
+                  Delete Selected
+                </button>
+              </div>
+              <div className="overflow-x-auto">
+                <table  id="raceTimesTable" className="table-auto w-full" >
+                  <thead>
+                    <tr>
+                      <th className="border px-4 py-2">Race Distance</th>
+                      <th className="border px-4 py-2">Race Date</th>
+                      <th className="border px-4 py-2">Race Time</th>
+                      <th className="border px-4 py-2">
+                        <input
+                          className="mr-2"
+                          type="checkbox"
+                          checked={isAllSelected}
+                          onChange={(e) => {
+                            if (e.target.checked) {
+                              setSelectedRaceTimeIDs(raceTimes.map(raceTime => raceTime.id));
+                              setIsAllSelected(true);
+                            } else {
+                              setSelectedRaceTimeIDs([]);
+                              setIsAllSelected(false);
+                            }
+                          }}
+                        />
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {raceTimes
+                      .sort((a, b) => {
+                        const dateA = a.RaceDate ? new Date(a.RaceDate.toString()) : null;
+                        const dateB = b.RaceDate ? new Date(b.RaceDate.toString()) : null;
+                        return dateA && dateB ? dateA.getTime() - dateB.getTime() : 0;
+                      })
+                      .map((raceTime) => (
+                        <tr key={raceTime.id}>
+                          <td className="border px-4 py-2">{raceTime.RaceDistance}</td>
+                          <td className="border px-4 py-2">{raceTime.RaceDate}</td>
+                          <td className="border px-4 py-2">
+                            {raceTime.RaceMins}:
+                            {raceTime.RaceSecs != null
+                              ? raceTime.RaceSecs < 10
+                                ? `0${raceTime.RaceSecs}`
+                                : raceTime.RaceSecs
+                              : 0}
+                          </td>
+                          <td className="border px-4 py-2">
+                            <input
+                              type="checkbox"
+                              onChange={(e) => {
+                                if (e.target.checked) {
+                                  setSelectedRaceTimeIDs([...selectedRaceTimeIDs, raceTime.id]);
+                                } else {
+                                  setSelectedRaceTimeIDs(selectedRaceTimeIDs.filter(id => id !== raceTime.id));
+                                }
+                              }}
+                              checked={selectedRaceTimeIDs.includes(raceTime.id)}
+                            />
+                          </td>
+                        </tr>
+                      ))}
+                  </tbody>
+                </table>
+              </div>
             </div>
-            <div className="overflow-x-auto">
-              <table className="table-auto w-full" >
-                <thead>
-                  <tr>
-                    <th className="border px-4 py-2">Race Distance</th>
-                    <th className="border px-4 py-2">Race Date</th>
-                    <th className="border px-4 py-2">Race Time</th>
-                    <th className="border px-4 py-2">
-                      <input
-                        className="mr-2"
-                        type="checkbox"
-                        checked={isAllSelected}
-                        onChange={(e) => {
-                          if (e.target.checked) {
-                            setSelectedRaceTimeIDs(raceTimes.map(raceTime => raceTime.id));
-                            setIsAllSelected(true);
-                          } else {
-                            setSelectedRaceTimeIDs([]);
-                            setIsAllSelected(false);
-                          }
-                        }}
-                      />
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {raceTimes
-                    .sort((a, b) => {
-                      const dateA = a.RaceDate ? new Date(a.RaceDate.toString()) : null;
-                      const dateB = b.RaceDate ? new Date(b.RaceDate.toString()) : null;
-                      return dateA && dateB ? dateA.getTime() - dateB.getTime() : 0;
-                    })
-                    .map((raceTime) => (
-                      <tr key={raceTime.id}>
-                        <td className="border px-4 py-2">{raceTime.RaceDistance}</td>
-                        <td className="border px-4 py-2">{raceTime.RaceDate}</td>
-                        <td className="border px-4 py-2">
-                          {raceTime.RaceMins}:
-                          {raceTime.RaceSecs != null
-                            ? raceTime.RaceSecs < 10
-                              ? `0${raceTime.RaceSecs}`
-                              : raceTime.RaceSecs
-                            : 0}
-                        </td>
-                        <td className="border px-4 py-2">
-                          <input
-                            type="checkbox"
-                            onChange={(e) => {
-                              if (e.target.checked) {
-                                setSelectedRaceTimeIDs([...selectedRaceTimeIDs, raceTime.id]);
-                              } else {
-                                setSelectedRaceTimeIDs(selectedRaceTimeIDs.filter(id => id !== raceTime.id));
-                              }
-                            }}
-                            checked={selectedRaceTimeIDs.includes(raceTime.id)}
-                          />
-                        </td>
-                      </tr>
-                    ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
           <div className="mt-4" id="chart">
             <button
               onClick={toggleChart}
@@ -170,16 +167,11 @@ function RaceTimes() {
               />
             )}
           </div>
-          <div className="flex justify-end">
-          <button onClick={signOut} className="mb-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  w-48">
-            Sign out
-          </button>
-            
-          </div>
-        </main>
+        </section>
       )}
-    </Authenticator>
-  );
+        </main>
+
+      );
 }
 
 export default RaceTimes;
