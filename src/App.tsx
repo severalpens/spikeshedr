@@ -10,16 +10,18 @@ import React from 'react';
 
 function App() {
   const [consentGiven, setConsentGiven] = React.useState<boolean>(false); 
-  return (
+const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false);
+
+return (
     <div className="container mx-auto font-sans">
-      <Navbar />
+      <Navbar isLoggedIn={isLoggedIn} />
       <Routes>
         <Route path="/" element={<Home />}/>
-        <Route path="racetimes" element={<RaceTimesAuthWrapper/>} />
-        <Route path="tttasks" element={<TtTasksAuthWrapper/>} />
+        <Route path="racetimes" element={<RaceTimesAuthWrapper setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="tttasks" element={<TtTasksAuthWrapper  setIsLoggedIn={setIsLoggedIn} />} />
       </Routes>
       <div hidden={consentGiven}>
-      <CookiesConsent consentGiven={consentGiven} setConsentGiven={setConsentGiven}  />
+        <CookiesConsent consentGiven={consentGiven} setConsentGiven={setConsentGiven}  />
       </div>
     </div>
   );
