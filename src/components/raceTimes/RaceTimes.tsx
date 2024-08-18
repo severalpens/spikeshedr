@@ -60,7 +60,7 @@ function RaceTimes({ user }: { user: AuthUser }) {
         <main>
           {user && (
           <section>
-          <h1 className="text-xl mb-4">{user?.signInDetails?.loginId}'s Race Times</h1>
+          <h1 className="text-xl mb-4">Race Times (Prototype)</h1>
           <div id="newTimeForm" className="mb-12">
             <button
               onClick={() => setShowForm(!showForm)}
@@ -119,7 +119,7 @@ function RaceTimes({ user }: { user: AuthUser }) {
                       .sort((a, b) => {
                         const dateA = a.RaceDate ? new Date(a.RaceDate.toString()) : null;
                         const dateB = b.RaceDate ? new Date(b.RaceDate.toString()) : null;
-                        return dateA && dateB ? dateA.getTime() - dateB.getTime() : 0;
+                        return dateA && dateB ? dateB.getTime() - dateA.getTime() : 0;
                       })
                       .map((raceTime) => (
                         <tr key={raceTime.id}>

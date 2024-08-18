@@ -20,6 +20,10 @@ function TtTaskTimeBlocks() {
   }, []);
 
   const deleteAllTaskTimeBlocks = async () => {
+    const confirmDelete = window.confirm('Are you sure you want to delete all logs?');
+    if (!confirmDelete) {
+      return;
+    }
     for (const ttTaskTimeBlock of ttTaskTimeBlocks) {
       await client.models.TtTaskTimeBlock.delete({ id: ttTaskTimeBlock.id });
     }
@@ -28,6 +32,7 @@ function TtTaskTimeBlocks() {
   
   return (
     <div id="ttTaskTimeBlockTableDiv" className="m-5">
+    <h1 className="text-xl mb-4">Activity Logs</h1>
     <table  id="ttTaskTimeBlockTable" className="table-auto w-full" >
       <thead>
         <tr>
@@ -50,10 +55,10 @@ function TtTaskTimeBlocks() {
                 {ttTasks.find((ttTask) => ttTask.id === ttTaskTimeBlock.TtTaskId)?.TaskName}
               </td>
               <td className="border px-4 py-2">
-                {ttTaskTimeBlock.StartTime}
+                {ttTaskTimeBlock.StartTime ? new Date(ttTaskTimeBlock.StartTime).toLocaleString('en-AU', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : ''}
               </td>
               <td className="border px-4 py-2">
-                {ttTaskTimeBlock.EndTime}
+              {ttTaskTimeBlock.EndTime ? new Date(ttTaskTimeBlock.EndTime).toLocaleString('en-AU', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit' }) : ''}
               </td>
             </tr>
           ))} 

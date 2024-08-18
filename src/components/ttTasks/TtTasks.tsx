@@ -5,6 +5,7 @@ import '@aws-amplify/ui-react/styles.css';
 import TtTaskCreateForm from '../../../ui-components/TtTaskCreateForm';
 import { AuthUser } from "aws-amplify/auth";
 import TtTaskTimeBlocks from "./TtTaskTimeBlocks";
+import TtTasksChart1 from "./TtTasksChart1";
 
 
 const client = generateClient<Schema>();
@@ -15,7 +16,7 @@ function TtTasks({ user }: { user: AuthUser }) {
   const [ttTaskTimeBlocks, setTtTaskTimeBlocks] = useState<Array<Schema["TtTaskTimeBlock"]["type"]>>([]);
   const [ttTasks, setTtTasks] = useState<Array<Schema["TtTask"]["type"]>>([]);
   const [isButtonsDisabled, setIsButtonsDisabled] = useState<boolean>(false);
-
+console.log(user);
   useEffect(() => {
     client.models.TtTask.observeQuery().subscribe({
       next: (data) => setTtTasks([...data.items]),
@@ -60,9 +61,20 @@ function TtTasks({ user }: { user: AuthUser }) {
     setIsButtonsDisabled(false);
   }
 
+  const deleteTask = async (ttTask: Schema["TtTask"]["type"]) => {
+    await client.models.TtTask.delete({ id: ttTask.id });
+    const timeBlocks = ttTaskTimeBlocks.filter((timeBlock) => timeBlock.TtTaskId === ttTask.id);
+    const deleteLogs = window.confirm("Delete related logs?");
+    if (deleteLogs) {
+    for await (const timeBlock of timeBlocks) {
+      await client.models.TtTaskTimeBlock.delete({ id: timeBlock.id });
+    }
+  }
+  }
+
   return (
     <main>
-      <h1 className="text-xl mb-4">{user?.signInDetails?.loginId}'s Tasks</h1>
+      <h1 className="text-xl mb-4">Task Timer (Prototype)</h1>
       <div id="newTimeForm" className="mb-12">
         <button
           onClick={() => setShowForm(!showForm)}
@@ -76,10 +88,9 @@ function TtTasks({ user }: { user: AuthUser }) {
         <table id="ttTasksTable" className="table-auto w-full" >
           <thead>
             <tr>
-              <th className="border px-4 py-2">Tasks</th>
-              <th className="border px-4 py-2"></th>
-              <th className="border px-4 py-2"></th>
-              <th className="border px-4 py-2"></th>
+            <th className="border px-4 py-2">Projects</th>
+            <th className="border px-4 py-2">Tasks</th>
+            <th className="border px-4 py-2"></th>
             </tr>
           </thead>
           <tbody>
@@ -87,18 +98,21 @@ function TtTasks({ user }: { user: AuthUser }) {
               .map((ttTask) => (
                 <tr key={ttTask.id}>
                   <td className="border px-4 py-2">
+                    {ttTask.ProjectName}
+                  </td>
+                  <td className="border px-4 py-2 ">
                     {ttTask.TaskName}
                   </td>
-                  <td className="border px-4 py-2">
+                  <td className="border px-4 py-2 flex justify-evenly">
                     <button id="StartStopTaskButton"
                       disabled={isButtonsDisabled}
                       className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
                       onClick={() => startStopTask(ttTask)}
                     >{ttTask.IsRunning ? 'Stop' : 'Start'}</button>
-                  </td>
-
-                  <td className="border px-4 py-2">
-                    Delete
+                    <button id="EditTaskButton"
+                      className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded "
+                      onClick={() => deleteTask(ttTask)}
+                    >Delete</button>
                   </td>
                 </tr>
               ))}
@@ -106,7 +120,7 @@ function TtTasks({ user }: { user: AuthUser }) {
         </table>
       </div>
       <TtTaskTimeBlocks />
-
+      <TtTasksChart1 ttTaskTimeBlocks={ttTaskTimeBlocks} ttTasks={ttTasks} />
     </main>
   );
 }
