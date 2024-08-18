@@ -120,8 +120,7 @@ console.log(user);
         </table>
       </div>
       <TtTaskTimeBlocks />
-      <TtTasksChart1 ttTaskTimeBlocks={ttTaskTimeBlocks} />
-
+      <TtTasksChart1 ttTaskTimeBlocks={ttTaskTimeBlocks} ttTasks={ttTasks} />
     </main>
   );
 }

@@ -2,8 +2,13 @@ import type { Schema } from "../../../amplify/data/resource";
 
 
 
-function chart1Options(ttTaskTimeBlocks: Array<Schema["TtTaskTimeBlock"]["type"]>) {
+function chart1Options(ttTaskTimeBlocks: Array<Schema["TtTaskTimeBlock"]["type"]>, ttTasks: Array<Schema["TtTask"]["type"]>) {
     const distinctTaskIds = [...new Set(ttTaskTimeBlocks.map(ttTaskTimeBlock => ttTaskTimeBlock.TtTaskId))];
+    const correspondingTaskNames = distinctTaskIds.map(taskId => {
+        const task = ttTasks.find(ttTask => ttTask.id === taskId);
+        return task?.TaskName ?? 'Unknown';
+    }
+    );
     const taskTimes = distinctTaskIds.map(taskId => {
         const taskTime = ttTaskTimeBlocks
             .filter(ttTaskTimeBlock => ttTaskTimeBlock.TtTaskId === taskId)
@@ -12,7 +17,8 @@ function chart1Options(ttTaskTimeBlocks: Array<Schema["TtTaskTimeBlock"]["type"]
                 const endTime = ttTaskTimeBlock.EndTime ? new Date(ttTaskTimeBlock.EndTime).getTime() : new Date().getTime();
                 return acc + (endTime - startTime);
             }, 0);
-        return taskTime;
+        const taskTimeConvertedToMinutes = taskTime / 1000 / 60;
+        return taskTimeConvertedToMinutes;
     });
 
     
@@ -25,7 +31,7 @@ const chartOptions = {
       align: 'left'
   },
   xAxis: {
-      categories: distinctTaskIds,
+      categories: correspondingTaskNames,
       crosshair: true,
       accessibility: {
           description: 'TaskIds'
@@ -34,7 +40,7 @@ const chartOptions = {
   yAxis: {
       min: 0,
       title: {
-          text: 'Time spent'
+          text: 'Time spent (Minutes)'
       }
   },
   plotOptions: {
