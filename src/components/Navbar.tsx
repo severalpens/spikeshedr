@@ -1,7 +1,11 @@
 import {  useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
+import {  signOut } from "aws-amplify/auth";
 
-function Navbar() {
+
+
+
+function Navbar({isLoggedIn}: {isLoggedIn: boolean}) {
 
   useEffect(() => {
     async function fetchData() {
@@ -18,6 +22,9 @@ function Navbar() {
               Home
             </NavLink>
           </div>
+          <div className="p-6">
+              <a href="https://dev.dllr6w2z0a4pi.amplifyapp.com/" target="_blank" >Dev Version</a>
+          </div>
           <div className="p-6" hidden>
             <NavLink className="" to="/projects">
               Demo Projects
@@ -33,8 +40,13 @@ function Navbar() {
               Task Timer
             </NavLink>
           </div>
+          {isLoggedIn && 
+        <div className="flex justify-end">
+          <button onClick={() => signOut()} className="">
+            Sign out
+          </button>
         </div>
-        <div className="p-6 columns-2">
+        }
         </div>
       </div>
     </>

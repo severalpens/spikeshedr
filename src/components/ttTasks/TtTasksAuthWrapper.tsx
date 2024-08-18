@@ -3,11 +3,13 @@ import '@aws-amplify/ui-react/styles.css';
 import TtTasks from "./TtTasks";
 
 
-function TtTasksAuthWrapper() {
+function TtTasksAuthWrapper({ setIsLoggedIn }: { setIsLoggedIn: (isLoggedIn: boolean) => void }) {
 
   return (
     <Authenticator>
-      {({ signOut, user }) => (
+      {({ signOut, user }) => {
+        setIsLoggedIn(!!user);
+        return (
         <div className="mt-5">
         {user && <TtTasks user={user} />}
         <div className="flex justify-end">
@@ -16,7 +18,7 @@ function TtTasksAuthWrapper() {
           </button>
           </div>
         </div>
-      )}
+      )}}
     </Authenticator>
   );
 }
