@@ -18,6 +18,11 @@ function Navbar() {
               Home
             </NavLink>
           </div>
+          <div className="p-6">
+            <NavLink className="" to="/about">
+              <a href="https://dev.dllr6w2z0a4pi.amplifyapp.com/" target="_blank" >Dev Version</a>
+            </NavLink>
+          </div>
           <div className="p-6" hidden>
             <NavLink className="" to="/projects">
               Demo Projects
