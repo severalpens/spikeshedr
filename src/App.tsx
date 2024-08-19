@@ -5,12 +5,18 @@ import Home from "./components/Home";
 import RaceTimesAuthWrapper from './components/raceTimes/RaceTimesAuthWrapper';
 import TtTasksAuthWrapper from './components/ttTasks/TtTasksAuthWrapper';
 import CookiesConsent from './components/CookiesConsent';
-import React from 'react';
+import React, { useEffect } from 'react';
 import TxsAuthWrapper from './components/txs/TxsAuthWrapper';
 
 
 function App() {
-  const [consentGiven, setConsentGiven] = React.useState<boolean>(false); 
+  const [consentGiven, setConsentGiven] = React.useState<boolean>(false);
+
+  useEffect(() => {
+    setConsentGiven(localStorage.getItem('consentGiven') === 'true');
+  }
+  , []);
+
 
 return (
     <div className="container mx-auto font-sans">
@@ -22,7 +28,7 @@ return (
         <Route path="txs" element={<TxsAuthWrapper   />} />
       </Routes>
       <div hidden={consentGiven}>
-        <CookiesConsent consentGiven={consentGiven} setConsentGiven={setConsentGiven}  />
+        <CookiesConsent/>
       </div>
     </div>
   );
