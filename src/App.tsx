@@ -27,7 +27,7 @@ return (
         <Route path="tttasks" element={<TtTasksAuthWrapper   />} />
         <Route path="txs" element={<TxsAuthWrapper   />} />
       </Routes>
-      <div hidden={consentGiven}>
+      <div hidden>
         <CookiesConsent/>
       </div>
     </div>
