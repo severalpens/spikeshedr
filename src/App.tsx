@@ -6,10 +6,11 @@ import RaceTimesAuthWrapper from './components/raceTimes/RaceTimesAuthWrapper';
 import TtTasksAuthWrapper from './components/ttTasks/TtTasksAuthWrapper';
 import CookiesConsent from './components/CookiesConsent';
 import React from 'react';
+import TxsAuthWrapper from './components/txs/TxsAuthWrapper';
 
 
 function App() {
-  const [consentGiven, setConsentGiven] = React.useState<boolean>(false); 
+  const [consentGiven, setConsentGiven] = React.useState<boolean>(localStorage.getItem('consentGiven') === 'true'); 
 const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false);
 
 return (
@@ -19,6 +20,7 @@ return (
         <Route path="/" element={<Home />}/>
         <Route path="racetimes" element={<RaceTimesAuthWrapper setIsLoggedIn={setIsLoggedIn} />} />
         <Route path="tttasks" element={<TtTasksAuthWrapper  setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="txs" element={<TxsAuthWrapper  setIsLoggedIn={setIsLoggedIn} />} />
       </Routes>
       <div hidden={consentGiven}>
         <CookiesConsent consentGiven={consentGiven} setConsentGiven={setConsentGiven}  />

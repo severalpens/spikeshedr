@@ -1,6 +1,18 @@
 /* tslint:disable */
 // this is an auto generated file. This will be overwritten
 
+export const getConsentGiven = /* GraphQL */ `
+  query GetConsentGiven($id: ID!) {
+    getConsentGiven(id: $id) {
+      IsGiven
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const getRaceTime = /* GraphQL */ `
   query GetRaceTime($id: ID!) {
     getRaceTime(id: $id) {
@@ -40,6 +52,44 @@ export const getTtTaskTimeBlock = /* GraphQL */ `
       id
       owner
       updatedAt
+      __typename
+    }
+  }
+`;
+export const getTx = /* GraphQL */ `
+  query GetTx($id: ID!) {
+    getTx(id: $id) {
+      TxAmount
+      TxCategory
+      TxDate
+      TxDateDate
+      TxDateTime
+      TxDescription
+      TxType
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const listConsentGivens = /* GraphQL */ `
+  query ListConsentGivens(
+    $filter: ModelConsentGivenFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listConsentGivens(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        IsGiven
+        createdAt
+        id
+        owner
+        updatedAt
+        __typename
+      }
+      nextToken
       __typename
     }
   }
@@ -104,6 +154,28 @@ export const listTtTasks = /* GraphQL */ `
         IsRunning
         ProjectName
         TaskName
+        createdAt
+        id
+        owner
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listTxes = /* GraphQL */ `
+  query ListTxes($filter: ModelTxFilterInput, $limit: Int, $nextToken: String) {
+    listTxes(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        TxAmount
+        TxCategory
+        TxDate
+        TxDateDate
+        TxDateTime
+        TxDescription
+        TxType
         createdAt
         id
         owner

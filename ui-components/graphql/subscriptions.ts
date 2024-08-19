@@ -1,6 +1,21 @@
 /* tslint:disable */
 // this is an auto generated file. This will be overwritten
 
+export const onCreateConsentGiven = /* GraphQL */ `
+  subscription OnCreateConsentGiven(
+    $filter: ModelSubscriptionConsentGivenFilterInput
+    $owner: String
+  ) {
+    onCreateConsentGiven(filter: $filter, owner: $owner) {
+      IsGiven
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onCreateRaceTime = /* GraphQL */ `
   subscription OnCreateRaceTime(
     $filter: ModelSubscriptionRaceTimeFilterInput
@@ -45,6 +60,42 @@ export const onCreateTtTaskTimeBlock = /* GraphQL */ `
       EndTime
       StartTime
       TtTaskId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateTx = /* GraphQL */ `
+  subscription OnCreateTx(
+    $filter: ModelSubscriptionTxFilterInput
+    $owner: String
+  ) {
+    onCreateTx(filter: $filter, owner: $owner) {
+      TxAmount
+      TxCategory
+      TxDate
+      TxDateDate
+      TxDateTime
+      TxDescription
+      TxType
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteConsentGiven = /* GraphQL */ `
+  subscription OnDeleteConsentGiven(
+    $filter: ModelSubscriptionConsentGivenFilterInput
+    $owner: String
+  ) {
+    onDeleteConsentGiven(filter: $filter, owner: $owner) {
+      IsGiven
       createdAt
       id
       owner
@@ -105,6 +156,42 @@ export const onDeleteTtTaskTimeBlock = /* GraphQL */ `
     }
   }
 `;
+export const onDeleteTx = /* GraphQL */ `
+  subscription OnDeleteTx(
+    $filter: ModelSubscriptionTxFilterInput
+    $owner: String
+  ) {
+    onDeleteTx(filter: $filter, owner: $owner) {
+      TxAmount
+      TxCategory
+      TxDate
+      TxDateDate
+      TxDateTime
+      TxDescription
+      TxType
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateConsentGiven = /* GraphQL */ `
+  subscription OnUpdateConsentGiven(
+    $filter: ModelSubscriptionConsentGivenFilterInput
+    $owner: String
+  ) {
+    onUpdateConsentGiven(filter: $filter, owner: $owner) {
+      IsGiven
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onUpdateRaceTime = /* GraphQL */ `
   subscription OnUpdateRaceTime(
     $filter: ModelSubscriptionRaceTimeFilterInput
@@ -149,6 +236,27 @@ export const onUpdateTtTaskTimeBlock = /* GraphQL */ `
       EndTime
       StartTime
       TtTaskId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateTx = /* GraphQL */ `
+  subscription OnUpdateTx(
+    $filter: ModelSubscriptionTxFilterInput
+    $owner: String
+  ) {
+    onUpdateTx(filter: $filter, owner: $owner) {
+      TxAmount
+      TxCategory
+      TxDate
+      TxDateDate
+      TxDateTime
+      TxDescription
+      TxType
       createdAt
       id
       owner
