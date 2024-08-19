@@ -10,7 +10,7 @@ import TxsAuthWrapper from './components/txs/TxsAuthWrapper';
 
 
 function App() {
-  const [consentGiven, setConsentGiven] = React.useState<boolean>(false);
+  const [, setConsentGiven] = React.useState<boolean>(false);
 
   useEffect(() => {
     setConsentGiven(localStorage.getItem('consentGiven') === 'true');
