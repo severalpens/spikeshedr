@@ -5,23 +5,30 @@ import Home from "./components/Home";
 import RaceTimesAuthWrapper from './components/raceTimes/RaceTimesAuthWrapper';
 import TtTasksAuthWrapper from './components/ttTasks/TtTasksAuthWrapper';
 import CookiesConsent from './components/CookiesConsent';
-import React from 'react';
+import React, { useEffect } from 'react';
+import TxsAuthWrapper from './components/txs/TxsAuthWrapper';
 
 
 function App() {
-  const [consentGiven, setConsentGiven] = React.useState<boolean>(false); 
-const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false);
+  const [, setConsentGiven] = React.useState<boolean>(false);
+
+  useEffect(() => {
+    setConsentGiven(localStorage.getItem('consentGiven') === 'true');
+  }
+  , []);
+
 
 return (
     <div className="container mx-auto font-sans">
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar  />
       <Routes>
         <Route path="/" element={<Home />}/>
-        <Route path="racetimes" element={<RaceTimesAuthWrapper setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path="tttasks" element={<TtTasksAuthWrapper  setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="racetimes" element={<RaceTimesAuthWrapper  />} />
+        <Route path="tttasks" element={<TtTasksAuthWrapper   />} />
+        <Route path="txs" element={<TxsAuthWrapper   />} />
       </Routes>
-      <div hidden={consentGiven}>
-        <CookiesConsent consentGiven={consentGiven} setConsentGiven={setConsentGiven}  />
+      <div hidden>
+        <CookiesConsent/>
       </div>
     </div>
   );

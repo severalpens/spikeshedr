@@ -1,3 +1,4 @@
+//relative path: amplify/data/resource.ts
 import { type ClientSchema, a, defineData } from "@aws-amplify/backend";
 
 /*== STEP 1 ===============================================================
@@ -7,7 +8,12 @@ specifies that any user authenticated via an API key can "create", "read",
 "update", and "delete" any "Todo" records.
 =========================================================================*/
 const schema = a.schema({
-  RaceTime: a
+  ConsentGiven: a
+    .model({
+      IsGiven: a.boolean(),
+    }).authorization((allow) => [allow.owner()]),
+
+    RaceTime: a
     .model({
       RaceDate: a.date(),
       RaceDistance: a.integer(),
@@ -28,7 +34,15 @@ const schema = a.schema({
       IsRunning: a.boolean(),
     }).authorization(allow => [allow.owner()]),
 
-
+    Tx: a.model({
+      TxDate: a.string(),
+      TxDateTime: a.datetime(),
+      TxDateDate: a.date(),
+      TxAmount: a.integer(),
+      TxType: a.string(),
+      TxCategory: a.string(),
+      TxDescription: a.string(),
+    }).authorization(allow => [allow.owner()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;

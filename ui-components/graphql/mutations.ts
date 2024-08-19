@@ -1,6 +1,21 @@
 /* tslint:disable */
 // this is an auto generated file. This will be overwritten
 
+export const createConsentGiven = /* GraphQL */ `
+  mutation CreateConsentGiven(
+    $condition: ModelConsentGivenConditionInput
+    $input: CreateConsentGivenInput!
+  ) {
+    createConsentGiven(condition: $condition, input: $input) {
+      IsGiven
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const createRaceTime = /* GraphQL */ `
   mutation CreateRaceTime(
     $condition: ModelRaceTimeConditionInput
@@ -45,6 +60,39 @@ export const createTtTaskTimeBlock = /* GraphQL */ `
       EndTime
       StartTime
       TtTaskId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createTx = /* GraphQL */ `
+  mutation CreateTx($condition: ModelTxConditionInput, $input: CreateTxInput!) {
+    createTx(condition: $condition, input: $input) {
+      TxAmount
+      TxCategory
+      TxDate
+      TxDateDate
+      TxDateTime
+      TxDescription
+      TxType
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteConsentGiven = /* GraphQL */ `
+  mutation DeleteConsentGiven(
+    $condition: ModelConsentGivenConditionInput
+    $input: DeleteConsentGivenInput!
+  ) {
+    deleteConsentGiven(condition: $condition, input: $input) {
+      IsGiven
       createdAt
       id
       owner
@@ -105,6 +153,39 @@ export const deleteTtTaskTimeBlock = /* GraphQL */ `
     }
   }
 `;
+export const deleteTx = /* GraphQL */ `
+  mutation DeleteTx($condition: ModelTxConditionInput, $input: DeleteTxInput!) {
+    deleteTx(condition: $condition, input: $input) {
+      TxAmount
+      TxCategory
+      TxDate
+      TxDateDate
+      TxDateTime
+      TxDescription
+      TxType
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateConsentGiven = /* GraphQL */ `
+  mutation UpdateConsentGiven(
+    $condition: ModelConsentGivenConditionInput
+    $input: UpdateConsentGivenInput!
+  ) {
+    updateConsentGiven(condition: $condition, input: $input) {
+      IsGiven
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const updateRaceTime = /* GraphQL */ `
   mutation UpdateRaceTime(
     $condition: ModelRaceTimeConditionInput
@@ -149,6 +230,24 @@ export const updateTtTaskTimeBlock = /* GraphQL */ `
       EndTime
       StartTime
       TtTaskId
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateTx = /* GraphQL */ `
+  mutation UpdateTx($condition: ModelTxConditionInput, $input: UpdateTxInput!) {
+    updateTx(condition: $condition, input: $input) {
+      TxAmount
+      TxCategory
+      TxDate
+      TxDateDate
+      TxDateTime
+      TxDescription
+      TxType
       createdAt
       id
       owner
