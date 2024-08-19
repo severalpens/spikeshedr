@@ -10,17 +10,16 @@ import TxsAuthWrapper from './components/txs/TxsAuthWrapper';
 
 
 function App() {
-  const [consentGiven, setConsentGiven] = React.useState<boolean>(localStorage.getItem('consentGiven') === 'true'); 
-const [isLoggedIn, setIsLoggedIn] = React.useState<boolean>(false);
+  const [consentGiven, setConsentGiven] = React.useState<boolean>(false); 
 
 return (
     <div className="container mx-auto font-sans">
-      <Navbar isLoggedIn={isLoggedIn} />
+      <Navbar  />
       <Routes>
         <Route path="/" element={<Home />}/>
-        <Route path="racetimes" element={<RaceTimesAuthWrapper setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path="tttasks" element={<TtTasksAuthWrapper  setIsLoggedIn={setIsLoggedIn} />} />
-        <Route path="txs" element={<TxsAuthWrapper  setIsLoggedIn={setIsLoggedIn} />} />
+        <Route path="racetimes" element={<RaceTimesAuthWrapper  />} />
+        <Route path="tttasks" element={<TtTasksAuthWrapper   />} />
+        <Route path="txs" element={<TxsAuthWrapper   />} />
       </Routes>
       <div hidden={consentGiven}>
         <CookiesConsent consentGiven={consentGiven} setConsentGiven={setConsentGiven}  />

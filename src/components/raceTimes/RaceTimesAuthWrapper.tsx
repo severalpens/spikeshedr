@@ -3,14 +3,13 @@ import '@aws-amplify/ui-react/styles.css';
 import RaceTimes from "./RaceTimes";
 
 
-function RaceTimesAuthWrapper({ setIsLoggedIn }: { setIsLoggedIn: (isLoggedIn: boolean) => void }) {
+function RaceTimesAuthWrapper() {
   // const [usr, setUsr] = useState<string>('');
   // const [loginAttempts, setLoginAttempts] = useState<number>(0);
 
   return (
     <Authenticator>
       {({ signOut, user }) => {
-        setIsLoggedIn(!!user);
         return (
         <div className="mt-5">
         {user && <RaceTimes user={user} />}

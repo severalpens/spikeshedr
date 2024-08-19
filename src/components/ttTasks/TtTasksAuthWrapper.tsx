@@ -8,7 +8,6 @@ function TtTasksAuthWrapper() {
   return (
     <Authenticator>
       {({ signOut, user }) => {
-        // setIsLoggedIn(!!user);
         return (
           <div className="mt-5">
             {user && <TtTasks user={user} />}

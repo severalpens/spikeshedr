@@ -1,11 +1,10 @@
 import {  useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
-import {  signOut } from "aws-amplify/auth";
 
 
 
 
-function Navbar({isLoggedIn}: {isLoggedIn: boolean}) {
+function Navbar() {
 
   useEffect(() => {
     async function fetchData() {
@@ -40,13 +39,6 @@ function Navbar({isLoggedIn}: {isLoggedIn: boolean}) {
               Task Timer
             </NavLink>
           </div>
-          {isLoggedIn && 
-        <div className="flex justify-end">
-          <button onClick={() => signOut()} className="">
-            Sign out
-          </button>
-        </div>
-        }
         </div>
       </div>
     </>
