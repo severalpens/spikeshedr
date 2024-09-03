@@ -8,6 +8,7 @@ import CookiesConsent from './components/CookiesConsent';
 import React, { useEffect } from 'react';
 import TxsAuthWrapper from './components/txs/TxsAuthWrapper';
 import Freestyle from './components/freestyle/Freestyle'; // Import the 'Freestyle' component
+import ContactUsAuthWrapper from './components/contactUs/ContactUsAuthWrapper';
 
 
 function App() {
@@ -28,6 +29,8 @@ return (
         <Route path="tttasks" element={<TtTasksAuthWrapper   />} />
         <Route path="txs" element={<TxsAuthWrapper   />} />
         <Route path="freestyle" element={<Freestyle />} /> {/* Use the 'Freestyle' component */}
+        <Route path="contactus" element={<ContactUsAuthWrapper   />} />
+
       </Routes>
       <div hidden>
         <CookiesConsent/>
