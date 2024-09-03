@@ -52,6 +52,13 @@ const schema = a.schema({
     }).authorization(allow => [allow.owner()]),
 
 
+
+    Todo: a.model({
+      Name: a.string(),
+      IsCompleted: a.boolean(),
+    }).authorization(allow => [allow.owner()]),
+
+
 });
 
 export type Schema = ClientSchema<typeof schema>;
