@@ -7,6 +7,7 @@ import TtTasksAuthWrapper from './components/ttTasks/TtTasksAuthWrapper';
 import CookiesConsent from './components/CookiesConsent';
 import React, { useEffect } from 'react';
 import TxsAuthWrapper from './components/txs/TxsAuthWrapper';
+import Freestyle from './components/freestyle/Freestyle'; // Import the 'Freestyle' component
 
 
 function App() {
@@ -26,6 +27,7 @@ return (
         <Route path="racetimes" element={<RaceTimesAuthWrapper  />} />
         <Route path="tttasks" element={<TtTasksAuthWrapper   />} />
         <Route path="txs" element={<TxsAuthWrapper   />} />
+        <Route path="freestyle" element={<Freestyle />} /> {/* Use the 'Freestyle' component */}
       </Routes>
       <div hidden>
         <CookiesConsent/>
