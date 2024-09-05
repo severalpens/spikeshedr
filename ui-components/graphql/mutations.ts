@@ -16,6 +16,22 @@ export const createConsentGiven = /* GraphQL */ `
     }
   }
 `;
+export const createContact = /* GraphQL */ `
+  mutation CreateContact(
+    $condition: ModelContactConditionInput
+    $input: CreateContactInput!
+  ) {
+    createContact(condition: $condition, input: $input) {
+      Email
+      Message
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const createRaceTime = /* GraphQL */ `
   mutation CreateRaceTime(
     $condition: ModelRaceTimeConditionInput
@@ -26,6 +42,22 @@ export const createRaceTime = /* GraphQL */ `
       RaceDistance
       RaceMins
       RaceSecs
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const createTodo = /* GraphQL */ `
+  mutation CreateTodo(
+    $condition: ModelTodoConditionInput
+    $input: CreateTodoInput!
+  ) {
+    createTodo(condition: $condition, input: $input) {
+      IsCompleted
+      Name
       createdAt
       id
       owner
@@ -101,6 +133,22 @@ export const deleteConsentGiven = /* GraphQL */ `
     }
   }
 `;
+export const deleteContact = /* GraphQL */ `
+  mutation DeleteContact(
+    $condition: ModelContactConditionInput
+    $input: DeleteContactInput!
+  ) {
+    deleteContact(condition: $condition, input: $input) {
+      Email
+      Message
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const deleteRaceTime = /* GraphQL */ `
   mutation DeleteRaceTime(
     $condition: ModelRaceTimeConditionInput
@@ -111,6 +159,22 @@ export const deleteRaceTime = /* GraphQL */ `
       RaceDistance
       RaceMins
       RaceSecs
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const deleteTodo = /* GraphQL */ `
+  mutation DeleteTodo(
+    $condition: ModelTodoConditionInput
+    $input: DeleteTodoInput!
+  ) {
+    deleteTodo(condition: $condition, input: $input) {
+      IsCompleted
+      Name
       createdAt
       id
       owner
@@ -186,6 +250,22 @@ export const updateConsentGiven = /* GraphQL */ `
     }
   }
 `;
+export const updateContact = /* GraphQL */ `
+  mutation UpdateContact(
+    $condition: ModelContactConditionInput
+    $input: UpdateContactInput!
+  ) {
+    updateContact(condition: $condition, input: $input) {
+      Email
+      Message
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const updateRaceTime = /* GraphQL */ `
   mutation UpdateRaceTime(
     $condition: ModelRaceTimeConditionInput
@@ -196,6 +276,22 @@ export const updateRaceTime = /* GraphQL */ `
       RaceDistance
       RaceMins
       RaceSecs
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateTodo = /* GraphQL */ `
+  mutation UpdateTodo(
+    $condition: ModelTodoConditionInput
+    $input: UpdateTodoInput!
+  ) {
+    updateTodo(condition: $condition, input: $input) {
+      IsCompleted
+      Name
       createdAt
       id
       owner
