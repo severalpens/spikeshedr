@@ -20,6 +20,7 @@ function RaceTimes({ user }: { user: AuthUser }) {
   const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
   const [selectedRaceTimeIDs, setSelectedRaceTimeIDs] = useState<Array<string>>([]);
   const chartOptions = chart1Options(raceTimes);
+  const [toggleSort, setToggleSort] = useState<boolean>(false);
   
   useEffect(() => {
     const sub = client.models.RaceTime.observeQuery().subscribe({
@@ -56,6 +57,10 @@ function RaceTimes({ user }: { user: AuthUser }) {
     setShowChart(!showChart);
   };
 
+  const toggleSortFunc = () => {
+    setToggleSort(!toggleSort);
+  };
+
   return (
         <main>
           {user && (
@@ -78,6 +83,9 @@ function RaceTimes({ user }: { user: AuthUser }) {
             </button>
             <div hidden={!showTable}>
               <div className="flex justify-end mb-4">
+              <button id="sortTable" onClick={toggleSortFunc} className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white  px-4 rounded text-sm mr-4">
+                  Sort
+                </button>
                 <button id="seedRaceTimes" onClick={seedRaceTimes} className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white  px-4 rounded text-sm mr-4">
                   Seed Race Times
                 </button>
@@ -119,7 +127,7 @@ function RaceTimes({ user }: { user: AuthUser }) {
                       .sort((a, b) => {
                         const dateA = a.RaceDate ? new Date(a.RaceDate.toString()) : null;
                         const dateB = b.RaceDate ? new Date(b.RaceDate.toString()) : null;
-                        return dateA && dateB ? dateB.getTime() - dateA.getTime() : 0;
+                        return toggleSort ? dateA && dateB ? dateA.getTime() - dateB.getTime() : 0 : dateA && dateB ? dateB.getTime() - dateA.getTime() : 0;
                       })
                       .map((raceTime) => (
                         <tr key={raceTime.id}>
