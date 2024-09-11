@@ -9,7 +9,7 @@ import React, { useEffect } from 'react';
 import TxsAuthWrapper from './components/txs/TxsAuthWrapper';
 import Freestyle from './components/freestyle/Freestyle'; // Import the 'Freestyle' component
 import ContactUsAuthWrapper from './components/contactUs/ContactUsAuthWrapper';
-import Todos from './components/todo/Todos';
+import TodosAuthWrapper from './components/todo/TodosAuthWrapper';
 
 
 function App() {
@@ -31,7 +31,7 @@ return (
         <Route path="txs" element={<TxsAuthWrapper   />} />
         <Route path="freestyle" element={<Freestyle />} /> 
         <Route path="contactus" element={<ContactUsAuthWrapper   />} />
-        <Route path="todos" element={<Todos/>} />
+        <Route path="todos" element={<TodosAuthWrapper/>} />
 
       </Routes>
       <div hidden>
