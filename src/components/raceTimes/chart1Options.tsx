@@ -1,10 +1,15 @@
 import type { Schema } from "../../../amplify/data/resource";
 
-function formatTooltipLabel(value: number) {
-  const hours = Math.floor(value / 3600);
-  const mins = Math.floor((value % 3600) / 60);
-  const secs = value % 60;
-  return `${hours > 0 ? hours + ':' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
+function formatTooltipLabel(xValue: number, yValue: number) {
+  const hours = Math.floor(yValue / 3600);
+  const mins = Math.floor((yValue % 3600) / 60);
+  const secs = yValue % 60;
+  const date = new Date(xValue);
+  const day = date.getDate();
+  const month = date.toLocaleString('default', { month: 'long' });
+  const year = date.getFullYear();
+  const formattedDate = `${day} ${month} ${year}`;
+  return `${formattedDate}: ${hours > 0 ? hours + ':' : ''}${mins}:${secs < 10 ? '0' : ''}${secs}`;
 }
 
 function formatYAxisLabel(value: number) {
@@ -57,7 +62,7 @@ function chart1Options(raceTimes: Array<Schema["RaceTime"]["type"]>) {
     tooltip: {
       animation: false,
       formatter: function (this: Highcharts.TooltipFormatterContextObject): string {
-        return formatTooltipLabel(this.y as number);
+        return formatTooltipLabel(this.x as number, this.y as number);
       }
       
     }
