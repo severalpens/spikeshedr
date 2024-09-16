@@ -13,6 +13,19 @@ export const getConsentGiven = /* GraphQL */ `
     }
   }
 `;
+export const getContact = /* GraphQL */ `
+  query GetContact($id: ID!) {
+    getContact(id: $id) {
+      Email
+      Message
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const getRaceTime = /* GraphQL */ `
   query GetRaceTime($id: ID!) {
     getRaceTime(id: $id) {
@@ -20,6 +33,19 @@ export const getRaceTime = /* GraphQL */ `
       RaceDistance
       RaceMins
       RaceSecs
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const getTodo = /* GraphQL */ `
+  query GetTodo($id: ID!) {
+    getTodo(id: $id) {
+      IsCompleted
+      Name
       createdAt
       id
       owner
@@ -94,6 +120,27 @@ export const listConsentGivens = /* GraphQL */ `
     }
   }
 `;
+export const listContacts = /* GraphQL */ `
+  query ListContacts(
+    $filter: ModelContactFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listContacts(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        Email
+        Message
+        createdAt
+        id
+        owner
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
 export const listRaceTimes = /* GraphQL */ `
   query ListRaceTimes(
     $filter: ModelRaceTimeFilterInput
@@ -106,6 +153,27 @@ export const listRaceTimes = /* GraphQL */ `
         RaceDistance
         RaceMins
         RaceSecs
+        createdAt
+        id
+        owner
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listTodos = /* GraphQL */ `
+  query ListTodos(
+    $filter: ModelTodoFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listTodos(filter: $filter, limit: $limit, nextToken: $nextToken) {
+      items {
+        IsCompleted
+        Name
         createdAt
         id
         owner

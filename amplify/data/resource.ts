@@ -43,6 +43,22 @@ const schema = a.schema({
       TxCategory: a.string(),
       TxDescription: a.string(),
     }).authorization(allow => [allow.owner()]),
+
+    
+
+    Contact: a.model({
+      Email: a.string(),
+      Message: a.string(),
+    }).authorization(allow => [allow.owner()]),
+
+
+
+    Todo: a.model({
+      Name: a.string(),
+      IsCompleted: a.boolean(),
+    }).authorization(allow => [allow.owner()]),
+
+
 });
 
 export type Schema = ClientSchema<typeof schema>;

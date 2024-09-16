@@ -39,6 +39,17 @@ function Navbar() {
               Task Timer
             </NavLink>
           </div>
+          <div className="p-6">
+            <NavLink className="" to="/contactus">
+              Contact Us
+            </NavLink>
+          </div>
+          <div className="p-6">
+            <NavLink className="" to="/todos">
+              To Dos
+            </NavLink>
+          </div>
+
         </div>
       </div>
     </>

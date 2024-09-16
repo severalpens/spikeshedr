@@ -16,6 +16,22 @@ export const onCreateConsentGiven = /* GraphQL */ `
     }
   }
 `;
+export const onCreateContact = /* GraphQL */ `
+  subscription OnCreateContact(
+    $filter: ModelSubscriptionContactFilterInput
+    $owner: String
+  ) {
+    onCreateContact(filter: $filter, owner: $owner) {
+      Email
+      Message
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onCreateRaceTime = /* GraphQL */ `
   subscription OnCreateRaceTime(
     $filter: ModelSubscriptionRaceTimeFilterInput
@@ -26,6 +42,22 @@ export const onCreateRaceTime = /* GraphQL */ `
       RaceDistance
       RaceMins
       RaceSecs
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onCreateTodo = /* GraphQL */ `
+  subscription OnCreateTodo(
+    $filter: ModelSubscriptionTodoFilterInput
+    $owner: String
+  ) {
+    onCreateTodo(filter: $filter, owner: $owner) {
+      IsCompleted
+      Name
       createdAt
       id
       owner
@@ -104,6 +136,22 @@ export const onDeleteConsentGiven = /* GraphQL */ `
     }
   }
 `;
+export const onDeleteContact = /* GraphQL */ `
+  subscription OnDeleteContact(
+    $filter: ModelSubscriptionContactFilterInput
+    $owner: String
+  ) {
+    onDeleteContact(filter: $filter, owner: $owner) {
+      Email
+      Message
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onDeleteRaceTime = /* GraphQL */ `
   subscription OnDeleteRaceTime(
     $filter: ModelSubscriptionRaceTimeFilterInput
@@ -114,6 +162,22 @@ export const onDeleteRaceTime = /* GraphQL */ `
       RaceDistance
       RaceMins
       RaceSecs
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onDeleteTodo = /* GraphQL */ `
+  subscription OnDeleteTodo(
+    $filter: ModelSubscriptionTodoFilterInput
+    $owner: String
+  ) {
+    onDeleteTodo(filter: $filter, owner: $owner) {
+      IsCompleted
+      Name
       createdAt
       id
       owner
@@ -192,6 +256,22 @@ export const onUpdateConsentGiven = /* GraphQL */ `
     }
   }
 `;
+export const onUpdateContact = /* GraphQL */ `
+  subscription OnUpdateContact(
+    $filter: ModelSubscriptionContactFilterInput
+    $owner: String
+  ) {
+    onUpdateContact(filter: $filter, owner: $owner) {
+      Email
+      Message
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onUpdateRaceTime = /* GraphQL */ `
   subscription OnUpdateRaceTime(
     $filter: ModelSubscriptionRaceTimeFilterInput
@@ -202,6 +282,22 @@ export const onUpdateRaceTime = /* GraphQL */ `
       RaceDistance
       RaceMins
       RaceSecs
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateTodo = /* GraphQL */ `
+  subscription OnUpdateTodo(
+    $filter: ModelSubscriptionTodoFilterInput
+    $owner: String
+  ) {
+    onUpdateTodo(filter: $filter, owner: $owner) {
+      IsCompleted
+      Name
       createdAt
       id
       owner
