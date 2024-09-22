@@ -44,7 +44,7 @@ function Navbar() {
               Contact Us
             </NavLink>
           </div>
-          <div className="p-6">
+          <div hidden className="p-6">
             <NavLink className="" to="/todos">
               To Dos
             </NavLink>
