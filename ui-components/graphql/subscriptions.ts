@@ -50,6 +50,22 @@ export const onCreateRaceTime = /* GraphQL */ `
     }
   }
 `;
+export const onCreateShoppingListItem = /* GraphQL */ `
+  subscription OnCreateShoppingListItem(
+    $filter: ModelSubscriptionShoppingListItemFilterInput
+    $owner: String
+  ) {
+    onCreateShoppingListItem(filter: $filter, owner: $owner) {
+      IsCompleted
+      Name
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onCreateTodo = /* GraphQL */ `
   subscription OnCreateTodo(
     $filter: ModelSubscriptionTodoFilterInput
@@ -170,6 +186,22 @@ export const onDeleteRaceTime = /* GraphQL */ `
     }
   }
 `;
+export const onDeleteShoppingListItem = /* GraphQL */ `
+  subscription OnDeleteShoppingListItem(
+    $filter: ModelSubscriptionShoppingListItemFilterInput
+    $owner: String
+  ) {
+    onDeleteShoppingListItem(filter: $filter, owner: $owner) {
+      IsCompleted
+      Name
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const onDeleteTodo = /* GraphQL */ `
   subscription OnDeleteTodo(
     $filter: ModelSubscriptionTodoFilterInput
@@ -282,6 +314,22 @@ export const onUpdateRaceTime = /* GraphQL */ `
       RaceDistance
       RaceMins
       RaceSecs
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const onUpdateShoppingListItem = /* GraphQL */ `
+  subscription OnUpdateShoppingListItem(
+    $filter: ModelSubscriptionShoppingListItemFilterInput
+    $owner: String
+  ) {
+    onUpdateShoppingListItem(filter: $filter, owner: $owner) {
+      IsCompleted
+      Name
       createdAt
       id
       owner

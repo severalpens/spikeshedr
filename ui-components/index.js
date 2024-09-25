@@ -12,3 +12,5 @@ export { default as ContactCreateForm } from "./ContactCreateForm";
 export { default as ContactUpdateForm } from "./ContactUpdateForm";
 export { default as TodoCreateForm } from "./TodoCreateForm";
 export { default as TodoUpdateForm } from "./TodoUpdateForm";
+export { default as ShoppingListItemCreateForm } from "./ShoppingListItemCreateForm";
+export { default as ShoppingListItemUpdateForm } from "./ShoppingListItemUpdateForm";

@@ -19,8 +19,6 @@ function formatYAxisLabel(value: number) {
 }
 
 function chart1Options(raceTimes: Array<Schema["RaceTime"]["type"]>) {
-
-  console.log(raceTimes);
   
   const chartData = raceTimes.map(raceTime => {
     const raceDate = raceTime.RaceDate ? new Date(raceTime.RaceDate.toString()).getTime() : null;

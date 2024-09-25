@@ -3,7 +3,6 @@ import type { Schema } from "../../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import '@aws-amplify/ui-react/styles.css';
 import TtTaskCreateForm from '../../../ui-components/TtTaskCreateForm';
-import { AuthUser } from "aws-amplify/auth";
 import TtTaskTimeBlocks from "./TtTaskTimeBlocks";
 import TtTasksChart1 from "./TtTasksChart1";
 
@@ -11,12 +10,11 @@ import TtTasksChart1 from "./TtTasksChart1";
 const client = generateClient<Schema>();
 
 
-function TtTasks({ user }: { user: AuthUser }) {
+function TtTasks() {
   const [showForm, setShowForm] = useState<boolean>(false);
   const [ttTaskTimeBlocks, setTtTaskTimeBlocks] = useState<Array<Schema["TtTaskTimeBlock"]["type"]>>([]);
   const [ttTasks, setTtTasks] = useState<Array<Schema["TtTask"]["type"]>>([]);
   const [isButtonsDisabled, setIsButtonsDisabled] = useState<boolean>(false);
-console.log(user);
   useEffect(() => {
     client.models.TtTask.observeQuery().subscribe({
       next: (data) => setTtTasks([...data.items]),

@@ -59,6 +59,12 @@ const schema = a.schema({
     }).authorization(allow => [allow.owner()]),
 
 
+    ShoppingListItem: a.model({
+      Name: a.string(),
+      IsCompleted: a.boolean(),
+    }).authorization(allow => [allow.owner()]),
+
+
 });
 
 export type Schema = ClientSchema<typeof schema>;

@@ -50,6 +50,22 @@ export const createRaceTime = /* GraphQL */ `
     }
   }
 `;
+export const createShoppingListItem = /* GraphQL */ `
+  mutation CreateShoppingListItem(
+    $condition: ModelShoppingListItemConditionInput
+    $input: CreateShoppingListItemInput!
+  ) {
+    createShoppingListItem(condition: $condition, input: $input) {
+      IsCompleted
+      Name
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const createTodo = /* GraphQL */ `
   mutation CreateTodo(
     $condition: ModelTodoConditionInput
@@ -167,6 +183,22 @@ export const deleteRaceTime = /* GraphQL */ `
     }
   }
 `;
+export const deleteShoppingListItem = /* GraphQL */ `
+  mutation DeleteShoppingListItem(
+    $condition: ModelShoppingListItemConditionInput
+    $input: DeleteShoppingListItemInput!
+  ) {
+    deleteShoppingListItem(condition: $condition, input: $input) {
+      IsCompleted
+      Name
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const deleteTodo = /* GraphQL */ `
   mutation DeleteTodo(
     $condition: ModelTodoConditionInput
@@ -276,6 +308,22 @@ export const updateRaceTime = /* GraphQL */ `
       RaceDistance
       RaceMins
       RaceSecs
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
+export const updateShoppingListItem = /* GraphQL */ `
+  mutation UpdateShoppingListItem(
+    $condition: ModelShoppingListItemConditionInput
+    $input: UpdateShoppingListItemInput!
+  ) {
+    updateShoppingListItem(condition: $condition, input: $input) {
+      IsCompleted
+      Name
       createdAt
       id
       owner
