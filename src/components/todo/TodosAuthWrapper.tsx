@@ -11,7 +11,18 @@ function TodosAuthWrapper() {
         <div className="mt-5">
         {user && <Todos  user={user} />}
         <div className="flex justify-end">
-          <button onClick={signOut} className="mb-4 mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  w-48">
+          <button onClick={signOut} className="
+          mb-4 
+          mt-4 
+          bg-blue-500
+          hover:bg-blue-700 
+          text-white 
+          font-bold 
+          py-2 
+          px-4 
+          rounded  
+          w-48"
+          >
             Sign out
           </button>
           </div>

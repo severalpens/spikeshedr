@@ -39,12 +39,12 @@ function Todos({ user }: { user: AuthUser }) {
     {user && (
     <section>
     <h1 className="text-xl mb-4">To Dos (Prototype)</h1>
-    <div id="newTimeForm" className="mb-12">
+    <div id="newItemForm" className="mb-12">
       <button
         onClick={() => setShowForm(!showForm)}
         className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded  w-48"
       >
-        {showForm ? 'Hide New Time Form' : 'Add New Time'}
+        {showForm ? 'Hide New Item Form' : 'Add New Item'}
       </button>
       {showForm && <TodoCreateForm />}
     </div>
