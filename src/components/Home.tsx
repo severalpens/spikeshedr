@@ -13,7 +13,6 @@ function Home() {
     <div className="text-center flex justify-center m-6">
       <a href="https://github.com/severalpens" className="border mx-6 px-6 py-2.5 border-black rounded-md">Github</a>
       <a href="https://www.youtube.com/channel/UCuFhL_mEedCp4FDpIrSS9gA" className="border mx-6 px-6 py-2.5 border-black rounded-md">Youtube</a>
-      <a href="https://blue-beach-0c011c910.3.azurestaticapps.net/" className="border mx-6 px-6 py-2.5 border-black rounded-md">Blog</a>
       <a href="https://www.linkedin.com/in/paul-collins-541b2053/" className="border mx-6 px-6 py-2.5 border-black rounded-md">LinkedIn</a>
     </div>
   </div>

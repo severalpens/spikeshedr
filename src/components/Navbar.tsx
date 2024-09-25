@@ -18,7 +18,7 @@ function Navbar() {
               Home
             </NavLink>
           </div>
-          <div className="p-6">
+          <div hidden className="p-6">
               <a href="https://dev.dllr6w2z0a4pi.amplifyapp.com/" target="_blank" >Dev Version</a>
           </div>
           <div className="p-6" hidden>
@@ -36,12 +36,12 @@ function Navbar() {
               Task Timer
             </NavLink>
           </div>
-          <div className="p-6">
+          <div hidden className="p-6">
             <NavLink className="" to="/contactus">
               Contact Us
             </NavLink>
           </div>
-          <div className="p-6">
+          <div hidden className="p-6">
             <NavLink className="" to="/todos">
               To Do
             </NavLink>
