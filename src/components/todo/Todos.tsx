@@ -38,7 +38,7 @@ function Todos({ user }: { user: AuthUser }) {
     <main>
     {user && (
     <section>
-    <h1 className="text-xl mb-4">To Dos (Prototype)</h1>
+    <h1 className="text-xl mb-4">To Do List (Prototype)</h1>
     <div id="newItemForm" className="mb-12">
       <button
         onClick={() => setShowForm(!showForm)}
