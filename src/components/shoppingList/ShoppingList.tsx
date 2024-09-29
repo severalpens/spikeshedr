@@ -2,33 +2,33 @@ import { useEffect, useState } from "react";
 import type { Schema } from "../../../amplify/data/resource";
 import { generateClient } from "aws-amplify/data";
 import '@aws-amplify/ui-react/styles.css';
-import TodoCreateForm from '../../../ui-components/TodoCreateForm';
+import ShoppingListItemCreateForm from '../../../ui-components/ShoppingListItemCreateForm';
 import { AuthUser } from "aws-amplify/auth";
 
 const client = generateClient<Schema>();
 
-function Todos({ user }: { user: AuthUser }) {
+function ShoppingList({ user }: { user: AuthUser }) {
 
-  const [todos, setTodos] = useState<Array<Schema["Todo"]["type"]>>([]);
+  const [shoppingList, setShoppingList] = useState<Array<Schema["ShoppingListItem"]["type"]>>([]);
   const [showForm, setShowForm] = useState<boolean>(false);
   const [isAllSelected, setIsAllSelected] = useState<boolean>(false);
-  const [selectedTodoIDs, setSelectedTodoIDs] = useState<Array<string>>([]);
+  const [selectedItemIDs, setSelectedItemIDs] = useState<Array<string>>([]);
 
   useEffect(() => {
-    const sub = client.models.Todo.observeQuery().subscribe({
+    const sub = client.models.ShoppingListItem.observeQuery().subscribe({
       next: ({ items }) => {
-        setTodos([...items]);
+        setShoppingList([...items]);
       },
     });
     return () => sub.unsubscribe();
   }, []);
 
 
-  function deleteAllTodos() {
-    selectedTodoIDs.forEach(async (id) => {
-      await client.models.Todo.delete({ id });
+  function deleteAllShoppingList() {
+    selectedItemIDs.forEach(async (id) => {
+      await client.models.ShoppingListItem.delete({ id });
     });
-    setSelectedTodoIDs([]);
+    setSelectedItemIDs([]);
     setIsAllSelected(false);
   }
 
@@ -38,7 +38,7 @@ function Todos({ user }: { user: AuthUser }) {
     <main>
     {user && (
     <section>
-    <h1 className="text-xl mb-4">To Do List (Prototype)</h1>
+    <h1 className="text-xl mb-4">Shopping List (Prototype)</h1>
     <div id="newItemForm" className="mb-12">
       <button
         onClick={() => setShowForm(!showForm)}
@@ -46,20 +46,20 @@ function Todos({ user }: { user: AuthUser }) {
       >
         {showForm ? 'Hide New Item Form' : 'Add New Item'}
       </button>
-      {showForm && <TodoCreateForm />}
+      {showForm && <ShoppingListItemCreateForm />}
     </div>
       <div >
         <div className="flex justify-end mb-4">
           <button id="deleteSelectedButton"
-            onClick={() => deleteAllTodos()}
+            onClick={() => deleteAllShoppingList()}
             className="bg-blue-500 hover:bg-blue-700 disabled:bg-blue-300 text-white  px-4 rounded text-sm"
-            disabled={selectedTodoIDs.length === 0}
+            disabled={selectedItemIDs.length === 0}
           >
             Delete Selected
           </button>
         </div>
         <div className="overflow-x-auto">
-          <table  id="todosTable" className="table-auto w-full" >
+          <table  id="shoppingListTable" className="table-auto w-full" >
             <thead>
               <tr>
                 <th className="border px-4 py-2">Name</th>
@@ -71,10 +71,10 @@ function Todos({ user }: { user: AuthUser }) {
                     checked={isAllSelected}
                     onChange={(e) => {
                       if (e.target.checked) {
-                        setSelectedTodoIDs(todos.map(todo => todo.id));
+                        setSelectedItemIDs(shoppingList.map(item => item.id));
                         setIsAllSelected(true);
                       } else {
-                        setSelectedTodoIDs([]);
+                        setSelectedItemIDs([]);
                         setIsAllSelected(false);
                       }
                     }}
@@ -83,10 +83,10 @@ function Todos({ user }: { user: AuthUser }) {
               </tr>
             </thead>
             <tbody>
-              {todos                
-                .map((todo) => (
-                  <tr key={todo.id}>
-                    <td className="border px-4 py-2">{todo.Name}</td>
+              {shoppingList                
+                .map((item) => (
+                  <tr key={item.id}>
+                    <td className="border px-4 py-2">{item.Name}</td>
                     <td className="border px-4 py-2">
                       <input
                         type="checkbox"
@@ -94,12 +94,12 @@ function Todos({ user }: { user: AuthUser }) {
                         onChange={(e) => {
                           if (e.target.checked) {
                             
-                            client.models.Todo.update({ id: todo.id, IsCompleted: true });
+                            client.models.ShoppingListItem.update({ id: item.id, IsCompleted: true });
                           } else {
-                            client.models.Todo.update({ id: todo.id, IsCompleted: false });
+                            client.models.ShoppingListItem.update({ id: item.id, IsCompleted: false });
                           }
                         }}
-                        checked={todo.IsCompleted ?? false}
+                        checked={item.IsCompleted ?? false}
                       />
                     </td>
                     <td className="border px-4 py-2">
@@ -107,12 +107,12 @@ function Todos({ user }: { user: AuthUser }) {
                         type="checkbox"
                         onChange={(e) => {
                           if (e.target.checked) {
-                            setSelectedTodoIDs([...selectedTodoIDs, todo.id]);
+                            setSelectedItemIDs([...selectedItemIDs, item.id]);
                           } else {
-                            setSelectedTodoIDs(selectedTodoIDs.filter(id => id !== todo.id));
+                            setSelectedItemIDs(selectedItemIDs.filter(id => id !== item.id));
                           }
                         }}
-                        checked={selectedTodoIDs.includes(todo.id)}
+                        checked={selectedItemIDs.includes(item.id)}
                       />
                     </td>
                   </tr>
@@ -128,5 +128,5 @@ function Todos({ user }: { user: AuthUser }) {
   
 }
 
-export default Todos;
+export default ShoppingList;
 

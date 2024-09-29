@@ -23,6 +23,11 @@ function chart1Options(ttTaskTimeBlocks: Array<Schema["TtTaskTimeBlock"]["type"]
 
     
 const chartOptions = {
+    accessibility: {
+        enabled: false
+      },
+  
+  
   chart: {
       type: 'column'
   },

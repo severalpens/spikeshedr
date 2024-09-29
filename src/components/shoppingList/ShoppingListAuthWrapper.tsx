@@ -1,15 +1,15 @@
 import { Authenticator } from '@aws-amplify/ui-react'; // Import Auth module
 import '@aws-amplify/ui-react/styles.css';
-import Todos from "./Todos";
+import ShoppingList from "./ShoppingList";
 
 
-function TodosAuthWrapper() {
+function ShoppingListAuthWrapper() {
   return (
     <Authenticator>
       {({ signOut, user }) => {
         return (
         <div className="mt-5">
-        {user && <Todos  user={user} />}
+        {user && <ShoppingList  user={user} />}
         <div className="flex justify-end">
           <button onClick={signOut} className="
           mb-4 
@@ -32,5 +32,5 @@ function TodosAuthWrapper() {
   );
 }
 
-export default TodosAuthWrapper;
+export default ShoppingListAuthWrapper;
 

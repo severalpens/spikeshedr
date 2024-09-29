@@ -41,6 +41,19 @@ export const getRaceTime = /* GraphQL */ `
     }
   }
 `;
+export const getShoppingListItem = /* GraphQL */ `
+  query GetShoppingListItem($id: ID!) {
+    getShoppingListItem(id: $id) {
+      IsCompleted
+      Name
+      createdAt
+      id
+      owner
+      updatedAt
+      __typename
+    }
+  }
+`;
 export const getTodo = /* GraphQL */ `
   query GetTodo($id: ID!) {
     getTodo(id: $id) {
@@ -153,6 +166,31 @@ export const listRaceTimes = /* GraphQL */ `
         RaceDistance
         RaceMins
         RaceSecs
+        createdAt
+        id
+        owner
+        updatedAt
+        __typename
+      }
+      nextToken
+      __typename
+    }
+  }
+`;
+export const listShoppingListItems = /* GraphQL */ `
+  query ListShoppingListItems(
+    $filter: ModelShoppingListItemFilterInput
+    $limit: Int
+    $nextToken: String
+  ) {
+    listShoppingListItems(
+      filter: $filter
+      limit: $limit
+      nextToken: $nextToken
+    ) {
+      items {
+        IsCompleted
+        Name
         createdAt
         id
         owner

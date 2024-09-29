@@ -10,6 +10,7 @@ import TxsAuthWrapper from './components/txs/TxsAuthWrapper';
 import Freestyle from './components/freestyle/Freestyle'; // Import the 'Freestyle' component
 import ContactUsAuthWrapper from './components/contactUs/ContactUsAuthWrapper';
 import TodosAuthWrapper from './components/todo/TodosAuthWrapper';
+import ShoppingListAuthWrapper from './components/shoppingList/ShoppingListAuthWrapper';
 
 
 function App() {
@@ -32,6 +33,7 @@ return (
         <Route path="freestyle" element={<Freestyle />} /> 
         <Route path="contactus" element={<ContactUsAuthWrapper   />} />
         <Route path="todos" element={<TodosAuthWrapper/>} />
+        <Route path="shoppinglist" element={<ShoppingListAuthWrapper/>} />
 
       </Routes>
       <div hidden>

@@ -1,9 +1,6 @@
 import {  useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 
-
-
-
 function Navbar() {
 
   useEffect(() => {
@@ -46,10 +43,14 @@ function Navbar() {
           </div>
           <div className="p-6">
             <NavLink className="" to="/todos">
-              To Dos
+              To Do
             </NavLink>
           </div>
-
+          <div className="p-6">
+            <NavLink className="" to="/shoppinglist">
+              Shopping List
+            </NavLink>
+          </div>
         </div>
       </div>
     </>
